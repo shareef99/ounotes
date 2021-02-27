@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 // import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
-// import { auth } from "../firebase";
-import { useAuth, authProviderType } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 
 export default function Login(): JSX.Element {

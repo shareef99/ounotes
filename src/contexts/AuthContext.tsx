@@ -4,7 +4,6 @@ import {
     useState,
     useEffect,
     ReactNode,
-    FC,
 } from "react";
 import { auth, db } from "../firebase";
 import firebase from "firebase";
@@ -40,7 +39,7 @@ type propType = {
 };
 
 export function AuthProvider({ children }: propType) {
-    const [error, setError] = useState<string>("");
+    // const [error, setError] = useState<string>("");
     const [currentUser, setCurrentUser] = useState<any>();
     const history = useHistory();
 

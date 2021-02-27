@@ -3,10 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
 export default function Home(): JSX.Element {
-    const { logout, currentUser, signInWithGoogle } = useAuth();
-    const handleLogin = () => {
-        signInWithGoogle();
-    };
+    const { logout } = useAuth();
 
     const handleLogout = () => {
         logout();
@@ -19,6 +16,8 @@ export default function Home(): JSX.Element {
             <Link to="/login">Login</Link>
             <br />
             <button onClick={handleLogout}>Log out</button>
+            <br />
+            <Link to="/selection">Selection</Link>
         </>
     );
 }
