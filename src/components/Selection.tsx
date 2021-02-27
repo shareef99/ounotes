@@ -22,13 +22,13 @@ export default function Selection(): JSX.Element {
     };
 
     const handleSubmit = (e: any) => {
-        if (userYear !== "second" && userYear !== "first") {
-            alert(
-                "Currently we only support for 2nd year , first sem students\nThanks for visiting our website"
-            );
-            history.push("/");
-            return;
-        }
+        // if (userYear !== "second" && userYear !== "first") {
+        //     alert(
+        //         "Currently we only support for 2nd year , first sem students\nThanks for visiting our website"
+        //     );
+        //     history.push("/");
+        //     return;
+        // }
         e.preventDefault();
         const userInfo = {
             year: userYear,
@@ -37,6 +37,7 @@ export default function Selection(): JSX.Element {
         db.collection("users")
             .doc(currentUser.uid)
             .set(userInfo, { merge: true });
+        history.push(`/notes/${userYear}/${userSem}`);
     };
 
     return (
@@ -46,16 +47,27 @@ export default function Selection(): JSX.Element {
                 <select
                     name="year"
                     id="year"
-                    defaultValue="first"
+                    defaultValue="default"
                     onChange={handleYear}
                 >
+                    <option disabled value="default">
+                        Year
+                    </option>
                     <option value="first">1st Year</option>
                     <option value="second">2nd Year</option>
                     <option value="third">3rd Year</option>
                     <option value="forth">4th Year</option>
                 </select>
                 <label htmlFor="sem">Select Sem</label>
-                <select name="sem" id="sem" onChange={handleSem}>
+                <select
+                    name="sem"
+                    id="sem"
+                    defaultValue="default"
+                    onChange={handleSem}
+                >
+                    <option disabled value="default">
+                        Sem
+                    </option>
                     <option value="first">Ist SEM</option>
                     <option value="second">IInd SEM</option>
                 </select>
