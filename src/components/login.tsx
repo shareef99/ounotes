@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import "firebaseui/dist/firebaseui.css";
 // import { auth } from "../firebase";
 import { useAuth, authProviderType } from "../contexts/AuthContext";
+import { useHistory } from "react-router-dom";
 
-export default function Login() {
-    // const [loading, setLoading] = useState<boolean>(false);
+export default function Login(): JSX.Element {
+    const history = useHistory();
     const { signInWithGoogle, logout, currentUser } = useAuth();
 
     const handleLogin = () => {
@@ -14,6 +15,10 @@ export default function Login() {
     const handleLogout = () => {
         logout();
     };
+
+    if (currentUser) {
+        history.push("/");
+    }
 
     return (
         <>

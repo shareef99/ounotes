@@ -6,14 +6,22 @@ import {
     ReactNode,
     FC,
 } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import firebase from "firebase";
+import { useHistory } from "react-router-dom";
 
 export type authProviderType = {
     currentUser: any;
     signInWithGoogle: () => void;
     logout: () => void;
 };
+
+export interface User {
+    uid: string;
+    email: string;
+    photoURL?: string;
+    displayName?: string;
+}
 
 const authContextDefaultValues: authProviderType = {
     currentUser: null,
@@ -34,18 +42,26 @@ type propType = {
 export function AuthProvider({ children }: propType) {
     const [error, setError] = useState<string>("");
     const [currentUser, setCurrentUser] = useState<any>();
+    const history = useHistory();
 
-    function signInWithGoogle() {
+    async function signInWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider)
-            .then((result) => {})
-            .catch(() => {
-                setError("Failed to login");
-            });
+        const credential = await auth.signInWithPopup(provider);
+        const userInfo = {
+            uid: credential.user?.uid,
+            email: credential.user?.email,
+            displayName: credential.user?.displayName,
+            photoURL: credential.user?.photoURL,
+        };
+        db.collection("users")
+            .doc(credential.user?.uid)
+            .set(userInfo, { merge: true });
+        setCurrentUser(userInfo);
+        history.push("/selection");
     }
 
-    function logout() {
-        auth.signOut();
+    async function logout() {
+        await auth.signOut();
     }
 
     useEffect(() => {
