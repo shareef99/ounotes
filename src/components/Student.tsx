@@ -7,7 +7,7 @@ interface Props extends RouteComponentProps<{ year: string; sem: string }> {}
 // this basically tells the router what is the name of our parameter
 
 export const Student: FC<Props> = ({ match }) => {
-    const url = match.url;
+    console.log(match);
 
     const year = match.params.year;
     const sem = match.params.sem;
@@ -18,7 +18,11 @@ export const Student: FC<Props> = ({ match }) => {
             <div>
                 {subjects?.map((subject) => (
                     <div key={subject}>
-                        <Link to={`${url}subject=${subject}`}>{subject}</Link>
+                        <Link
+                            to={`/student/year=${year}/sem=${sem}/subject=${subject}`}
+                        >
+                            {subject}
+                        </Link>
                     </div>
                 ))}
             </div>
