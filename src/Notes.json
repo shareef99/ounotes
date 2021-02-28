@@ -1,0 +1,51 @@
+[
+    {
+        "year": "first",
+        "sem": "first",
+        "subjects": [
+            "Mathematics (M-I)",
+            "Chemistry",
+            "PPS (Programming for problem solving)",
+            "EVS (Environmental Science)",
+            "EITK (Essence of Indian Traditions)"
+        ]
+    },
+    {
+        "year": "first",
+        "sem": "second",
+        "subjects": [
+            "Mathematics (M-II)",
+            "Physics",
+            "BEE (Basic Electronic Engineering)",
+            "English",
+            "IC (Indian Constitution)"
+        ]
+    },
+    {
+        "year": "second",
+        "sem": "first",
+        "subjects": [
+            "DM (Discrete Mathematics)",
+            "BE (Basic Electronics)",
+            "DE (Digital Electronics)",
+            "Biology for Engineers",
+            "DSA (Data Structures and Algorithms)",
+            "PL (Programming Language)",
+            "OR (Operation Research)"
+        ]
+    },
+    {
+        "year": "second",
+        "sem": "first",
+        "subjects": [
+            "Mathematics (M-III)",
+            "IC (Indian Constitution)",
+            "Finance and Accounting",
+            "Signal and System",
+            "Java",
+            "Computer Organization",
+            "DMS (Data Management System)",
+            "Effective Technical Communication in English"
+        ]
+    }
+]

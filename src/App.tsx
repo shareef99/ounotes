@@ -1,12 +1,21 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { FC } from "react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    RouteChildrenProps,
+} from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/login";
-import { Notes } from "./components/Notes";
+import { Student } from "./components/Student";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Selection from "./components/Selection";
 import { AuthProvider } from "./contexts/AuthContext";
+import { Notes } from "./components/Notes";
 
-function App() {
+interface Props extends RouteChildrenProps {}
+
+const App: FC<Props> = () => {
     return (
         <>
             <Router>
@@ -17,7 +26,12 @@ function App() {
 
                         <PrivateRoute component={Selection} path="/selection" />
                         <Route
-                            path="/notes/year=:year/sem=:sem"
+                            path="/student/year=:year/sem=:sem"
+                            component={Student}
+                            exact
+                        />
+                        <Route
+                            path="/student/year=:year/sem=:sem/subject=:subject"
                             component={Notes}
                         />
                         {/* Place a route at the bottom with path "/" under switch to catch 404 page */}
@@ -27,6 +41,6 @@ function App() {
             </Router>
         </>
     );
-}
+};
 
 export default App;

@@ -35,7 +35,7 @@ export default function Selection(): JSX.Element {
         db.collection("users")
             .doc(currentUser.uid)
             .set(userInfo, { merge: true });
-        history.push(`/notes/year=${userYear}/sem=${userSem}`);
+        history.push(`/student/year=${userYear}/sem=${userSem}`);
     };
 
     return (
