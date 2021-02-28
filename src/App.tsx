@@ -16,7 +16,10 @@ function App() {
                         <Route path="/login" component={Login} />
 
                         <PrivateRoute component={Selection} path="/selection" />
-                        <Route path="/notes/:year/:sem" component={Notes} />
+                        <Route
+                            path="/notes/year=:year/sem=:sem"
+                            component={Notes}
+                        />
                         {/* Place a route at the bottom with path "/" under switch to catch 404 page */}
                         <Route path="/" render={() => <h1>404</h1>} />
                     </Switch>

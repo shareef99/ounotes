@@ -22,13 +22,11 @@ export default function Selection(): JSX.Element {
     };
 
     const handleSubmit = (e: any) => {
-        // if (userYear !== "second" && userYear !== "first") {
-        //     alert(
-        //         "Currently we only support for 2nd year , first sem students\nThanks for visiting our website"
-        //     );
-        //     history.push("/");
-        //     return;
-        // }
+        if (userYear === undefined && userYear === undefined) {
+            alert("Please Select Year and Sem");
+            history.push("/selection");
+            return;
+        }
         e.preventDefault();
         const userInfo = {
             year: userYear,
@@ -37,7 +35,7 @@ export default function Selection(): JSX.Element {
         db.collection("users")
             .doc(currentUser.uid)
             .set(userInfo, { merge: true });
-        history.push(`/notes/${userYear}/${userSem}`);
+        history.push(`/notes/year=${userYear}/sem=${userSem}`);
     };
 
     return (
