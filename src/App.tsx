@@ -12,6 +12,7 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import Selection from "./components/Selection";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Notes } from "./components/Notes";
+import { Upload } from "./components/Upload";
 
 interface Props extends RouteChildrenProps {}
 
@@ -34,6 +35,7 @@ const App: FC<Props> = () => {
                             path="/student/year=:year/sem=:sem/subject=:subject"
                             component={Notes}
                         />
+                        <PrivateRoute component={Upload} path="/upload" />
                         {/* Place a route at the bottom with path "/" under switch to catch 404 page */}
                         <Route path="/" render={() => <h1>404</h1>} />
                     </Switch>

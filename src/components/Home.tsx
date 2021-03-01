@@ -18,6 +18,8 @@ export default function Home(): JSX.Element {
             <button onClick={handleLogout}>Log out</button>
             <br />
             <Link to="/selection">Selection</Link>
+            <br />
+            <Link to="/upload">Upload</Link>
         </>
     );
 }
