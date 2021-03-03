@@ -13,6 +13,7 @@ import Selection from "./components/Selection";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Notes } from "./components/Notes";
 import { Upload } from "./components/Upload";
+import { About } from "./components/About";
 
 interface Props extends RouteChildrenProps {}
 
@@ -23,6 +24,7 @@ const App: FC<Props> = () => {
                 <AuthProvider>
                     <Switch>
                         <Route exact path="/" component={Home} />
+                        <Route exact path="/pages/about-us" component={About} />
                         <Route path="/login" component={Login} />
 
                         <PrivateRoute component={Selection} path="/selection" />
