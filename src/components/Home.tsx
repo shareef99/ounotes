@@ -20,6 +20,8 @@ export default function Home(): JSX.Element {
             <Link to="/selection">Selection</Link>
             <br />
             <Link to="/upload">Upload</Link>
+            <br />
+            <Link to="/pages/about-us">About</Link>
         </>
     );
 }
