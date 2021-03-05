@@ -25,6 +25,7 @@ export const Student: FC<Props> = ({ match }) => {
                         </Link>
                     </div>
                 ))}
+                <Link to="/">Home</Link>
             </div>
         </>
     );

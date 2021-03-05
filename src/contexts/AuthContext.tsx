@@ -52,7 +52,8 @@ export function AuthProvider({ children }: propType) {
             displayName: credential.user?.displayName,
             photoURL: credential.user?.photoURL,
         };
-        db.collection("users")
+        await db
+            .collection("users")
             .doc(credential.user?.uid)
             .set(userInfo, { merge: true });
         setCurrentUser(userInfo);

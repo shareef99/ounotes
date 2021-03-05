@@ -22,12 +22,12 @@ export default function Selection(): JSX.Element {
     };
 
     const handleSubmit = (e: any) => {
+        e.preventDefault();
         if (userYear === undefined && userYear === undefined) {
             alert("Please Select Year and Sem");
             history.push("/selection");
             return;
         }
-        e.preventDefault();
         const userInfo = {
             year: userYear,
             sem: userSem,
