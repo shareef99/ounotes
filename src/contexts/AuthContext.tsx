@@ -8,8 +8,10 @@ import {
 import { auth, db } from "../firebase";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
+import { userType } from "../types";
 
 export type authProviderType = {
+    user: userType;
     currentUser: any;
     signInWithGoogle: () => void;
     logout: () => void;
@@ -23,6 +25,12 @@ export interface User {
 }
 
 const authContextDefaultValues: authProviderType = {
+    user: {
+        name: "",
+        year: "",
+        sem: "",
+        uid: "",
+    },
     currentUser: null,
     signInWithGoogle: () => {},
     logout: () => {},
@@ -40,6 +48,7 @@ type propType = {
 
 export function AuthProvider({ children }: propType) {
     // const [error, setError] = useState<string>("");
+    const [usersData, setUsersData] = useState<any[]>([]);
     const [currentUser, setCurrentUser] = useState<any>();
     const history = useHistory();
 
@@ -64,6 +73,23 @@ export function AuthProvider({ children }: propType) {
         await auth.signOut();
     }
 
+    const getUserData = () => {
+        db.collection("users").onSnapshot((querySnapShot) => {
+            setUsersData(
+                querySnapShot.docs.map((doc) => ({
+                    name: doc.data().displayName,
+                    year: doc.data().year,
+                    sem: doc.data().sem,
+                    uid: doc.data().uid,
+                }))
+            );
+        });
+    };
+
+    const user: userType = usersData.find(
+        (user) => user.uid === currentUser?.uid
+    );
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setCurrentUser(user);
@@ -72,7 +98,12 @@ export function AuthProvider({ children }: propType) {
         return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        getUserData();
+    }, []);
+
     const value: authProviderType = {
+        user,
         currentUser,
         signInWithGoogle,
         logout,
