@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-// import StudentJSON from "../Notes.json";
 import { useAuth } from "../contexts/AuthContext";
 
 interface Props extends RouteComponentProps<{ year: string; sem: string }> {}
@@ -11,10 +10,6 @@ export const Student: FC<Props> = ({ match }) => {
     console.log(match);
     const { user, subjects } = useAuth();
 
-    // const year = match.params.year;
-    // const sem = match.params.sem;
-    // const subjects = StudentJSON.find((x) => x.year === year && x.sem === sem)
-    // ?.subjects;
     return (
         <>
             <div>
