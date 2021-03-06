@@ -9,12 +9,14 @@ import { auth, db } from "../firebase";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 import { userType } from "../types";
+import StudentJSON from "../Notes.json";
 
 export type authProviderType = {
     user: userType;
     currentUser: any;
     signInWithGoogle: () => void;
     logout: () => void;
+    subjects: string[] | undefined;
 };
 
 export interface User {
@@ -34,6 +36,7 @@ const authContextDefaultValues: authProviderType = {
     currentUser: null,
     signInWithGoogle: () => {},
     logout: () => {},
+    subjects: [],
 };
 
 const AuthContext = createContext<authProviderType>(authContextDefaultValues);
@@ -90,6 +93,10 @@ export function AuthProvider({ children }: propType) {
         (user) => user.uid === currentUser?.uid
     );
 
+    const subjects = StudentJSON.find(
+        (x) => x.year === user?.year && x.sem === user?.sem
+    )?.subjects;
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setCurrentUser(user);
@@ -107,6 +114,7 @@ export function AuthProvider({ children }: propType) {
         currentUser,
         signInWithGoogle,
         logout,
+        subjects,
     };
 
     return (
