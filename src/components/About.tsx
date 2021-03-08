@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Navbar, navbarHeight } from "./Navbar";
+import { Navbar } from "./Navbar";
 import styles from "../styles/components/about.module.css";
 
 interface Props {}
@@ -10,9 +10,7 @@ export const About: FC<Props> = () => {
             <section className="">
                 <Navbar />
                 <section>
-                    <div className={`h-screen -mt-${navbarHeight} bg-blue-400`}>
-                        About
-                    </div>
+                    <div className={`h-screen -mt-16 bg-blue-400`}>About</div>
                     <div className="relative overflow-hidden h-14 bg-transparent z-10 -mt-14">
                         <div className="absolute top-0 left-0 w-full">
                             <div className={styles.wave}></div>

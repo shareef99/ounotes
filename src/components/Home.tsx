@@ -1,6 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { Navbar, navbarHeight } from "../components/Navbar";
+import { Navbar } from "../components/Navbar";
 
 export default function Home(): JSX.Element {
     const { logout, currentUser, user } = useAuth();
@@ -16,7 +16,7 @@ export default function Home(): JSX.Element {
                 <div
                     id="hereSection"
                     className={`h-screen bg-gradient-to-br from-blue-400 via-lightBlue-400 to-cyan-400
-                     -mt-${navbarHeight} flex flex-col justify-center items-center`}
+                     -mt-16 flex flex-col justify-center items-center`}
                 >
                     <div className="text-midBlack font-semibold text-lg text-center">
                         {currentUser ? (
