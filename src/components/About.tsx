@@ -52,12 +52,9 @@ export const About: FC<Props> = () => {
                             <div className={styles.wave}></div>
                         </div>
                     </div>
-                    <div
-                        className="bg-whiteShade flex justify-center items-center flex-col px-8 my-14 
-                            space-y-20 sm:space-y-30"
-                    >
-                        <div className="flex flex-col sm:flex-row justify-center items-center ">
-                            <div className="max-w-10 mx-auto sm:mr-14">
+                    <div className="bg-whiteShade colCenter px-8 my-14 space-y-20 sm:space-y-30">
+                        <div className="colCenter sm:flex-row ">
+                            <div className="maxWidth10rem sm:mr-14">
                                 <img
                                     src={missionImg}
                                     alt="mission"
@@ -66,8 +63,8 @@ export const About: FC<Props> = () => {
                             </div>
                             <div className="mt-10 sm:mt-0 space-y-4 ">
                                 <h2
-                                    className="flex items-center justify-center sm:justify-start
-                                        font-bold text-2xl max-w-9/10 mx-auto sm:mr-0"
+                                    className="flexCenter sm:justify-start font-bold text-2xl 
+                                        maxWidth90 sm:mr-0"
                                 >
                                     Our Mission
                                     <img
@@ -79,7 +76,7 @@ export const About: FC<Props> = () => {
                                 </h2>
                                 <p
                                     className="text-left text-lg leading-normal font-medium 
-                                        max-w-9/10 mx-auto sm:mr-0"
+                                        maxWidth90 sm:mr-0"
                                 >
                                     Our mission is to make a platform powerful
                                     enough to supply everything a student needs
@@ -91,11 +88,8 @@ export const About: FC<Props> = () => {
                                 </p>
                             </div>
                         </div>
-                        <div
-                            className="flex flex-col sm:flex-row-reverse justify-center items-center  
-                                "
-                        >
-                            <div className="max-w-10 mx-auto sm:ml-14">
+                        <div className="colCenter sm:flex-row-reverse">
+                            <div className="maxWidth10rem sm:ml-14">
                                 <img
                                     src={targetImg}
                                     alt="mission"
@@ -104,8 +98,8 @@ export const About: FC<Props> = () => {
                             </div>
                             <div className="mt-10 sm:mt-0 space-y-4">
                                 <h2
-                                    className="flex items-center justify-center sm:justify-start
-                                        font-bold text-2xl max-w-9/10 mx-auto sm:ml-0"
+                                    className="flexCenter sm:justify-start flex-col 
+                                        font-bold text-2xl maxWidth90 sm:ml-0"
                                 >
                                     Our Target
                                     <img
@@ -117,7 +111,7 @@ export const About: FC<Props> = () => {
                                 </h2>
                                 <p
                                     className="text-left text-lg leading-normal font-medium 
-                                        max-w-9/10 mx-auto sm:ml-0"
+                                        maxWidth90 sm:ml-0"
                                 >
                                     Our target is to provide as many notes and
                                     information we can, and go beyond our limits

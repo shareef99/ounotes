@@ -5,3 +5,19 @@
 .bgGradient {
     @apply bg-gradient-to-br from-blue-400 via-lightBlue-400 to-cyan-400;
 }
+
+.flexCenter {
+    @apply flex justify-center items-center;
+}
+
+.colCenter {
+    @apply flex flex-col justify-center items-center;
+}
+
+.maxWidth90 {
+    @apply max-w-9/10 mx-auto;
+}
+
+.maxWidth10rem {
+    @apply max-w-10 mx-auto;
+}
