@@ -21,7 +21,7 @@ export const Navbar: FC<Props> = () => {
                 className={`flex max-w-full justify-between px-8 h-16 items-center bg-transparent
                  sticky top-0  border-opacity-0 ${
                      isAtTop &&
-                     `transition duration-500 ease-in bg-blue-600 text-whiteShade z-20
+                     `transition duration-500 ease-in bg-blue-500 text-whiteShade z-20
                       border-b-2 shadow-xl `
                  }`}
             >

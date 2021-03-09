@@ -18,10 +18,19 @@ module.exports = {
             animation: {
                 wave: "wave 4s ease-in-out infinity",
             },
+            maxWidth: {
+                10: "10rem", // 160px
+                16: "16rem", // 256px
+                "9/10": "90%",
+            },
+            spacing: {
+                50: "50px",
+            },
         },
         container: {
             padding: "2rem",
         },
+
         colors: {
             blueGray: colors.blueGray,
             coolGray: colors.coolGray,
