@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import styles from "../styles/utilities.module.css";
 import story from "../images/story.png";
@@ -15,7 +16,7 @@ export const About: FC<Props> = () => {
                 <Navbar />
                 <section className="bg-whiteShade">
                     <div
-                        className="h-screen -mt-16 bg-blue-400 text-midBlack px-8
+                        className="h-screen -mt-16 bgGradient text-midBlack px-8
                             flex justify-center items-center flex-col  "
                     >
                         <div className="text-center -mt-16 md:-mt-12 max-w-xs space-y-2">
@@ -130,7 +131,12 @@ export const About: FC<Props> = () => {
                             <div className={styles.waveReversed}></div>
                         </div>
                     </div>
-                    <h1 className="h-96 bg-blue-400">About</h1>
+                    <div className="h-96 flex justify-center items-center flex-col bgGradient">
+                        <div>
+                            <Link to="/">Home</Link>
+                        </div>
+                        About
+                    </div>
                 </section>
             </section>
         </>

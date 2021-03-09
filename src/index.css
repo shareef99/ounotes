@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bgGradient {
+    @apply bg-gradient-to-br from-blue-400 via-lightBlue-400 to-cyan-400;
+}

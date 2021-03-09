@@ -15,8 +15,7 @@ export default function Home(): JSX.Element {
             <section>
                 <div
                     id="hereSection"
-                    className={`h-screen bg-gradient-to-br from-blue-400 via-lightBlue-400 to-cyan-400
-                     -mt-16 flex flex-col justify-center items-center`}
+                    className={`h-screen bgGradient -mt-16 flex flex-col justify-center items-center`}
                 >
                     <div className="text-midBlack font-semibold text-lg text-center">
                         {currentUser ? (
