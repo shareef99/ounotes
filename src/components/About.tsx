@@ -4,6 +4,7 @@ import { Navbar } from "./Navbar";
 import styles from "../styles/utilities.module.css";
 import story from "../images/story.png";
 import target from "../images/target.png";
+import mission from "../images/mission.png";
 import targetImg from "../images/targetImg.png";
 import missionImg from "../images/missionImg.png";
 
@@ -16,6 +17,7 @@ export const About: FC<Props> = () => {
                 <Navbar />
                 <section className="bg-whiteShade">
                     <div
+                        id="about-main-section"
                         className="h-screen -mt-16 bgGradient text-midBlack px-8
                             flex justify-center items-center flex-col  "
                     >
@@ -52,44 +54,43 @@ export const About: FC<Props> = () => {
                             <div className={styles.wave}></div>
                         </div>
                     </div>
-                    <div className="bg-whiteShade colCenter px-8 my-14 space-y-20 sm:space-y-30">
-                        <div className="colCenter sm:flex-row ">
-                            <div className="maxWidth10rem sm:mr-14">
+                    <div
+                        id="about-details"
+                        className="bg-whiteShade colCenter my-14 w-full space-y-20 sm:space-y-30"
+                    >
+                        <div className="flex flex-col items-center sm:flex-row w-9/10 xs:w-8/10 md:w-7/10 lg:w-6/10">
+                            <div className="maxWidth10rem">
                                 <img
                                     src={missionImg}
                                     alt="mission"
                                     title="Icons made by Freepik from Flaticon"
                                 />
                             </div>
-                            <div className="mt-10 sm:mt-0 space-y-4 ">
-                                <h2
-                                    className="flexCenter sm:justify-start font-bold text-2xl 
-                                        maxWidth90 sm:mr-0"
-                                >
-                                    Our Mission
-                                    <img
-                                        src={target}
-                                        alt="target"
-                                        className="p-4"
-                                        title="Icons made by Freepik from Flaticon"
-                                    />
-                                </h2>
-                                <p
-                                    className="text-left text-lg leading-normal font-medium 
-                                        maxWidth90 sm:mr-0"
-                                >
-                                    Our mission is to make a platform powerful
-                                    enough to supply everything a student needs
-                                    in his/her{" "}
-                                    <span title="Bachelor of Engineering">
-                                        BE
-                                    </span>{" "}
-                                    journey
-                                </p>
+                            <div className="mt-10 sm:mt-0 space-y-4">
+                                <div className="sm:w-9/10 md:w-8/10 lg:w-7/10 sm:ml-auto">
+                                    <h2 className="flexCenter sm:justify-start font-bold text-2xl">
+                                        Our Mission
+                                        <img
+                                            src={mission}
+                                            alt="target"
+                                            className="p-4"
+                                            title="Icons made by ultimatearm from Flaticon"
+                                        />
+                                    </h2>
+                                    <p className="text-left text-lg leading-normal font-medium ">
+                                        Our mission is to make a platform
+                                        powerful enough to supply everything a
+                                        student needs in his/her{" "}
+                                        <span title="Bachelor of Engineering">
+                                            BE
+                                        </span>{" "}
+                                        journey
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <div className="colCenter sm:flex-row-reverse">
-                            <div className="maxWidth10rem sm:ml-14">
+                        <div className="flex flex-col items-center sm:flex-row-reverse w-9/10 xs:w-8/10 md:w-7/10 lg:w-6/10">
+                            <div className="maxWidth10rem">
                                 <img
                                     src={targetImg}
                                     alt="mission"
@@ -97,26 +98,22 @@ export const About: FC<Props> = () => {
                                 />
                             </div>
                             <div className="mt-10 sm:mt-0 space-y-4">
-                                <h2
-                                    className="flexCenter sm:justify-start flex-col 
-                                        font-bold text-2xl maxWidth90 sm:ml-0"
-                                >
-                                    Our Target
-                                    <img
-                                        src={target}
-                                        alt="target"
-                                        className="p-4"
-                                        title="Icons made by Freepik from Flaticon"
-                                    />
-                                </h2>
-                                <p
-                                    className="text-left text-lg leading-normal font-medium 
-                                        maxWidth90 sm:ml-0"
-                                >
-                                    Our target is to provide as many notes and
-                                    information we can, and go beyond our limits
-                                    to help students
-                                </p>
+                                <div className="sm:w-9/10 md:w-8/10 lg:w-7/10 sm:mr-auto">
+                                    <h2 className="flexCenter sm:justify-start font-bold text-2xl pb-3">
+                                        Our Target
+                                        <img
+                                            src={target}
+                                            alt="target"
+                                            className="pl-4"
+                                            title="Icons made by Freepik from Flaticon"
+                                        />
+                                    </h2>
+                                    <p className="text-left text-lg leading-normal font-medium">
+                                        Our target is to provide as many notes
+                                        and information we can, and go beyond
+                                        our limits to help students
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

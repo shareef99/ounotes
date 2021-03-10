@@ -1,4 +1,5 @@
 const colors = require("tailwindcss/colors");
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
@@ -25,12 +26,19 @@ module.exports = {
             },
             spacing: {
                 50: "50px",
+                "9/10": "90%",
+                "8/10": "80%",
+                "7/10": "70%",
+                "6/10": "60%",
             },
         },
         container: {
             padding: "2rem",
         },
-
+        screens: {
+            xs: "475px",
+            ...defaultTheme.screens,
+        },
         colors: {
             blueGray: colors.blueGray,
             coolGray: colors.coolGray,
