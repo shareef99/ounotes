@@ -25,3 +25,7 @@
 .maxWidth10rem {
     @apply max-w-10 mx-auto;
 }
+
+.maxWidth16rem {
+    @apply max-w-16 mx-auto;
+}

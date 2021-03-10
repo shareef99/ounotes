@@ -9,6 +9,7 @@ import team from "../images/team.png";
 import targetImg from "../images/targetImg.png";
 import missionImg from "../images/missionImg.png";
 import userImg from "../images/user.png";
+import aboutImg from "../images/teammate.png";
 
 interface Props {}
 
@@ -20,35 +21,31 @@ export const About: FC<Props> = () => {
                 <section className="bg-whiteShade">
                     <div
                         id="about-main-section"
-                        className="h-screen -mt-16 bgGradient text-midBlack px-8
-                            flex justify-center items-center flex-col  "
+                        className="h-screen -mt-16 bgGradient text-midBlack w-full flex items-center justify-center"
                     >
-                        <div className="text-center -mt-16 md:-mt-12 max-w-xs space-y-2">
-                            <h2
-                                className="font-bold text-2xl leading-relaxed 
-                                    flex justify-center items-center"
-                            >
+                        <div className="flex flex-col">
+                            <div className="maxWidth16rem m-12">
                                 <img
-                                    src={story}
-                                    alt="Story"
-                                    className="pr-4"
-                                    title="By Freepik from flaticon.com"
+                                    src={aboutImg}
+                                    alt="About img"
+                                    title="Image by Yvette W from Pixabay"
                                 />
-                                Who we are🤔?
-                                <img
-                                    src={story}
-                                    alt="Story"
-                                    className="pl-4"
-                                    title="By Freepik from flaticon.com"
-                                />
-                            </h2>
-                            <p className="text-left text-lg leading-normal font-medium ">
-                                We are the group of students who spend hours to
-                                find good notes on the internet but we failed in
-                                it, So we decided to build a platform/network
-                                were students can help other students by
-                                providing authentic notes.
-                            </p>
+                            </div>
+                            <div className="mx-auto">
+                                <h2 className="font-bold text-2xl leading-relaxed text-center">
+                                    {/* <img
+                                        src={story}
+                                        alt="Story"
+                                        className="pr-4"
+                                        title="By Freepik from flaticon.com"
+                                    /> */}
+                                    Who we are🤔?
+                                </h2>
+                                <p className="text-center text-lg leading-normal font-medium ">
+                                    We are students, determined to help
+                                    students!
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div className="relative overflow-hidden h-14 bg-transparent z-10 -mt-14">
@@ -161,7 +158,10 @@ export const About: FC<Props> = () => {
                                     <p>Role</p>
                                 </div>
                             </div>
-                            <div id="team_wrapper" className="p-8 space-y-8">
+                            <div
+                                id="team_wrapper-warp"
+                                className="p-8 space-y-8"
+                            >
                                 <div id="team_img" className="maxWidth10rem">
                                     <img
                                         src={userImg}
