@@ -5,8 +5,10 @@ import styles from "../styles/utilities.module.css";
 import story from "../images/story.png";
 import target from "../images/target.png";
 import mission from "../images/mission.png";
+import team from "../images/team.png";
 import targetImg from "../images/targetImg.png";
 import missionImg from "../images/missionImg.png";
+import userImg from "../images/user.png";
 
 interface Props {}
 
@@ -32,7 +34,7 @@ export const About: FC<Props> = () => {
                                     className="pr-4"
                                     title="By Freepik from flaticon.com"
                                 />
-                                Our story
+                                Who we are🤔?
                                 <img
                                     src={story}
                                     alt="Story"
@@ -113,6 +115,63 @@ export const About: FC<Props> = () => {
                                         and information we can, and go beyond
                                         our limits to help students
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="team_wrapper" className="w-full mb-14 mt-20">
+                        <div id="team_heading">
+                            <h2 className="flexCenter text-3xl text-start">
+                                Our Team
+                                <img
+                                    src={team}
+                                    alt="team"
+                                    className="pl-4"
+                                    title="By Freepik from flaticon.com"
+                                />
+                            </h2>
+                        </div>
+                        <div
+                            id="team"
+                            className="flex justify-around flex-wrap max-w-8/10 mx-auto"
+                        >
+                            <div className="p-8 space-y-8">
+                                <div className="maxWidth10rem">
+                                    <img
+                                        src={userImg}
+                                        alt="user"
+                                        title="By bqlqn from flaticon.com"
+                                    />
+                                </div>
+                                <div>
+                                    <h3>Teammate name</h3>
+                                    <p>Role</p>
+                                </div>
+                            </div>
+                            <div className="p-8 space-y-8">
+                                <div className="maxWidth10rem">
+                                    <img
+                                        src={userImg}
+                                        alt="user"
+                                        title="By bqlqn from flaticon.com"
+                                    />
+                                </div>
+                                <div>
+                                    <h3>Teammate name</h3>
+                                    <p>Role</p>
+                                </div>
+                            </div>
+                            <div id="team_wrapper" className="p-8 space-y-8">
+                                <div id="team_img" className="maxWidth10rem">
+                                    <img
+                                        src={userImg}
+                                        alt="user"
+                                        title="By bqlqn from flaticon.com"
+                                    />
+                                </div>
+                                <div id="team_details">
+                                    <h3 id="team_member_name">Teammate name</h3>
+                                    <p id="team_member_role">Role</p>
                                 </div>
                             </div>
                         </div>
