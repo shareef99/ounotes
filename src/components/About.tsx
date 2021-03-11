@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import styles from "../styles/utilities.module.css";
-import story from "../images/story.png";
 import target from "../images/target.png";
 import mission from "../images/mission.png";
 import team from "../images/team.png";
@@ -33,12 +32,6 @@ export const About: FC<Props> = () => {
                             </div>
                             <div className="mx-auto">
                                 <h2 className="font-bold text-2xl leading-relaxed text-center">
-                                    {/* <img
-                                        src={story}
-                                        alt="Story"
-                                        className="pr-4"
-                                        title="By Freepik from flaticon.com"
-                                    /> */}
                                     Who we are🤔?
                                 </h2>
                                 <p className="text-center text-lg leading-normal font-medium ">
