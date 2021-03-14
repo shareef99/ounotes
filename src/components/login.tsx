@@ -21,7 +21,7 @@ const LoginButton = withStyles({
     },
     label: {
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
     },
 })(Button);
 
