@@ -15,8 +15,11 @@ export type authProviderType = {
     user: userType;
     currentUser: any;
     signInWithGoogle: () => void;
+    signInWithFacebook: () => void;
+    signInWithGithub: () => void;
     logout: () => void;
     subjects: string[] | undefined;
+    loginError: string | void;
 };
 
 export interface User {
@@ -32,11 +35,15 @@ const authContextDefaultValues: authProviderType = {
         year: "",
         sem: "",
         uid: "",
+        providerId: "",
     },
     currentUser: null,
     signInWithGoogle: () => {},
+    signInWithFacebook: () => {},
+    signInWithGithub: () => {},
     logout: () => {},
     subjects: [],
+    loginError: "",
 };
 
 const AuthContext = createContext<authProviderType>(authContextDefaultValues);
@@ -50,26 +57,62 @@ type propType = {
 };
 
 export function AuthProvider({ children }: propType) {
-    // const [error, setError] = useState<string>("");
+    const [loginError, setLoginError] = useState<string>("");
     const [usersData, setUsersData] = useState<any[]>([]);
     const [currentUser, setCurrentUser] = useState<any>();
     const history = useHistory();
 
+    async function signIn(provider: any) {
+        setLoginError("");
+        await auth
+            .signInWithPopup(provider)
+            .then((result) => {
+                const credential = result.credential;
+                const user = result.user;
+                console.log("user ", user);
+                console.log("dash ", credential);
+
+                const userInfo = {
+                    uid: user?.uid,
+                    email: user?.email,
+                    displayName: user?.displayName,
+                    photoURL: user?.photoURL,
+                    providerId: credential?.providerId,
+                };
+
+                db.collection("users")
+                    .doc(user?.uid)
+                    .set(userInfo, { merge: true });
+                setCurrentUser(userInfo);
+
+                history.push("/selection");
+            })
+            .catch((err) => {
+                if (
+                    err.code === "auth/account-exists-with-different-credential"
+                ) {
+                    setLoginError(
+                        "You have already login with different method.\nTry login with different provider"
+                    );
+                } else {
+                    setLoginError(`${err.message}`);
+                }
+            });
+    }
+
     async function signInWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        const credential = await auth.signInWithPopup(provider);
-        const userInfo = {
-            uid: credential.user?.uid,
-            email: credential.user?.email,
-            displayName: credential.user?.displayName,
-            photoURL: credential.user?.photoURL,
-        };
-        await db
-            .collection("users")
-            .doc(credential.user?.uid)
-            .set(userInfo, { merge: true });
-        setCurrentUser(userInfo);
-        history.push("/selection");
+        await signIn(provider);
+    }
+
+    async function signInWithFacebook() {
+        const provider = new firebase.auth.FacebookAuthProvider();
+        await signIn(provider);
+    }
+
+    async function signInWithGithub() {
+        const provider = new firebase.auth.GithubAuthProvider();
+        await signIn(provider);
     }
 
     async function logout() {
@@ -84,6 +127,7 @@ export function AuthProvider({ children }: propType) {
                     year: doc.data().year,
                     sem: doc.data().sem,
                     uid: doc.data().uid,
+                    providerId: doc.data().providerId,
                 }))
             );
         });
@@ -113,8 +157,11 @@ export function AuthProvider({ children }: propType) {
         user,
         currentUser,
         signInWithGoogle,
+        signInWithFacebook,
+        signInWithGithub,
         logout,
         subjects,
+        loginError: loginError,
     };
 
     return (

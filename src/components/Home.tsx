@@ -42,7 +42,7 @@ export default function Home(): JSX.Element {
                         <div className="mb-15% space-y-8 md:mt-44 flex flex-col justify-center">
                             {currentUser ? (
                                 <>
-                                    <h1>Welcome {currentUser.displayName}</h1>
+                                    <h1>Welcome {user?.name}</h1>
                                     <Link
                                         to={`/student/year=${user?.year}/sem=${user?.sem}`}
                                     >
@@ -153,6 +153,10 @@ export default function Home(): JSX.Element {
                 <Link to="/login">Login</Link>
                 <br />
                 <button onClick={handleLogout}>Log out</button>
+                <br />
+                <p>{`Name: ${user?.name}`}</p>
+                <p>{`Provider ID: ${user?.providerId}`}</p>
+                {console.log(user)}
                 <br />
                 <Link to="/selection">Selection</Link>
                 <br />
