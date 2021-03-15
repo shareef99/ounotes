@@ -48,7 +48,9 @@ export default function Selection(): JSX.Element {
                         rounded-lg space-y-4 border-2 w-8/10 mx-auto xs:w-72"
                 >
                     <div className="colCenter">
-                        <label htmlFor="year">Select year</label>
+                        <label htmlFor="year" className="font-medium text-lg">
+                            Select year
+                        </label>
                         <select
                             name="year"
                             id="year"
@@ -66,7 +68,9 @@ export default function Selection(): JSX.Element {
                         </select>
                     </div>
                     <div className="colCenter">
-                        <label htmlFor="sem">Select Sem</label>
+                        <label htmlFor="sem" className="font-medium text-lg">
+                            Select Sem
+                        </label>
                         <select
                             name="sem"
                             id="sem"
@@ -84,7 +88,7 @@ export default function Selection(): JSX.Element {
                     <button
                         type="submit"
                         className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                            hover:bg-midBlack transition duration-300 ease-in "
+                            hover:bg-midBlack transition duration-300 ease-in"
                     >
                         Submit
                     </button>
