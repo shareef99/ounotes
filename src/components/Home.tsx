@@ -8,7 +8,7 @@ import howWeDo from "../images/how.png";
 import youDo from "../images/youCanDo.png";
 
 export default function Home(): JSX.Element {
-    const { logout, currentUser, user } = useAuth();
+    const { logout, user } = useAuth();
     const history = useHistory();
 
     const handleLogout = () => {
@@ -40,34 +40,20 @@ export default function Home(): JSX.Element {
                             />
                         </div>
                         <div className="mb-15% space-y-8 md:mt-44 flex flex-col justify-center">
-                            {currentUser ? (
-                                <>
-                                    <h1>Welcome {user?.name}</h1>
-                                    <Link
-                                        to={`/student/year=${user?.year}/sem=${user?.sem}`}
-                                    >
-                                        Go to your notes
-                                    </Link>
-                                </>
-                            ) : (
-                                <>
-                                    <h1
-                                        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
+                            <h1
+                                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
                                             font-bold maxWidth90 xs:max-w-full"
-                                    >
-                                        Your needs in one place.
-                                    </h1>
-                                    <button
-                                        className="ring-4 px-4  py-2  rounded ring-blue-600 ring-opacity-100
-                                            self-center md:self-start md:ml-2 ring-offset-4
-                                            ring-offset-blue-500 font-semibold hover:ring-offset-blue-600 
-                                            transition duration-500 ease-in-out"
-                                        onClick={handleLogin}
-                                    >
-                                        Log in
-                                    </button>
-                                </>
-                            )}
+                            >
+                                Your needs in one place.
+                            </h1>
+                            <button
+                                className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
+                                    hover:bg-midBlack self-center md:self-start text-lg
+                                    font-semibold transition duration-500 ease-in border-transparent"
+                                onClick={handleLogin}
+                            >
+                                Sign in
+                            </button>
                         </div>
                     </div>
                 </div>
