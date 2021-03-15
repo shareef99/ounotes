@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import {
+    FormControl,
+    Select,
+    Button,
+    MenuItem,
+    InputLabel,
+} from "@material-ui/core";
 
 export default function Selection(): JSX.Element {
     const history = useHistory();
@@ -40,37 +47,56 @@ export default function Selection(): JSX.Element {
 
     return (
         <>
-            <form action="" onSubmit={handleSubmit}>
-                <label htmlFor="year">Select year</label>
-                <select
-                    name="year"
-                    id="year"
-                    defaultValue="default"
-                    onChange={handleYear}
+            <section className="bg-whiteShade w-full h-screen flex flex-col justify-center items-center">
+                <form
+                    action=""
+                    onSubmit={handleSubmit}
+                    className="flex flex-col justify-center items-center flex-wrap px-10 py-14 shadow-2xl
+                        rounded-lg space-y-4 border-2 w-8/10 mx-auto xs:w-72"
                 >
-                    <option disabled value="default">
-                        Year
-                    </option>
-                    <option value="first">1st Year</option>
-                    <option value="second">2nd Year</option>
-                    <option value="third">3rd Year</option>
-                    <option value="forth">4th Year</option>
-                </select>
-                <label htmlFor="sem">Select Sem</label>
-                <select
-                    name="sem"
-                    id="sem"
-                    defaultValue="default"
-                    onChange={handleSem}
-                >
-                    <option disabled value="default">
-                        Sem
-                    </option>
-                    <option value="first">Ist SEM</option>
-                    <option value="second">IInd SEM</option>
-                </select>
-                <button type="submit">Submit</button>
-            </form>
+                    <div className="colCenter">
+                        <label htmlFor="year">Select year</label>
+                        <select
+                            name="year"
+                            id="year"
+                            defaultValue="default"
+                            onChange={handleYear}
+                            className="bg-whiteShade border-b-2 mb-4 mt-2 outline-none"
+                        >
+                            <option disabled value="default">
+                                Year
+                            </option>
+                            <option value="first">1st Year</option>
+                            <option value="second">2nd Year</option>
+                            <option value="third">3rd Year</option>
+                            <option value="forth">4th Year</option>
+                        </select>
+                    </div>
+                    <div className="colCenter">
+                        <label htmlFor="sem">Select Sem</label>
+                        <select
+                            name="sem"
+                            id="sem"
+                            defaultValue="default"
+                            onChange={handleSem}
+                            className="bg-whiteShade border-b-2 mb-4 mt-2 outline-none"
+                        >
+                            <option disabled value="default">
+                                Sem
+                            </option>
+                            <option value="first">Ist SEM</option>
+                            <option value="second">IInd SEM</option>
+                        </select>
+                    </div>
+                    <button
+                        type="submit"
+                        className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
+                            hover:bg-midBlack transition duration-300 ease-in "
+                    >
+                        Submit
+                    </button>
+                </form>
+            </section>
         </>
     );
 }

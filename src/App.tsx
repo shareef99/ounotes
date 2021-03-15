@@ -27,7 +27,7 @@ const App: FC<Props> = () => {
                         <Route exact path="/pages/about-us" component={About} />
                         <Route path="/login" component={Login} />
 
-                        <Route component={Selection} path="/selection" />
+                        <PrivateRoute component={Selection} path="/selection" />
                         <Route
                             path="/student/year=:year/sem=:sem"
                             component={Student}
