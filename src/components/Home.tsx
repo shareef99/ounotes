@@ -19,6 +19,10 @@ export default function Home(): JSX.Element {
         history.push("/login");
     };
 
+    const handleAbout = () => {
+        history.push("/pages/about-us");
+    };
+
     return (
         <>
             <Navbar />
@@ -46,14 +50,24 @@ export default function Home(): JSX.Element {
                             >
                                 Your needs in one place.
                             </h1>
-                            <button
-                                className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                                    hover:bg-midBlack self-center md:self-start text-lg
+                            <div className="space-x-4 flex">
+                                <button
+                                    className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
+                                    hover:bg-midBlack self-center md:self-start text-lg 
                                     font-semibold transition duration-500 ease-in border-transparent"
-                                onClick={handleLogin}
-                            >
-                                Sign in
-                            </button>
+                                    onClick={handleLogin}
+                                >
+                                    Sign in
+                                </button>
+                                <button
+                                    className="border-2 rounded-md px-3 py-2 self-center leading-7
+                                        hover:bg-midBlack hover:text-whiteShade font-semibold
+                                        transition duration-500 ease-in"
+                                    onClick={handleAbout}
+                                >
+                                    About US
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
