@@ -61,7 +61,6 @@ export default function Home(): JSX.Element {
                     <h2 className="text-center font-semibold text-xl tracking-wider my-14">
                         HOW IT WORK
                     </h2>
-                    {/* <div className="mx-auto"> */}
                     <div className="flex justify-around items-baseline flex-wrap max-w-full mx-auto space-y-12 sm:space-y-0">
                         <div
                             className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
@@ -134,7 +133,6 @@ export default function Home(): JSX.Element {
                             </div>
                         </div>
                     </div>
-                    {/* </div> */}
                 </div>
                 <Link to="/login">Login</Link>
                 <br />

@@ -50,7 +50,13 @@ export const About: FC<Props> = () => {
                         id="about-details"
                         className="bg-whiteShade colCenter my-14 w-full space-y-20 sm:space-y-30"
                     >
-                        <div className="flex flex-col items-center sm:flex-row w-9/10 xs:w-8/10 md:w-7/10 lg:w-6/10">
+                        <h2 className="text-center font-semibold text-2xl tracking-wider ">
+                            About US
+                        </h2>
+                        <div
+                            className="flex flex-col items-center sm:flex-row w-9/10 xs:w-8/10 md:w-7/10 
+                                lg:w-6/10"
+                        >
                             <div className="maxWidth10rem">
                                 <img
                                     src={missionImg}
@@ -58,18 +64,18 @@ export const About: FC<Props> = () => {
                                     title="Icons made by Freepik from Flaticon"
                                 />
                             </div>
-                            <div className="mt-10 sm:mt-0 space-y-4">
-                                <div className="sm:w-9/10 md:w-8/10 lg:w-7/10 sm:ml-auto">
-                                    <h2 className="flexCenter sm:justify-start font-bold text-2xl">
+                            <div className="mt-10 sm:mt-0">
+                                <div className="sm:w-9/10 md:w-8/10 lg:w-7/10 sm:ml-auto space-y-4">
+                                    <h3 className="flexCenter sm:justify-start font-normal text-2xl">
                                         Our Mission
                                         <img
                                             src={mission}
                                             alt="target"
-                                            className="p-4"
+                                            className="pl-4"
                                             title="Icons made by ultimatearm from Flaticon"
                                         />
-                                    </h2>
-                                    <p className="text-left text-lg leading-normal font-medium ">
+                                    </h3>
+                                    <p className="text-left font-light text-base leading-normal">
                                         Our mission is to make a platform
                                         powerful enough to supply everything a
                                         student needs in his/her{" "}
@@ -90,8 +96,8 @@ export const About: FC<Props> = () => {
                                 />
                             </div>
                             <div className="mt-10 sm:mt-0 space-y-4">
-                                <div className="sm:w-9/10 md:w-8/10 lg:w-7/10 sm:mr-auto">
-                                    <h2 className="flexCenter sm:justify-start font-bold text-2xl pb-3">
+                                <div className="sm:w-9/10 md:w-8/10 lg:w-7/10 sm:mr-auto space-y-4">
+                                    <h3 className="flexCenter sm:justify-start font-normal text-2xl">
                                         Our Target
                                         <img
                                             src={target}
@@ -99,8 +105,8 @@ export const About: FC<Props> = () => {
                                             className="pl-4"
                                             title="Icons made by Freepik from Flaticon"
                                         />
-                                    </h2>
-                                    <p className="text-left text-lg leading-normal font-medium">
+                                    </h3>
+                                    <p className="text-left font-light text-base leading-normal">
                                         Our target is to provide as many notes
                                         and information we can, and go beyond
                                         our limits to help students
