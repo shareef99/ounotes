@@ -2,13 +2,6 @@ import React, { useState } from "react";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
-import {
-    FormControl,
-    Select,
-    Button,
-    MenuItem,
-    InputLabel,
-} from "@material-ui/core";
 
 export default function Selection(): JSX.Element {
     const history = useHistory();
