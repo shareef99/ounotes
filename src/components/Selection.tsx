@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 
 export default function Selection(): JSX.Element {
     const history = useHistory();
-    const { currentUser } = useAuth();
+    const { currentUser, user } = useAuth();
     const [userYear, setUserYear] = useState<string>();
     const [userSem, setUserSem] = useState<string>();
+
+    useEffect(() => {
+        if (user?.sem != undefined && user?.year != undefined) {
+            history.push("/");
+        }
+    }, []);
 
     const handleYear = (e: any) => {
         e.preventDefault();

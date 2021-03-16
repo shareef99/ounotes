@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -99,7 +99,9 @@ export const Navbar: FC<Props> = () => {
                 ) : (
                     <>
                         <div>
-                            <button>Log in</button>
+                            <button>
+                                <Link to="/login">Sign in</Link>
+                            </button>
                         </div>
                     </>
                 )}

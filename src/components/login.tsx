@@ -1,4 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 import googleIcon from "../images/google.png";
 import facebookIcon from "../images/facebook.png";
 import githubIcon from "../images/github.png";
@@ -60,6 +61,15 @@ export default function Login(): JSX.Element {
                                 className="mr-4"
                             />
                             <span className="mr-7">Github</span>
+                        </button>
+                    </div>
+                    <div className="text-center">
+                        ←
+                        <button
+                            className="underline hover:no-underline focus:no-underline ml-2
+                                    transition-all duration-300 ease-in"
+                        >
+                            <Link to="/">Back to home</Link>
                         </button>
                     </div>
                 </div>

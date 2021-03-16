@@ -8,12 +8,8 @@ import howWeDo from "../images/how.png";
 import youDo from "../images/youCanDo.png";
 
 export default function Home(): JSX.Element {
-    const { logout, user } = useAuth();
+    const { user } = useAuth();
     const history = useHistory();
-
-    const handleLogout = () => {
-        logout();
-    };
 
     const handleLogin = () => {
         history.push("/login");
@@ -148,13 +144,9 @@ export default function Home(): JSX.Element {
                         </div>
                     </div>
                 </div>
-                <Link to="/login">Login</Link>
-                <br />
-                <button onClick={handleLogout}>Log out</button>
-                <br />
                 <p>{`Name: ${user?.name}`}</p>
                 <p>{`Provider ID: ${user?.providerId}`}</p>
-                {console.log(user)}
+                <p>{`Provider ID: ${user?.sem}`}</p>
                 <br />
                 <Link to="/selection">Selection</Link>
                 <br />
