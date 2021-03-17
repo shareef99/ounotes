@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/login";
-import { Student } from "./components/Student";
+import { Student as Subjects } from "./components/Subjects";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Selection from "./components/Selection";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -30,7 +30,7 @@ const App: FC<Props> = () => {
                         <PrivateRoute component={Selection} path="/selection" />
                         <Route
                             path="/student/year=:year/sem=:sem"
-                            component={Student}
+                            component={Subjects}
                             exact
                         />
                         <Route

@@ -167,21 +167,23 @@ export const Upload: FC<Props> = () => {
                                 ))}
                             </select>
                         </label>
-                        {progress && (
-                            <p className="box-content max-w-full w-full">
-                                upload: ${progress}
-                            </p>
-                        )}
-                        {message && (
-                            <p className="box-content max-w-full w-full text-green-500">
-                                message
-                            </p>
-                        )}
-                        {error && (
-                            <p className="box-content max-w-full w-full text-red-500">
-                                error
-                            </p>
-                        )}
+                        <div className="text-center">
+                            {progress && (
+                                <p className="box-content max-w-full w-full">
+                                    upload: {progress}
+                                </p>
+                            )}
+                            {message && (
+                                <p className="box-content max-w-full w-full text-green-500">
+                                    {message}
+                                </p>
+                            )}
+                            {error && (
+                                <p className="box-content max-w-full w-full text-red-500">
+                                    error
+                                </p>
+                            )}
+                        </div>
                         <label htmlFor="upload-file" className="pt-4">
                             <span
                                 className="hover:cursor-pointer focus:outline-none border-2 

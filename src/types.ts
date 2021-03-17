@@ -1,7 +1,11 @@
 export interface NotesType {
     year: string;
     sem: string;
-    subjects: Array<string>;
+    subject: string;
+    createdAt: string;
+    createdBy: string;
+    email: string;
+    url: string;
 }
 
 export interface userType {

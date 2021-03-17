@@ -11,7 +11,7 @@ interface Props {}
 export const Navbar: FC<Props> = () => {
     const [isAtTop, setIsAtTop] = useState<any>();
     const history = useHistory();
-    const { currentUser, logout } = useAuth();
+    const { currentUser, user, logout } = useAuth();
     const [anchorEl, setAnchorEl] = useState<any>(null);
     const open = Boolean(anchorEl);
 
@@ -35,6 +35,11 @@ export const Navbar: FC<Props> = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleNotes = () => {
+        history.push(`/student/year=${user.year}/sem=${user.sem}`);
+        // path ="/student/year=:year/sem=:sem/subject=:subject";
     };
 
     useEffect(() => {
@@ -91,6 +96,9 @@ export const Navbar: FC<Props> = () => {
                             >
                                 <MenuItem onClick={handleProfile}>
                                     Profile
+                                </MenuItem>
+                                <MenuItem onClick={handleNotes}>
+                                    Your Subjects
                                 </MenuItem>
                                 <MenuItem onClick={logout}>Sign out</MenuItem>
                             </Menu>
