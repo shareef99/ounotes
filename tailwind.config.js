@@ -83,6 +83,7 @@ module.exports = {
     variants: {
         extend: {
             ringOffsetColor: ["hover", "active"],
+            cursor: ["hover", "focus"],
         },
     },
     plugins: [],

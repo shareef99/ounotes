@@ -8,7 +8,6 @@ interface Props {}
 export const Upload: FC<Props> = () => {
     const [message, setMessage] = useState<string>("");
     const [error, setError] = useState<string>("");
-    const [downloadURL, setDownloadURL] = useState<string | null>();
     const [progress, setProgress] = useState<number>();
     const [year, setYear] = useState<string>();
     const [sem, setSem] = useState<string>();
@@ -43,7 +42,6 @@ export const Upload: FC<Props> = () => {
 
         setError("");
         setMessage("");
-        setDownloadURL(null);
         setProgress(0);
 
         fileRef.put(file).on(
@@ -81,7 +79,6 @@ export const Upload: FC<Props> = () => {
                     sem,
                     subject,
                 });
-                setDownloadURL(url);
                 setMessage("Uploaded successfully!");
             }
         );
@@ -89,78 +86,114 @@ export const Upload: FC<Props> = () => {
 
     return (
         <>
-            <section>
+            <section
+                id="popup"
+                className="w-full h-screen colCenter bg-whiteShade"
+            >
                 <div
-                    id="popup"
-                    className="fixed top-0 left-0 w-full h-full bg-whiteShade"
+                    className="border-2 rounded-lg shadow-2xl space-y-8 px-10 py-14 mx-auto w-72 flexCenter
+                        flex-col space-y-8"
                 >
                     <div>
-                        <form action="">
-                            <label htmlFor="year">
-                                <select
-                                    name="year"
-                                    id="year"
-                                    defaultValue="year"
-                                    onChange={handleYear}
-                                >
-                                    <option value="year" disabled>
-                                        Year
-                                    </option>
-                                    <option value="first">First</option>
-                                    <option value="second">Second</option>
-                                    <option value="third">Third</option>
-                                    <option value="forth">Forth</option>
-                                </select>
-                            </label>
-                            <label htmlFor="sem">
-                                <select
-                                    name="sem"
-                                    id="sem"
-                                    defaultValue="sem"
-                                    onChange={handleSem}
-                                >
-                                    <option value="sem" disabled>
-                                        Sem
-                                    </option>
-                                    <option value="first">Ist sem</option>
-                                    <option value="second">IInd sem</option>
-                                </select>
-                            </label>
-                            <label htmlFor="subjects">
-                                <select
-                                    name="subjects"
-                                    id="subjects"
-                                    defaultValue="default"
-                                    onChange={handleSubject}
-                                >
-                                    <option value="default" disabled>
-                                        Subjects
-                                    </option>
-                                    {Notes.find(
-                                        (x) => x.year === year && x.sem === sem
-                                    )?.subjects.map((subject) => (
-                                        <option value={subject} key={subject}>
-                                            {subject}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                            <label htmlFor="upload-file">
-                                Select file
-                                <input
-                                    type="file"
-                                    id="upload-file"
-                                    className="opacity-0 w-0 h-0 absolute"
-                                    onChange={handleFileUpload}
-                                />
-                            </label>{" "}
-                            {/* <button type="submit">Submit</button> */}
-                        </form>
-                        <p>upload: {progress}%</p>
-                        <a href={downloadURL ? downloadURL : "#"}>Download</a>
-                        {<h1>{message}</h1>}
-                        {<h1>{error && error}</h1>}
+                        <h3 className="font-semibold text-lg">
+                            Select Details
+                        </h3>
                     </div>
+                    <form
+                        action=""
+                        className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
+                    >
+                        <label htmlFor="year" className="w-full">
+                            <select
+                                name="year"
+                                id="year"
+                                defaultValue="year"
+                                onChange={handleYear}
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none"
+                            >
+                                <option value="year" disabled>
+                                    Year
+                                </option>
+                                <option value="first">First</option>
+                                <option value="second">Second</option>
+                                <option value="third">Third</option>
+                                <option value="forth">Forth</option>
+                            </select>
+                        </label>
+                        <label htmlFor="sem" className="w-full">
+                            <select
+                                name="sem"
+                                id="sem"
+                                defaultValue="sem"
+                                onChange={handleSem}
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none"
+                            >
+                                <option value="sem" disabled>
+                                    Sem
+                                </option>
+                                <option value="first">Ist sem</option>
+                                <option value="second">IInd sem</option>
+                            </select>
+                        </label>
+                        <label htmlFor="subjects" className="w-full">
+                            <select
+                                name="subjects"
+                                id="subjects"
+                                defaultValue="default"
+                                onChange={handleSubject}
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none"
+                            >
+                                <option
+                                    value="default"
+                                    disabled
+                                    className="box-content max-w-full w-full"
+                                >
+                                    Subjects
+                                </option>
+                                {Notes.find(
+                                    (x) => x.year === year && x.sem === sem
+                                )?.subjects.map((subject) => (
+                                    <option
+                                        value={subject}
+                                        key={subject}
+                                        className="w-full max-w-full box-content"
+                                    >
+                                        {subject}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        {progress && (
+                            <p className="box-content max-w-full w-full">
+                                upload: ${progress}
+                            </p>
+                        )}
+                        {message && (
+                            <p className="box-content max-w-full w-full text-green-500">
+                                message
+                            </p>
+                        )}
+                        {error && (
+                            <p className="box-content max-w-full w-full text-red-500">
+                                error
+                            </p>
+                        )}
+                        <label htmlFor="upload-file" className="pt-4">
+                            <span
+                                className="hover:cursor-pointer focus:outline-none
+                                border-2 border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
+                            hover:bg-midBlack transition duration-300 ease-in "
+                            >
+                                Upload file
+                            </span>
+                            <input
+                                type="file"
+                                id="upload-file"
+                                className="opacity-0 w-0 h-0 absolute"
+                                onChange={handleFileUpload}
+                            />
+                        </label>{" "}
+                    </form>
                 </div>
             </section>
         </>
