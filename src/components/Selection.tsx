@@ -10,20 +10,18 @@ export default function Selection(): JSX.Element {
     const [userSem, setUserSem] = useState<string>();
 
     useEffect(() => {
-        if (user?.sem != undefined && user?.year != undefined) {
+        if (user?.sem !== undefined && user?.year !== undefined) {
             history.push("/");
         }
-    }, []);
+    }, [user, history]);
 
     const handleYear = (e: any) => {
         e.preventDefault();
-        console.log(e.target.value);
         setUserYear(e.target.value);
     };
 
     const handleSem = (e: any) => {
         e.preventDefault();
-        console.log(e.target.value);
         setUserSem(e.target.value);
     };
 

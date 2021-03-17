@@ -14,7 +14,6 @@ export const PrivateRoute: FC<Props> = ({ component: Component, path }) => {
     return (
         <Route>
             {(props) => {
-                console.log(props);
                 return currentUser ? <Component /> : <Redirect to="/" />;
             }}
         </Route>

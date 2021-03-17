@@ -16,7 +16,7 @@ export const Student: FC<Props> = ({ match }) => {
                 {subjects?.map((subject) => (
                     <div key={subject}>
                         <Link
-                            to={`/student/year=${user.year}/sem=${user.sem}/subject=${subject}`}
+                            to={`/student/year=${user?.year}/sem=${user?.sem}/subject=${subject}`}
                         >
                             {subject}
                         </Link>

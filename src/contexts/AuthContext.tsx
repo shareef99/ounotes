@@ -36,6 +36,7 @@ const authContextDefaultValues: authProviderType = {
         sem: "",
         uid: "",
         providerId: "",
+        email: "",
     },
     currentUser: null,
     signInWithGoogle: () => {},
@@ -128,6 +129,7 @@ export function AuthProvider({ children }: propType) {
                     sem: doc.data().sem,
                     uid: doc.data().uid,
                     providerId: doc.data().providerId,
+                    email: doc.data().email,
                 }))
             );
         });

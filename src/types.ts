@@ -10,4 +10,5 @@ export interface userType {
     sem: string;
     uid: string;
     providerId: string;
+    email: string;
 }
