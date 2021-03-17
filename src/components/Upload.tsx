@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { storage, timestamp, db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import Notes from "../Notes.json";
+import { Link } from "react-router-dom";
 
 interface Props {}
 
@@ -109,7 +110,8 @@ export const Upload: FC<Props> = () => {
                                 id="year"
                                 defaultValue="year"
                                 onChange={handleYear}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none"
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
+                                    hover:cursor-pointer"
                             >
                                 <option value="year" disabled>
                                     Year
@@ -126,7 +128,8 @@ export const Upload: FC<Props> = () => {
                                 id="sem"
                                 defaultValue="sem"
                                 onChange={handleSem}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none"
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
+                                    hover:cursor-pointer"
                             >
                                 <option value="sem" disabled>
                                     Sem
@@ -141,7 +144,8 @@ export const Upload: FC<Props> = () => {
                                 id="subjects"
                                 defaultValue="default"
                                 onChange={handleSubject}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none"
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
+                                    hover:cursor-pointer"
                             >
                                 <option
                                     value="default"
@@ -180,9 +184,9 @@ export const Upload: FC<Props> = () => {
                         )}
                         <label htmlFor="upload-file" className="pt-4">
                             <span
-                                className="hover:cursor-pointer focus:outline-none
-                                border-2 border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                            hover:bg-midBlack transition duration-300 ease-in "
+                                className="hover:cursor-pointer focus:outline-none border-2 
+                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
+                                hover:bg-midBlack transition duration-300 ease-in"
                             >
                                 Upload file
                             </span>
@@ -193,6 +197,15 @@ export const Upload: FC<Props> = () => {
                                 onChange={handleFileUpload}
                             />
                         </label>{" "}
+                        <div className="pt-2 flexCenter">
+                            ←
+                            <button
+                                className="underline hover:no-underline focus:no-underline ml-2
+                                    transition-all duration-300 ease-in"
+                            >
+                                <Link to="/">Back to home</Link>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </section>
