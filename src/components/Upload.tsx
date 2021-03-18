@@ -13,6 +13,7 @@ export const Upload: FC<Props> = () => {
     const [year, setYear] = useState<string>();
     const [sem, setSem] = useState<string>();
     const [subject, setSubject] = useState<string>();
+    const [fileName, setFileName] = useState<string>();
     const { user } = useAuth();
 
     const handleYear = (e: any) => {
@@ -44,6 +45,7 @@ export const Upload: FC<Props> = () => {
         setError("");
         setMessage("");
         setProgress(0);
+        setFileName(file.name);
 
         fileRef.put(file).on(
             "state_changed",
@@ -68,9 +70,12 @@ export const Upload: FC<Props> = () => {
             },
             async () => {
                 const url = await fileRef.getDownloadURL();
-                const createdAt = timestamp;
+                const createdAt = new Date(
+                    timestamp.now().seconds * 1000
+                ).toLocaleDateString();
                 const createdBy = user.name;
                 const email = user.email;
+                const name = file.name;
                 await db.collection("notes").add({
                     url,
                     email,
@@ -79,6 +84,7 @@ export const Upload: FC<Props> = () => {
                     year,
                     sem,
                     subject,
+                    name,
                 });
                 setMessage("Uploaded successfully!");
             }
@@ -116,10 +122,10 @@ export const Upload: FC<Props> = () => {
                                 <option value="year" disabled>
                                     Year
                                 </option>
-                                <option value="first">First</option>
-                                <option value="second">Second</option>
-                                <option value="third">Third</option>
-                                <option value="forth">Forth</option>
+                                <option value="first">Ist year</option>
+                                <option value="second">IInd year</option>
+                                <option value="third">IIrd year</option>
+                                <option value="forth">IVrd year</option>
                             </select>
                         </label>
                         <label htmlFor="sem" className="w-full">
@@ -170,12 +176,13 @@ export const Upload: FC<Props> = () => {
                         <div className="text-center">
                             {progress && (
                                 <p className="box-content max-w-full w-full">
-                                    upload: {progress}
+                                    upload: {progress}%
                                 </p>
                             )}
                             {message && (
                                 <p className="box-content max-w-full w-full text-green-500">
                                     {message}
+                                    {fileName}
                                 </p>
                             )}
                             {error && (

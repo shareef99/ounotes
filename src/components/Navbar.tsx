@@ -30,7 +30,7 @@ export const Navbar: FC<Props> = () => {
     };
 
     const handleProfile = () => {
-        history.push("/profile");
+        history.push("pages/profile");
     };
 
     const handleClose = () => {
@@ -39,7 +39,18 @@ export const Navbar: FC<Props> = () => {
 
     const handleNotes = () => {
         history.push(`/student/year=${user.year}/sem=${user.sem}`);
-        // path ="/student/year=:year/sem=:sem/subject=:subject";
+    };
+
+    const handleUpload = () => {
+        history.push("/upload");
+    };
+
+    const handleRequest = () => {
+        history.push("pages/request");
+    };
+
+    const handleAbout = () => {
+        history.push("pages/about-us");
     };
 
     useEffect(() => {
@@ -62,11 +73,6 @@ export const Navbar: FC<Props> = () => {
                 <div>
                     <p>Logo</p>
                 </div>
-                <ul className="flex space-x-6">
-                    <li>nav1</li>
-                    <li>nav2</li>
-                    <li>nav3</li>
-                </ul>
                 {currentUser ? (
                     <>
                         <div>
@@ -99,6 +105,15 @@ export const Navbar: FC<Props> = () => {
                                 </MenuItem>
                                 <MenuItem onClick={handleNotes}>
                                     Your Subjects
+                                </MenuItem>
+                                <MenuItem onClick={handleUpload}>
+                                    Upload Notes
+                                </MenuItem>
+                                <MenuItem onClick={handleRequest}>
+                                    Request Notes
+                                </MenuItem>
+                                <MenuItem onClick={handleAbout}>
+                                    About us
                                 </MenuItem>
                                 <MenuItem onClick={logout}>Sign out</MenuItem>
                             </Menu>

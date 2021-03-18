@@ -2,10 +2,11 @@ export interface NotesType {
     year: string;
     sem: string;
     subject: string;
-    createdAt: string;
+    createdAt: any;
     createdBy: string;
     email: string;
     url: string;
+    name: string;
 }
 
 export interface userType {
