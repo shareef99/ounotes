@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Navbar } from "./Navbar";
+import { Navbar } from "../components/Navbar";
 import styles from "../styles/utilities.module.css";
 import target from "../images/target.png";
 import mission from "../images/mission.png";

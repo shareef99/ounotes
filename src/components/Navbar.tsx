@@ -30,7 +30,7 @@ export const Navbar: FC<Props> = () => {
     };
 
     const handleProfile = () => {
-        history.push("pages/profile");
+        history.push("/pages/profile");
     };
 
     const handleClose = () => {
@@ -42,15 +42,15 @@ export const Navbar: FC<Props> = () => {
     };
 
     const handleUpload = () => {
-        history.push("/upload");
+        history.push("/pages/upload");
     };
 
     const handleRequest = () => {
-        history.push("pages/request");
+        history.push("/pages/request");
     };
 
     const handleAbout = () => {
-        history.push("pages/about-us");
+        history.push("/pages/about-us");
     };
 
     useEffect(() => {

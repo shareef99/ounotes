@@ -182,6 +182,7 @@ export const Upload: FC<Props> = () => {
                             {message && (
                                 <p className="box-content max-w-full w-full text-green-500">
                                     {message}
+                                    <br />
                                     {fileName}
                                 </p>
                             )}

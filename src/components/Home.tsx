@@ -1,5 +1,4 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useHistory } from "react-router-dom";
 import homeImg from "../images/homeImg.png";
@@ -47,11 +46,11 @@ export default function Home(): JSX.Element {
                             <div className="mb-15% space-y-8 md:mt-44 flex flex-col justify-center">
                                 <h1
                                     className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
-                                            font-bold maxWidth90 xs:max-w-full"
+                                            font-bold w-full"
                                 >
                                     Your needs in one place.
                                 </h1>
-                                <div className="space-x-4 flex">
+                                <div className="space-x-4 flex justify-center sm:justify-start">
                                     {user ? (
                                         <>
                                             {" "}
