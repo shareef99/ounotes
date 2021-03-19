@@ -10,7 +10,6 @@ module.exports = {
             backgroundImage: (theme) => ({
                 wave:
                     "url('https://cdn.shopify.com/s/files/1/0279/9277/files/wave-neutral-edit.svg?v=1588246129')",
-                books: "url(../src/images/books.png)",
             }),
             keyframes: {
                 wave: {

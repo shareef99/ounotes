@@ -30,3 +30,7 @@
         margin-left: -1600px;
     }
 }
+
+.bgImg {
+    background-image: url(../images/books.png);
+}

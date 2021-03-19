@@ -4,9 +4,10 @@ import { useHistory } from "react-router-dom";
 import weDo from "../images/whatWeDo.png";
 import howWeDo from "../images/how.png";
 import youDo from "../images/youCanDo.png";
+import Styles from "../styles/utilities.module.css";
 
 export default function Home(): JSX.Element {
-    const { user } = useAuth();
+    const { user, currentUser } = useAuth();
     const history = useHistory();
 
     const handleLogin = () => {
@@ -23,15 +24,15 @@ export default function Home(): JSX.Element {
 
     return (
         <>
-            <section className="bg-whiteShade">
+            <section className="bg-gray-400">
                 <Navbar />
                 <section className="bg-whiteShade">
                     <div>
                         <div
                             id="hereSection"
-                            className="h-screen -mt-16 flex justify-around items-center flex-col 
-                            md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto
-                            bg-books bg-bottom-3 xs:bg-bottom bg-contain bg-clip-padding bg-no-repeat"
+                            className={`h-screen -mt-16 flex justify-around items-center flex-col 
+                            md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto bg-bottom-3
+                            xs:bg-bottom bg-contain bg-clip-padding bg-no-repeat ${Styles.bgImg}`}
                         >
                             <div
                                 className="space-y-8 flex flex-col items-center
@@ -52,7 +53,7 @@ export default function Home(): JSX.Element {
                                     className="space-x-4 flex justify-center sm:justify-start absolute 
                                         bottom-52"
                                 >
-                                    {user ? (
+                                    {currentUser ? (
                                         <>
                                             {" "}
                                             <button
@@ -68,7 +69,7 @@ export default function Home(): JSX.Element {
                                         <>
                                             <button
                                                 className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                                    hover:bg-midBlack self-center md:self-start text-lg 
+                                    hover:bg-midBlack self-center md:self-start text-lg w-max
                                     font-semibold transition duration-500 ease-in border-transparent"
                                                 onClick={handleLogin}
                                             >
