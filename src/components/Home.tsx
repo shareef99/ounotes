@@ -1,7 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Navbar } from "../components/Navbar";
 import { useHistory } from "react-router-dom";
-import homeImg from "../images/homeImg.png";
 import weDo from "../images/whatWeDo.png";
 import howWeDo from "../images/how.png";
 import youDo from "../images/youCanDo.png";
@@ -27,30 +26,32 @@ export default function Home(): JSX.Element {
             <section className="bg-whiteShade">
                 <Navbar />
                 <section className="bg-whiteShade">
-                    <div className="bgGradient">
+                    <div>
                         <div
                             id="hereSection"
                             className="h-screen -mt-16 flex justify-around items-center flex-col 
-                            md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto"
+                            md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto
+                            bg-books bg-bottom-3 xs:bg-bottom bg-contain bg-clip-padding bg-no-repeat"
                         >
                             <div
-                                className="origin-center transform -rotate-12 md:rotate-12 -skew-x-12 
-                                md:skew-x-12 mx-5% xs:mx-10% md:mx-0"
+                                className="space-y-8 flex flex-col items-center
+                                    h-screen relative"
                             >
-                                <img
-                                    src={homeImg}
-                                    alt="Thinking Head"
-                                    title="Image by Abdessamad Salmoun jlali from Pixabay"
-                                />
-                            </div>
-                            <div className="mb-15% space-y-8 md:mt-44 flex flex-col justify-center">
-                                <h1
-                                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
-                                            font-bold w-full"
+                                <div
+                                    className="absolute top-4/10 w-max z-10 opacity-100 bg-opacity-50 
+                                        bg-whiteShade px-4"
                                 >
-                                    Your needs in one place.
-                                </h1>
-                                <div className="space-x-4 flex justify-center sm:justify-start">
+                                    <h1
+                                        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
+                                            font-bold"
+                                    >
+                                        Your needs in one place.
+                                    </h1>
+                                </div>
+                                <div
+                                    className="space-x-4 flex justify-center sm:justify-start absolute 
+                                        bottom-52"
+                                >
                                     {user ? (
                                         <>
                                             {" "}
@@ -64,7 +65,7 @@ export default function Home(): JSX.Element {
                                             </button>
                                         </>
                                     ) : (
-                                        <button>
+                                        <>
                                             <button
                                                 className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
                                     hover:bg-midBlack self-center md:self-start text-lg 
@@ -73,12 +74,12 @@ export default function Home(): JSX.Element {
                                             >
                                                 Sign in
                                             </button>
-                                        </button>
+                                        </>
                                     )}
                                     <button
                                         className="border-2 rounded-md px-3 py-2 self-center leading-7
                                         hover:bg-midBlack hover:text-whiteShade font-semibold
-                                        transition duration-500 ease-in"
+                                        transition duration-500 ease-in w-max"
                                         onClick={handleAbout}
                                     >
                                         About US

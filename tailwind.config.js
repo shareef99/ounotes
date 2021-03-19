@@ -1,5 +1,6 @@
 const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
+// import booksImg from "";
 
 module.exports = {
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
@@ -9,6 +10,7 @@ module.exports = {
             backgroundImage: (theme) => ({
                 wave:
                     "url('https://cdn.shopify.com/s/files/1/0279/9277/files/wave-neutral-edit.svg?v=1588246129')",
+                books: "url(../src/images/books.png)",
             }),
             keyframes: {
                 wave: {
@@ -34,6 +36,7 @@ module.exports = {
                 "8/10": "80%",
                 "7/10": "70%",
                 "6/10": "60%",
+                "4/10": "40%",
                 "3/10": "30%",
                 "5%": "5%",
                 "10%": "10%",
@@ -78,6 +81,19 @@ module.exports = {
             whiteShade: "#faf8eb",
             lightBlack: "#706c61",
             midBlack: "#323232",
+        },
+        backgroundPosition: {
+            bottom: "bottom",
+            "bottom-3": "center bottom 3rem",
+            center: "center",
+            left: "left",
+            "left-bottom": "left bottom",
+            "left-top": "left top",
+            right: "right",
+            "right-bottom": "right bottom",
+            "right-top": "right top",
+            top: "top",
+            "top-4": "center top 1rem",
         },
     },
     variants: {
