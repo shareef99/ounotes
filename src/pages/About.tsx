@@ -17,7 +17,7 @@ export const About: FC<Props> = () => {
         <>
             <section className="">
                 <Navbar />
-                <section className="bg-whiteShade">
+                <section className="bg-whiteShade text-lightBlack">
                     <div
                         id="about-main-section"
                         className="h-screen -mt-16 bgGradient text-midBlack w-full flex items-center justify-center"

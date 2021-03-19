@@ -86,7 +86,7 @@ export function AuthProvider({ children }: propType) {
                     .set(userInfo, { merge: true });
                 setCurrentUser(userInfo);
 
-                history.push("/selection");
+                history.push("/pages/selection");
             })
             .catch((err) => {
                 if (

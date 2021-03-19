@@ -3,6 +3,7 @@ import { storage, timestamp, db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import Notes from "../Notes.json";
 import { Link } from "react-router-dom";
+import { Navbar } from "../components/Navbar";
 
 interface Props {}
 
@@ -93,9 +94,10 @@ export const Upload: FC<Props> = () => {
 
     return (
         <>
+            <Navbar />
             <section
                 id="popup"
-                className="w-full h-screen colCenter bg-whiteShade"
+                className="w-full h-screen colCenter bg-whiteShade text-lightBlack -mt-16"
             >
                 <div
                     className="border-2 rounded-lg shadow-2xl space-y-8 px-10 py-14 mx-auto w-72 flexCenter
