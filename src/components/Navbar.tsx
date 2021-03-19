@@ -104,7 +104,7 @@ export const Navbar: FC<Props> = () => {
                                     Profile
                                 </MenuItem>
                                 <MenuItem onClick={handleNotes}>
-                                    Your Subjects
+                                    Subjects
                                 </MenuItem>
                                 <MenuItem onClick={handleUpload}>
                                     Upload Notes
