@@ -41,30 +41,52 @@ export const Notes: FC<Props> = ({ match }) => {
         <>
             <section className="bg-whiteShade w-full h-screen">
                 <Navbar />
-                <div className="colCenter space-y-8 bg-whiteShade">
-                    {notes?.map((note) => (
-                        <div
-                            key={note.name}
-                            className="colCenter border-b-2 px-8 py-4 space-y-4"
-                        >
-                            <div>
-                                <a
-                                    href={note.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="colCenter space-y-4"
-                                >
-                                    <span className="flex">{note.name} ➚</span>
-                                </a>
+                {notes?.length === 0 ? (
+                    <>
+                        <div className="colCenter h-screen -mt-16 space-y-8 bg-whiteShade">
+                            <div
+                                key="No notes"
+                                className="colCenter border-b-2 px-8 py-4 space-y-4 max-w-9/10 mx-auto
+                                    sm:max-w-8/10 md:max-w-6/10"
+                            >
+                                <p>
+                                    Sorry we don't have the notes of {subject}{" "}
+                                    yet, We will notify you once someone
+                                    uploaded the notes
+                                </p>
                             </div>
-                            <div className="font-light text-base">
-                                <p>Created At: {note.createdAt}</p>
-                                <p>Uploaded by: {note.createdBy}</p>
-                            </div>
-                            {console.log(new Date(note.createdAt.nanoseconds))}
                         </div>
-                    ))}
-                </div>
+                    </>
+                ) : (
+                    <div className="colCenter space-y-8 bg-whiteShade my-14">
+                        {notes?.map((note) => (
+                            <div
+                                key={note.name}
+                                className="colCenter border-b-2 px-8 py-4 space-y-4 "
+                            >
+                                <div>
+                                    <a
+                                        href={note.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="colCenter space-y-4"
+                                    >
+                                        <span className="flex">
+                                            {note.name} ➚
+                                        </span>
+                                    </a>
+                                </div>
+                                <div className="font-light text-base">
+                                    <p>Uploaded At: {note.createdAt}</p>
+                                    <p>Uploaded by: {note.createdBy}</p>
+                                </div>
+                                {console.log(
+                                    new Date(note.createdAt.nanoseconds)
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </section>
         </>
     );
