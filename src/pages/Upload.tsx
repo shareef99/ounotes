@@ -15,6 +15,7 @@ export const Upload: FC<Props> = () => {
     const [sem, setSem] = useState<string>();
     const [subject, setSubject] = useState<string>();
     const [fileName, setFileName] = useState<string>();
+    const [isSubjectSelected, setIsSubjectSelected] = useState<boolean>(false);
     const { user } = useAuth();
 
     const handleYear = (e: any) => {
@@ -30,6 +31,7 @@ export const Upload: FC<Props> = () => {
     const handleSubject = (e: any) => {
         e.preventDefault();
         setSubject(e.target.value);
+        setIsSubjectSelected(true);
     };
 
     const handleFileUpload = (e: any) => {
@@ -58,12 +60,6 @@ export const Upload: FC<Props> = () => {
                 );
             },
             (err) => {
-                console.log(
-                    err.code,
-                    err.message,
-                    err.name,
-                    err.serverResponse
-                );
                 setError(
                     "Error while uploading! make sure your file size is less than 100mb," +
                         "Try again in a while"
@@ -88,8 +84,19 @@ export const Upload: FC<Props> = () => {
                     name,
                 });
                 setMessage("Uploaded successfully!");
+                setIsSubjectSelected(false);
             }
         );
+    };
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        setError(
+            "Make sure to select all fields and select subject again for uploading second pdf with same " +
+                "specification"
+        );
+        setMessage("");
+        setProgress(undefined);
     };
 
     return (
@@ -111,6 +118,7 @@ export const Upload: FC<Props> = () => {
                     <form
                         action=""
                         className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
+                        onSubmit={handleSubmit}
                     >
                         <label htmlFor="year" className="w-full">
                             <select
@@ -151,7 +159,7 @@ export const Upload: FC<Props> = () => {
                                 name="subjects"
                                 id="subjects"
                                 defaultValue="default"
-                                onChange={handleSubject}
+                                onClick={handleSubject}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
                             >
@@ -190,7 +198,7 @@ export const Upload: FC<Props> = () => {
                             )}
                             {error && (
                                 <p className="box-content max-w-full w-full text-red-500">
-                                    error
+                                    {error}
                                 </p>
                             )}
                         </div>
@@ -203,22 +211,24 @@ export const Upload: FC<Props> = () => {
                                 Upload file
                             </span>
                             <input
-                                type="file"
+                                type={`${
+                                    isSubjectSelected ? "file" : "submit"
+                                }`}
                                 id="upload-file"
                                 className="opacity-0 w-0 h-0 absolute"
                                 onChange={handleFileUpload}
                             />
                         </label>{" "}
-                        <div className="pt-2 flexCenter">
-                            ←
-                            <button
-                                className="underline hover:no-underline focus:no-underline ml-2
-                                    transition-all duration-300 ease-in"
-                            >
-                                <Link to="/">Back to home</Link>
-                            </button>
-                        </div>
                     </form>
+                    <div className="relative right-1 flexCenter">
+                        ←
+                        <button
+                            className="underline hover:no-underline focus:no-underline ml-2
+                                    transition-all duration-300 ease-in"
+                        >
+                            <Link to="/">Back to home</Link>
+                        </button>
+                    </div>
                 </div>
             </section>
         </>

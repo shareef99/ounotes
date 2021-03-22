@@ -40,6 +40,7 @@ module.exports = {
                 "5%": "5%",
                 "10%": "10%",
                 "15%": "15%",
+                "120%": "120%",
             },
             skew: {
                 20: "20deg",
@@ -83,7 +84,7 @@ module.exports = {
         },
         backgroundPosition: {
             bottom: "bottom",
-            "bottom-3": "center bottom 3rem",
+            "bottom-4": "center bottom 4rem",
             center: "center",
             left: "left",
             "left-bottom": "left bottom",
