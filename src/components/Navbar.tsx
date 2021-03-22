@@ -53,6 +53,10 @@ export const Navbar: FC<Props> = () => {
         history.push("/pages/about-us");
     };
 
+    const handleHome = () => {
+        history.push("/");
+    };
+
     useEffect(() => {
         handleScroll();
         return () => {
@@ -63,7 +67,8 @@ export const Navbar: FC<Props> = () => {
     return (
         <>
             <nav
-                className={`flex max-w-full w-full justify-between px-5% sm:px-10% h-16 items-center 
+                id="Navbar"
+                className={`flex max-w-full w-full justify-between px-10% sm:px-10% h-16 items-center 
                     bg-transparent transition duration-500 ease-in sticky top-0  border-opacity-0 ${
                         isAtTop &&
                         `transition duration-500 ease-in bg-blue-500 text-whiteShade z-20
@@ -71,7 +76,12 @@ export const Navbar: FC<Props> = () => {
                     }`}
             >
                 <div>
-                    <p>Logo</p>
+                    <p
+                        onClick={handleHome}
+                        className="hover:cursor-pointer font-medium"
+                    >
+                        Your Notes
+                    </p>
                 </div>
                 {currentUser ? (
                     <>
