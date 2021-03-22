@@ -20,7 +20,8 @@ export const About: FC<Props> = () => {
                 <section className="bg-whiteShade text-lightBlack">
                     <div
                         id="about-main-section"
-                        className="h-screen -mt-16 bgGradient text-midBlack w-full flex items-center justify-center"
+                        className="h-screen -mt-16 bgGradient text-midBlack w-full flex items-center 
+                            justify-center"
                     >
                         <div className="flex flex-col">
                             <div className="maxWidth16rem m-12">

@@ -45,7 +45,7 @@ export const Notes: FC<Props> = ({ match }) => {
                     {notes?.map((note) => (
                         <div
                             key={note.name}
-                            className="colCenter border-b-2 px-8 py-4"
+                            className="colCenter border-b-2 px-8 py-4 space-y-4"
                         >
                             <div>
                                 <a
