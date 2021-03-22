@@ -33,7 +33,7 @@ export const Footer: FC<Props> = () => {
                         Design and Coded by{" "}
                         <a
                             href="https://portfolio.shareef.vercel.app/"
-                            className="text-midBlack font-semibold underline hover:no-underline"
+                            className="font-semibold underline hover:no-underline"
                         >
                             Shareef
                         </a>{" "}
