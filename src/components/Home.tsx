@@ -5,6 +5,8 @@ import weDo from "../images/whatWeDo.png";
 import howWeDo from "../images/how.png";
 import youDo from "../images/youCanDo.png";
 import Styles from "../styles/utilities.module.css";
+import { Footer } from "./Footer";
+// import styles from "../styles/utilities.module.css";
 
 export default function Home(): JSX.Element {
     const { user, currentUser } = useAuth();
@@ -24,14 +26,14 @@ export default function Home(): JSX.Element {
 
     return (
         <>
-            <section className="bg-gray-400">
+            <section className="bg-whiteShade">
                 <Navbar />
-                <section className="bg-whiteShade">
+                <section className="bg-whiteShade text-lightBlack">
                     <div>
                         <div
                             id="hereSection"
                             className={`h-screen -mt-16 flex justify-around items-center flex-col 
-                            md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto bg-bottom-3
+                            md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto bg-bottom-4
                             xs:bg-bottom bg-contain bg-clip-padding bg-no-repeat ${Styles.bgImg}`}
                         >
                             <div
@@ -39,8 +41,8 @@ export default function Home(): JSX.Element {
                                     h-screen relative"
                             >
                                 <div
-                                    className="absolute top-4/10 w-max z-10 opacity-100 bg-opacity-50 
-                                        bg-whiteShade px-4"
+                                    className="absolute top-1/4 xs:top-3/10 sm:top-4/10 w-max z-10 opacity-100 
+                                        bg-opacity-50 bg-whiteShade px-4"
                                 >
                                     <h1
                                         className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
@@ -51,15 +53,16 @@ export default function Home(): JSX.Element {
                                 </div>
                                 <div
                                     className="space-x-4 flex justify-center sm:justify-start absolute 
-                                        bottom-52"
+                                        bottom-56"
                                 >
                                     {currentUser ? (
                                         <>
                                             {" "}
                                             <button
-                                                className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                                    hover:bg-midBlack self-center md:self-start text-lg 
-                                    font-semibold transition duration-500 ease-in border-transparent"
+                                                className="border-2 rounded-md px-3 py-2 bg-lightBlack 
+                                                    self-center hover:bg-midBlack md:self-start text-lg 
+                                                    text-whiteShade font-semibold transition duration-500 
+                                                    ease-in border-transparent"
                                                 onClick={handleNotes}
                                             >
                                                 Notes
@@ -68,9 +71,10 @@ export default function Home(): JSX.Element {
                                     ) : (
                                         <>
                                             <button
-                                                className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                                    hover:bg-midBlack self-center md:self-start text-lg w-max
-                                    font-semibold transition duration-500 ease-in border-transparent"
+                                                className="border-2 rounded-md px-3 py-2 bg-lightBlack 
+                                                    text-whiteShade hover:bg-midBlack self-center 
+                                                    md:self-start text-lg w-max font-semibold transition 
+                                                    duration-500 ease-in border-transparent"
                                                 onClick={handleLogin}
                                             >
                                                 Sign in
@@ -78,9 +82,9 @@ export default function Home(): JSX.Element {
                                         </>
                                     )}
                                     <button
-                                        className="border-2 rounded-md px-3 py-2 self-center leading-7
-                                        hover:bg-midBlack hover:text-whiteShade font-semibold
-                                        transition duration-500 ease-in w-max"
+                                        className="border-2 rounded-md px-3 py-2 self-center leading-7 
+                                            hover:bg-midBlack hover:text-whiteShade font-semibold
+                                            transition duration-500 ease-in w-max"
                                         onClick={handleAbout}
                                     >
                                         About US
@@ -89,17 +93,20 @@ export default function Home(): JSX.Element {
                             </div>
                         </div>
                     </div>
-                    <div className="py-28 w-full">
-                        <h2 className="text-center font-semibold text-xl tracking-wider my-14">
+                    <div className="py-14 w-full">
+                        <h2
+                            className="text-center font-semibold text-2xl sm:text-3xl md:text-4xl 
+                                tracking-wider my-14 text-midBlack"
+                        >
                             HOW IT WORK
                         </h2>
                         <div
                             className="flex justify-around items-baseline flex-wrap max-w-full mx-auto 
-                                space-y-12 sm:space-y-0"
+                                space-y-12 sm:space-y-8"
                         >
                             <div
                                 className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
-                                space-y-8"
+                                    space-y-8"
                             >
                                 <div className="self-center">
                                     <img
@@ -122,7 +129,7 @@ export default function Home(): JSX.Element {
                             </div>
                             <div
                                 className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
-                                space-y-8"
+                                    space-y-8"
                             >
                                 <div className="self-center">
                                     <img
@@ -146,7 +153,7 @@ export default function Home(): JSX.Element {
                             </div>
                             <div
                                 className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
-                                space-y-8"
+                                    space-y-8"
                             >
                                 <div className="self-center">
                                     <img
@@ -171,7 +178,28 @@ export default function Home(): JSX.Element {
                         </div>
                     </div>
                 </section>
+                <Footer />
             </section>
         </>
     );
 }
+
+/* <div className="mt-14">
+    <div className="relative overflow-hidden h-14 bg-transparent z-10 -mb-14">
+        <div className="absolute top-0 left-0 w-full">
+            <div className={styles.waveReversed}></div>
+        </div>
+    </div>
+    <div
+        id="middle-section"
+        className="w-full h-96 flexCenter
+                            bg-gradient-to-br from-lightBlue-400 via-lightBlue-500 to-blue-500"
+    >
+        Total Notes uploaded
+    </div>
+    <div className="relative overflow-hidden h-14 bg-transparent z-10 -mt-12">
+        <div className="absolute top-0 left-0 w-full">
+            <div className={styles.wave}></div>
+        </div>
+    </div>
+</div>; */

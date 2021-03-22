@@ -1,14 +1,15 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import styles from "../styles/utilities.module.css";
 import target from "../images/target.png";
 import mission from "../images/mission.png";
-import team from "../images/team.png";
+// import team from "../images/team.png";
 import targetImg from "../images/targetImg.png";
 import missionImg from "../images/missionImg.png";
-import userImg from "../images/user.png";
+// import userImg from "../images/user.png";
 import aboutImg from "../images/teammate.png";
+import { Footer } from "../components/Footer";
 
 interface Props {}
 
@@ -116,7 +117,7 @@ export const About: FC<Props> = () => {
                             </div>
                         </div>
                     </div>
-                    <div id="team_wrapper" className="w-full mb-14 mt-20">
+                    {/* <div id="team_wrapper" className="w-full mb-14 mt-20">
                         <div id="team_heading">
                             <h2 className="flexCenter text-3xl text-start">
                                 Our Team
@@ -175,17 +176,14 @@ export const About: FC<Props> = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="relative overflow-hidden h-14 bg-transparent z-10 -mb-14">
                         <div className="absolute top-0 left-0 w-full">
                             <div className={styles.waveReversed}></div>
                         </div>
                     </div>
-                    <div className="h-96 flex justify-center items-center flex-col bgGradient">
-                        <div>
-                            <Link to="/">Home</Link>
-                        </div>
-                        About
+                    <div className="pt-28">
+                        <Footer />
                     </div>
                 </section>
             </section>

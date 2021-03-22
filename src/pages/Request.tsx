@@ -1,5 +1,4 @@
-import { FC, useState, useEffect } from "react";
-import { storage, timestamp, db } from "../firebase";
+import { FC, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import Notes from "../Notes.json";
 import { Link } from "react-router-dom";
