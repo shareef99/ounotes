@@ -73,6 +73,7 @@ export const Upload: FC<Props> = () => {
                 const createdBy = user.name;
                 const email = user.email;
                 const name = file.name;
+                console.log(subject);
                 await db.collection("notes").add({
                     url,
                     email,
@@ -159,7 +160,7 @@ export const Upload: FC<Props> = () => {
                                 name="subjects"
                                 id="subjects"
                                 defaultValue="default"
-                                onClick={handleSubject}
+                                onChange={handleSubject}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
                             >
@@ -185,9 +186,9 @@ export const Upload: FC<Props> = () => {
                         </label>
                         <div className="text-center">
                             {progress && (
-                                <p className="box-content max-w-full w-full">
+                                <div className="box-content max-w-full w-full">
                                     upload: {progress}%
-                                </p>
+                                </div>
                             )}
                             {message && (
                                 <p className="box-content max-w-full w-full text-green-500">
@@ -216,7 +217,7 @@ export const Upload: FC<Props> = () => {
                                 }`}
                                 id="upload-file"
                                 className="opacity-0 w-0 h-0 absolute"
-                                onChange={handleFileUpload}
+                                onClick={handleFileUpload}
                             />
                         </label>{" "}
                     </form>

@@ -16,7 +16,6 @@ export const Notes: FC<Props> = ({ match }) => {
         const unsub = db
             .collection("notes")
             .where("subject", "==", subject)
-            .orderBy("createdAt", "desc")
             .onSnapshot((snap) => {
                 setNotes(
                     snap.docs.map((doc) => ({
@@ -34,8 +33,6 @@ export const Notes: FC<Props> = ({ match }) => {
 
         return () => unsub();
     }, [user, subject]);
-
-    console.log(notes);
 
     return (
         <>
@@ -80,9 +77,6 @@ export const Notes: FC<Props> = ({ match }) => {
                                     <p>Uploaded At: {note.createdAt}</p>
                                     <p>Uploaded by: {note.createdBy}</p>
                                 </div>
-                                {console.log(
-                                    new Date(note.createdAt.nanoseconds)
-                                )}
                             </div>
                         ))}
                     </div>

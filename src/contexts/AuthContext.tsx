@@ -70,8 +70,6 @@ export function AuthProvider({ children }: propType) {
             .then((result) => {
                 const credential = result.credential;
                 const user = result.user;
-                console.log("user ", user);
-                console.log("dash ", credential);
 
                 const userInfo = {
                     uid: user?.uid,

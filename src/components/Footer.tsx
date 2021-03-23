@@ -13,21 +13,32 @@ export const Footer: FC<Props> = () => {
                 >
                     <h3>Request Notes --&gt;&gt;</h3>
                 </div> */}
-                <ul
-                    className="flex flex-wrap flex-row justify-around max-w-9/10 mx-auto py-14 space-x-8
-                        "
-                >
-                    <li className="underline hover:no-underline">
-                        <Link to="/pages/request">Request Notes</Link>
-                    </li>
-                    <li className="underline hover:no-underline">
-                        <Link to="/pages/about-us">About us</Link>
-                    </li>
+                <div className="flexCenter">
+                    <ul
+                        className="flex flex-wrap flex-col sm:flex-row justify-around items-start 
+                        py-14 sm:space-x-8 space-y-8 sm:space-y-0 "
+                    >
+                        <li className="underline hover:no-underline">
+                            <Link to="/pages/request">Request Notes</Link>
+                        </li>
+                        <li className="underline hover:no-underline">
+                            <Link to="/pages/about-us">About us</Link>
+                        </li>
 
-                    <li className="underline hover:no-underline">
-                        <Link to="/pages/upload">Upload Notes</Link>
-                    </li>
-                </ul>
+                        <li className="underline hover:no-underline">
+                            <Link to="/pages/upload">Upload Notes</Link>
+                        </li>
+                        <li className="underline hover:no-underline">
+                            <a
+                                href="https://github.com/shareef99/ounotes"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Github
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <div className="text-center pb-10">
                     <p>
                         Design and Coded by{" "}

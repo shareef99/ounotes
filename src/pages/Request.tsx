@@ -82,7 +82,6 @@ export const Request: FC<Props> = () => {
                         </h3>
                     </div>
                     <form
-                        action="mailto:nadeemshareef934@gmail.com?subject=Request%20Notes"
                         className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
                         onSubmit={handleSubmit}
                     >
@@ -125,7 +124,7 @@ export const Request: FC<Props> = () => {
                                 name="subjects"
                                 id="subjects"
                                 defaultValue="default"
-                                onClick={handleSubject}
+                                onChange={handleSubject}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
                                 required
@@ -173,6 +172,7 @@ export const Request: FC<Props> = () => {
                             </span>
                             <input
                                 type="submit"
+                                onClick={handleSubmit}
                                 value="send"
                                 id="upload-file"
                                 className="opacity-0 w-0 h-0 absolute"
