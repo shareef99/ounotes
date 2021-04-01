@@ -1,6 +1,9 @@
 * {
     font-family: "Poppins", sans-serif;
 }
+html {
+    scroll-behavior: smooth;
+}
 
 @tailwind base;
 @tailwind components;

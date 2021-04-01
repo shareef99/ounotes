@@ -25,9 +25,9 @@ export const Footer: FC<Props> = () => {
                             <Link to="/pages/about-us">About us</Link>
                         </li>
 
-                        <li className="underline hover:no-underline">
+                        {/* <li className="underline hover:no-underline">
                             <Link to="/pages/upload">Upload Notes</Link>
-                        </li>
+                        </li> */}
                         <li className="underline hover:no-underline">
                             <a
                                 href="https://github.com/shareef99/ounotes"

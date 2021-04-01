@@ -93,8 +93,8 @@ export const Upload: FC<Props> = () => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         setError(
-            "Make sure to select all fields and select subject again for uploading second pdf with same " +
-                "specification"
+            `Make sure to select all fields and select subject again for uploading second pdf with same 
+            specification`
         );
         setMessage("");
         setProgress(undefined);
@@ -206,7 +206,7 @@ export const Upload: FC<Props> = () => {
                         <label htmlFor="upload-file" className="pt-4">
                             <span
                                 className="hover:cursor-pointer focus:outline-none border-2 
-                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
+                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
                                 hover:bg-midBlack transition duration-300 ease-in"
                             >
                                 Upload file
@@ -224,8 +224,8 @@ export const Upload: FC<Props> = () => {
                     <div className="relative right-1 flexCenter">
                         ←
                         <button
-                            className="underline hover:no-underline focus:no-underline ml-2
-                                    transition-all duration-300 ease-in"
+                            className="underline hover:no-underline focus:no-underline ml-2 ease-in
+                                transition-all duration-300"
                         >
                             <Link to="/">Back to home</Link>
                         </button>

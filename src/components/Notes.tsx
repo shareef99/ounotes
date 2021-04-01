@@ -16,6 +16,7 @@ export const Notes: FC<Props> = ({ match }) => {
         const unsub = db
             .collection("notes")
             .where("subject", "==", subject)
+            .orderBy("name", "asc")
             .onSnapshot((snap) => {
                 setNotes(
                     snap.docs.map((doc) => ({
