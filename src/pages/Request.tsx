@@ -4,6 +4,7 @@ import Notes from "../Notes.json";
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import emailjs from "emailjs-com";
+import { Login } from "../components/login";
 
 interface Props {}
 
@@ -64,6 +65,19 @@ export const Request: FC<Props> = () => {
             setError("Make sure to select all fields");
         }
     };
+
+    if (!user) {
+        return (
+            <>
+                <Navbar />
+                <section className="w-full h-screen colCenter bg-whiteShade text-lightBlack -mt-16">
+                    <div>
+                        <Login requestNotes={true} />
+                    </div>
+                </section>
+            </>
+        );
+    }
 
     return (
         <>

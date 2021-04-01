@@ -6,7 +6,7 @@ import {
     RouteChildrenProps,
 } from "react-router-dom";
 import Home from "./components/Home";
-import Login from "./components/login";
+import { Login } from "./components/login";
 import { Student as Subjects } from "./components/Subjects";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Selection from "./pages/Selection";
