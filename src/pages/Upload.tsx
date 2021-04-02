@@ -8,6 +8,12 @@ import { useAuth } from "../contexts/AuthContext";
 
 interface Props {}
 
+interface formData {
+    year: string;
+    sem: string;
+    subject: string;
+}
+
 export const Upload: FC<Props> = () => {
     const [progress, setProgress] = useState<number>(0);
     const [error, setError] = useState<string>();
@@ -17,15 +23,14 @@ export const Upload: FC<Props> = () => {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
         reset,
+        watch,
     } = useForm();
 
+    const [file, setFile] = useState<File>(); // Default
     const year: string = watch("year");
     const sem: string = watch("sem");
-    const subject: string = watch("subject");
-    const [file, setFile] = useState<File>(); // Default
 
     const handleFileSelection = (e: any) => {
         const selectedFile = e.target.files[0];
@@ -35,11 +40,13 @@ export const Upload: FC<Props> = () => {
         setIsUploaded(false);
     };
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = (data: formData) => {
+        setError("");
+        setProgress(0);
+        setIsUploaded(false);
 
         const fileRef = storage.ref(
-            `${year} year/${sem} sem/${subject}/${file?.name}`
+            `${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
         );
         // Use metaData to specify the details about file and
         // pass it as a parameter to .put method
@@ -47,8 +54,13 @@ export const Upload: FC<Props> = () => {
         // name: file.name,
         // };
 
+        if (data.subject === "default") {
+            setError("make sure to select subject!");
+            return;
+        }
+
         if (!file) {
-            setError("Failed to upload file");
+            setError("Try selecting file again");
             return;
         }
 
@@ -72,19 +84,15 @@ export const Upload: FC<Props> = () => {
                 const createdAt = new Date(
                     timestamp.now().seconds * 1000
                 ).toLocaleDateString();
-                const createdBy = user.name;
-                const email = user.email;
-                const name = file?.name;
-                console.log(subject);
                 await db.collection("notes").add({
                     url,
-                    email,
-                    createdBy,
+                    email: user.email,
+                    createdBy: user.name,
                     createdAt,
-                    year,
-                    sem,
-                    subject,
-                    name,
+                    year: data.year,
+                    sem: data.sem,
+                    subject: data.subject,
+                    name: file?.name,
                 });
                 setIsUploaded(true);
                 setFile(undefined);
@@ -162,17 +170,6 @@ export const Upload: FC<Props> = () => {
                                 >
                                     Subjects
                                 </option>
-                                {/* {Notes.find(
-                                    (x) => x.year === year && x.sem === sem
-                                )?.subjects.map((subject) => (
-                                    <option
-                                        value={subject}
-                                        key={subject}
-                                        className="w-full max-w-full box-content"
-                                    >
-                                        {subject}
-                                    </option>
-                                ))} */}
                                 {Notes.find(
                                     (x) => x.year === year && x.sem === sem
                                 )?.subjects.map((subject) => (
@@ -185,6 +182,11 @@ export const Upload: FC<Props> = () => {
                                     </option>
                                 ))}
                             </select>
+                            {errors.subject && (
+                                <span className="text-red-500">
+                                    Select subject
+                                </span>
+                            )}
                         </label>
                         <div id="message" className="text-center space-y-2">
                             {progress > 5 && (
@@ -210,11 +212,14 @@ export const Upload: FC<Props> = () => {
                                 </p>
                             )}
                         </div>
-                        <label htmlFor="upload-file" className="pt-4">
+                        <label
+                            htmlFor="upload-file"
+                            className="pt-4 w-full flexCenter"
+                        >
                             <span
-                                className="hover:cursor-pointer focus:outline-none border-2 
+                                className="hover:cursor-pointer focus:outline-none border-2 flexCenter
                                 border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
-                                hover:bg-midBlack transition duration-300 ease-in w-12"
+                                hover:bg-midBlack transition duration-300 ease-in w-full"
                             >
                                 Upload file
                             </span>
@@ -227,28 +232,15 @@ export const Upload: FC<Props> = () => {
                             />
                         </label>
                         <label htmlFor="submit" className="w-full flexCenter">
-                            <span
-                                className="hover:cursor-pointer focus:outline-none border-2 
-                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
-                                hover:bg-midBlack transition duration-300 ease-in "
-                            >
-                                Submit
-                            </span>
                             <input
                                 type="submit"
                                 id="submit"
                                 name="submit"
-                                className="opacity-0 w-0 h-0 absolute"
+                                className="hover:cursor-pointer focus:outline-none border-2 
+                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
+                                hover:bg-midBlack transition duration-300 ease-in w-full"
                             />
                         </label>
-                        {/* <input
-                            className="hover:cursor-pointer focus:outline-none border-2 
-                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
-                                hover:bg-midBlack transition duration-300 ease-in w-12"
-                            type="submit"
-                        >
-                            Submit
-                        </input> */}
                     </form>
                     <div className="relative right-1 flexCenter">
                         ←
