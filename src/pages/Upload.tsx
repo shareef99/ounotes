@@ -18,7 +18,7 @@ export const Upload: FC<Props> = () => {
     const [progress, setProgress] = useState<number>(0);
     const [error, setError] = useState<string>();
     const [isUploaded, setIsUploaded] = useState<boolean>(false);
-    const { user } = useAuth();
+    const { user, admins } = useAuth();
 
     const {
         register,
@@ -45,9 +45,18 @@ export const Upload: FC<Props> = () => {
         setProgress(0);
         setIsUploaded(false);
 
-        const fileRef = storage.ref(
-            `${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
-        );
+        let fileRef: any;
+
+        if (admins.includes(user.email)) {
+            fileRef = storage.ref(
+                `${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
+            );
+        } else {
+            fileRef = storage.ref(
+                `unchecked/${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
+            );
+        }
+
         // Use metaData to specify the details about file and
         // pass it as a parameter to .put method
         // const metaData = {
@@ -66,14 +75,14 @@ export const Upload: FC<Props> = () => {
 
         fileRef.put(file!).on(
             "state_changed",
-            (snapshot) => {
+            (snapshot: any) => {
                 setProgress(
                     Math.floor(
                         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                     )
                 );
             },
-            (err) => {
+            (err: any) => {
                 setError(
                     `Error while uploading! make sure your file size is less than 100mb,
                      Try again in a while`
