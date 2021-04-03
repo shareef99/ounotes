@@ -9,7 +9,7 @@ import { auth, db } from "../firebase";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 import { userType } from "../types";
-import StudentJSON from "../Notes.json";
+import AllSemDetailsJSON from "../Notes.json";
 
 export type authProviderType = {
     user: userType;
@@ -61,7 +61,7 @@ type propType = {
 
 export function AuthProvider({ children }: propType) {
     const [loginError, setLoginError] = useState<string>("");
-    const [usersData, setUsersData] = useState<any[]>([]);
+    const [userData, setUserData] = useState<any[]>([]);
     const [currentUser, setCurrentUser] = useState<any>();
     const history = useHistory();
 
@@ -128,23 +128,27 @@ export function AuthProvider({ children }: propType) {
     }
 
     const getUserData = () => {
-        db.collection("users").onSnapshot((querySnapShot) => {
-            setUsersData(
-                querySnapShot.docs.map((doc) => ({
-                    name: doc.data().displayName,
-                    year: doc.data().year,
-                    sem: doc.data().sem,
-                    uid: doc.data().uid,
-                    providerId: doc.data().providerId,
-                    email: doc.data().email,
-                }))
-            );
-        });
+        db.collection("users")
+            .where("uid", "==", currentUser.uid)
+            .onSnapshot((querySnapShot) => {
+                setUserData(
+                    querySnapShot.docs.map((doc) => ({
+                        name: doc.data().displayName,
+                        year: doc.data().year,
+                        sem: doc.data().sem,
+                        uid: doc.data().uid,
+                        providerId: doc.data().providerId,
+                        email: doc.data().email,
+                    }))
+                );
+            });
     };
 
-    const user = usersData.find((user) => user.email === currentUser?.email);
+    const user = userData[0];
+    console.log(userData);
+    console.log(user);
 
-    const subjects = StudentJSON.find(
+    const subjects = AllSemDetailsJSON.find(
         (x) => x.year === user?.year && x.sem === user?.sem
     )?.subjects;
 
@@ -157,8 +161,11 @@ export function AuthProvider({ children }: propType) {
     }, []);
 
     useEffect(() => {
-        getUserData();
-    }, []);
+        if (currentUser) {
+            getUserData();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
 
     const value: authProviderType = {
         user,
