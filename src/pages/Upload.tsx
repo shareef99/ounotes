@@ -1,68 +1,91 @@
 import { FC, useState } from "react";
 import { storage, timestamp, db } from "../firebase";
-import { useAuth } from "../contexts/AuthContext";
 import Notes from "../Notes.json";
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../contexts/AuthContext";
 
 interface Props {}
 
+interface formData {
+    year: string;
+    sem: string;
+    subject: string;
+}
+
 export const Upload: FC<Props> = () => {
-    const [message, setMessage] = useState<string>("");
-    const [error, setError] = useState<string>("");
-    const [progress, setProgress] = useState<number>();
-    const [year, setYear] = useState<string>();
-    const [sem, setSem] = useState<string>();
-    const [subject, setSubject] = useState<string>();
-    const [fileName, setFileName] = useState<string>();
-    const [isSubjectSelected, setIsSubjectSelected] = useState<boolean>(false);
-    const { user } = useAuth();
+    const [progress, setProgress] = useState<number>(0);
+    const [error, setError] = useState<string>();
+    const [isUploaded, setIsUploaded] = useState<boolean>(false);
+    const { user, admins } = useAuth();
 
-    const handleYear = (e: any) => {
-        e.preventDefault();
-        setYear(e.target.value);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        watch,
+    } = useForm();
+
+    const [file, setFile] = useState<File>(); // Default
+    const year: string = watch("year");
+    const sem: string = watch("sem");
+
+    const handleFileSelection = (e: any) => {
+        const selectedFile = e.target.files[0];
+        console.log(selectedFile);
+        setFile(selectedFile);
+        setProgress(0);
+        setIsUploaded(false);
     };
 
-    const handleSem = (e: any) => {
-        e.preventDefault();
-        setSem(e.target.value);
-    };
+    const onSubmit = (data: formData) => {
+        setError("");
+        setProgress(0);
+        setIsUploaded(false);
 
-    const handleSubject = (e: any) => {
-        e.preventDefault();
-        setSubject(e.target.value);
-        setIsSubjectSelected(true);
-    };
+        let fileRef: any;
 
-    const handleFileUpload = (e: any) => {
-        const file = e.target.files[0];
-        const fileRef = storage.ref(
-            `${year} year/${sem} sem/${subject}/${file.name}`
-        );
+        if (admins.includes(user.email)) {
+            fileRef = storage.ref(
+                `${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
+            );
+        } else {
+            fileRef = storage.ref(
+                `unchecked/${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
+            );
+        }
+
         // Use metaData to specify the details about file and
         // pass it as a parameter to .put method
         // const metaData = {
         // name: file.name,
         // };
 
-        setError("");
-        setMessage("");
-        setProgress(0);
-        setFileName(file.name);
+        if (data.subject === "default") {
+            setError("make sure to select subject!");
+            return;
+        }
 
-        fileRef.put(file).on(
+        if (!file) {
+            setError("Try selecting file again");
+            return;
+        }
+
+        fileRef.put(file!).on(
             "state_changed",
-            (snapshot) => {
+            (snapshot: any) => {
                 setProgress(
                     Math.floor(
                         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                     )
                 );
             },
-            (err) => {
+            (err: any) => {
                 setError(
-                    "Error while uploading! make sure your file size is less than 100mb," +
-                        "Try again in a while"
+                    `Error while uploading! make sure your file size is less than 100mb,
+                     Try again in a while`
                 );
             },
             async () => {
@@ -70,34 +93,22 @@ export const Upload: FC<Props> = () => {
                 const createdAt = new Date(
                     timestamp.now().seconds * 1000
                 ).toLocaleDateString();
-                const createdBy = user.name;
-                const email = user.email;
-                const name = file.name;
-                console.log(subject);
                 await db.collection("notes").add({
                     url,
-                    email,
-                    createdBy,
+                    email: user.email,
+                    createdBy: user.name,
                     createdAt,
-                    year,
-                    sem,
-                    subject,
-                    name,
+                    year: data.year,
+                    sem: data.sem,
+                    subject: data.subject,
+                    name: file?.name,
                 });
-                setMessage("Uploaded successfully!");
-                setIsSubjectSelected(false);
+                setIsUploaded(true);
+                setFile(undefined);
+                console.log(file);
+                reset();
             }
         );
-    };
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        setError(
-            `Make sure to select all fields and select subject again for uploading second pdf with same 
-            specification`
-        );
-        setMessage("");
-        setProgress(undefined);
     };
 
     return (
@@ -119,16 +130,15 @@ export const Upload: FC<Props> = () => {
                     <form
                         action=""
                         className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
-                        onSubmit={handleSubmit}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <label htmlFor="year" className="w-full">
                             <select
-                                name="year"
                                 id="year"
                                 defaultValue="year"
-                                onChange={handleYear}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
+                                {...register("year", { required: true })}
                             >
                                 <option value="year" disabled>
                                     Year
@@ -141,10 +151,9 @@ export const Upload: FC<Props> = () => {
                         </label>
                         <label htmlFor="sem" className="w-full">
                             <select
-                                name="sem"
                                 id="sem"
                                 defaultValue="sem"
-                                onChange={handleSem}
+                                {...register("sem", { required: true })}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
                             >
@@ -157,10 +166,9 @@ export const Upload: FC<Props> = () => {
                         </label>
                         <label htmlFor="subjects" className="w-full">
                             <select
-                                name="subjects"
                                 id="subjects"
                                 defaultValue="default"
-                                onChange={handleSubject}
+                                {...register("subject", { required: true })}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
                             >
@@ -183,18 +191,23 @@ export const Upload: FC<Props> = () => {
                                     </option>
                                 ))}
                             </select>
+                            {errors.subject && (
+                                <span className="text-red-500">
+                                    Select subject
+                                </span>
+                            )}
                         </label>
-                        <div className="text-center">
-                            {progress && (
-                                <div className="box-content max-w-full w-full">
-                                    upload: {progress}%
+                        <div id="message" className="text-center space-y-2">
+                            {progress > 5 && (
+                                <div className="box-content max-w-full w-full ">
+                                    uploading: {progress}%
                                 </div>
                             )}
-                            {message && (
+                            {isUploaded && (
                                 <p className="box-content max-w-full w-full text-green-500">
-                                    {message}
+                                    File uploaded successfully!
                                     <br />
-                                    {fileName}
+                                    {file?.name}
                                 </p>
                             )}
                             {error && (
@@ -202,24 +215,41 @@ export const Upload: FC<Props> = () => {
                                     {error}
                                 </p>
                             )}
+                            {file && (
+                                <p className="box-content max-w-full w-full text-lightBlack">
+                                    Selected File: {file.name}
+                                </p>
+                            )}
                         </div>
-                        <label htmlFor="upload-file" className="pt-4">
+                        <label
+                            htmlFor="upload-file"
+                            className="pt-4 w-full flexCenter"
+                        >
                             <span
-                                className="hover:cursor-pointer focus:outline-none border-2 
+                                className="hover:cursor-pointer focus:outline-none border-2 flexCenter
                                 border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
-                                hover:bg-midBlack transition duration-300 ease-in"
+                                hover:bg-midBlack transition duration-300 ease-in w-full"
                             >
                                 Upload file
                             </span>
                             <input
-                                type={`${
-                                    isSubjectSelected ? "file" : "submit"
-                                }`}
+                                type="file"
                                 id="upload-file"
                                 className="opacity-0 w-0 h-0 absolute"
-                                onClick={handleFileUpload}
+                                onChange={handleFileSelection}
+                                multiple={false}
                             />
-                        </label>{" "}
+                        </label>
+                        <label htmlFor="submit" className="w-full flexCenter">
+                            <input
+                                type="submit"
+                                id="submit"
+                                name="submit"
+                                className="hover:cursor-pointer focus:outline-none border-2 
+                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
+                                hover:bg-midBlack transition duration-300 ease-in w-full"
+                            />
+                        </label>
                     </form>
                     <div className="relative right-1 flexCenter">
                         ←

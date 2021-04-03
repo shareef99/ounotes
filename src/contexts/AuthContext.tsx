@@ -20,6 +20,7 @@ export type authProviderType = {
     logout: () => void;
     subjects: string[] | undefined;
     loginError: string | void;
+    admins: string[];
 };
 
 export interface User {
@@ -45,6 +46,7 @@ const authContextDefaultValues: authProviderType = {
     logout: () => {},
     subjects: [],
     loginError: "",
+    admins: [],
 };
 
 const AuthContext = createContext<authProviderType>(authContextDefaultValues);
@@ -62,6 +64,12 @@ export function AuthProvider({ children }: propType) {
     const [usersData, setUsersData] = useState<any[]>([]);
     const [currentUser, setCurrentUser] = useState<any>();
     const history = useHistory();
+
+    const admins = [
+        "nadeemshareef934@gmail.com",
+        "sowmiyamam11@gmail.com",
+        "shoaib733021@gmail.com",
+    ];
 
     async function signIn(provider: any) {
         setLoginError("");
@@ -114,8 +122,9 @@ export function AuthProvider({ children }: propType) {
         await signIn(provider);
     }
 
-    async function logout() {
+    async function signOut() {
         await auth.signOut();
+        history.push("/");
     }
 
     const getUserData = () => {
@@ -159,9 +168,10 @@ export function AuthProvider({ children }: propType) {
         signInWithGoogle,
         signInWithFacebook,
         signInWithGithub,
-        logout,
+        logout: signOut,
         subjects,
         loginError: loginError,
+        admins,
     };
 
     return (

@@ -41,9 +41,9 @@ export const Navbar: FC<Props> = () => {
         history.push(`/student/year=${user.year}/sem=${user.sem}`);
     };
 
-    // const handleUpload = () => {
-    //     history.push("/pages/upload");
-    // };
+    const handleUpload = () => {
+        history.push("/pages/upload");
+    };
 
     const handleRequest = () => {
         history.push("/pages/request");
@@ -116,9 +116,9 @@ export const Navbar: FC<Props> = () => {
                                 <MenuItem onClick={handleNotes}>
                                     Subjects
                                 </MenuItem>
-                                {/* <MenuItem onClick={handleUpload}>
+                                <MenuItem onClick={handleUpload}>
                                     Upload Notes
-                                </MenuItem> */}
+                                </MenuItem>
                                 <MenuItem onClick={handleRequest}>
                                     Request Notes
                                 </MenuItem>

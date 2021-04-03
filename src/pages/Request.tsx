@@ -57,7 +57,7 @@ export const Request: FC<Props> = () => {
                         setMessage("Request sended!");
                     },
                     (err) => {
-                        console.log("FAILED...", err);
+                        setError(`FAILED..., ${err}`);
                     }
                 );
         } else {
