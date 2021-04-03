@@ -17,6 +17,7 @@ interface formData {
 export const Upload: FC<Props> = () => {
     const [progress, setProgress] = useState<number>(0);
     const [error, setError] = useState<string>();
+    const [message, setMessage] = useState<string>();
     const [isUploaded, setIsUploaded] = useState<boolean>(false);
     const { user, admins } = useAuth();
 
@@ -38,6 +39,12 @@ export const Upload: FC<Props> = () => {
         setFile(selectedFile);
         setProgress(0);
         setIsUploaded(false);
+    };
+
+    const handleNonAdminUploads = () => {
+        if (!admins.includes(user.email)) {
+            setMessage("We will notify you, When it is uploaded");
+        }
     };
 
     const onSubmit = (data: formData) => {
@@ -107,6 +114,7 @@ export const Upload: FC<Props> = () => {
                 setFile(undefined);
                 console.log(file);
                 reset();
+                handleNonAdminUploads();
             }
         );
     };
@@ -208,6 +216,11 @@ export const Upload: FC<Props> = () => {
                                     File uploaded successfully!
                                     <br />
                                     {file?.name}
+                                </p>
+                            )}
+                            {message && (
+                                <p className="box-content max-w-full w-full text-green-500">
+                                    {message}
                                 </p>
                             )}
                             {error && (

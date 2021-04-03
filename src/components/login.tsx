@@ -21,9 +21,10 @@ export const Login: FC<Props> = ({ requestNotes }) => {
         <>
             <section className="bg-whiteShade w-full h-screen flex flex-col justify-center items-center">
                 <div className="border-2 rounded-lg shadow-2xl space-y-4 px-10 py-14 mx-auto w-72">
-                    <p className="text-center font-medium text-xl mb-4">
-                        {requestNotes && "Sign in before Requesting notes"}
-                        {!requestNotes && "Sign in Using"}
+                    <p className="text-center font-medium text-xl mb-4 text-lightBlack">
+                        {requestNotes
+                            ? "Sign in before Requesting notes"
+                            : "Sign in Using"}
                     </p>
                     {error && (
                         <p className="my-4 mt-8 text-red-500 w-full">{error}</p>
