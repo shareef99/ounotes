@@ -142,9 +142,7 @@ export function AuthProvider({ children }: propType) {
         });
     };
 
-    const user: userType = usersData.find(
-        (user) => user.uid === currentUser?.uid
-    );
+    const user = usersData.find((user) => user.email === currentUser?.email);
 
     const subjects = StudentJSON.find(
         (x) => x.year === user?.year && x.sem === user?.sem
