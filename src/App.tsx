@@ -16,6 +16,7 @@ import { Upload } from "./pages/Upload";
 import { About } from "./pages/About";
 import { Request } from "./pages/Request";
 import { Profile } from "./pages/Profile";
+import { AllSubjects } from "./student/AllSubjects";
 
 interface Props extends RouteChildrenProps {}
 
@@ -36,6 +37,10 @@ const App: FC<Props> = () => {
                         <Route
                             path="/student/year=:year/sem=:sem/subject=:subject"
                             component={Notes}
+                        />
+                        <Route
+                            path="/student/all-subjects"
+                            component={AllSubjects}
                         />
                         <Route path="/pages/profile" component={Profile} />
                         <Route path="/pages/request" component={Request} />

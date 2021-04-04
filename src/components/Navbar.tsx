@@ -11,7 +11,7 @@ interface Props {}
 export const Navbar: FC<Props> = () => {
     const [isAtTop, setIsAtTop] = useState<any>();
     const history = useHistory();
-    const { currentUser, user, logout } = useAuth();
+    const { currentUser, user, logout, admins } = useAuth();
     const [anchorEl, setAnchorEl] = useState<any>(null);
     const open = Boolean(anchorEl);
 
@@ -57,6 +57,10 @@ export const Navbar: FC<Props> = () => {
         history.push("/");
     };
 
+    const handleAllSubjects = () => {
+        history.push("/student/all-subjects");
+    };
+
     useEffect(() => {
         handleScroll();
         return () => {
@@ -78,7 +82,7 @@ export const Navbar: FC<Props> = () => {
                 <div>
                     <p
                         onClick={handleHome}
-                        className="hover:cursor-pointer font-medium"
+                        className="hover:cursor-pointer font-medium text-midBlack"
                     >
                         Your Notes
                     </p>
@@ -90,8 +94,7 @@ export const Navbar: FC<Props> = () => {
                                 aria-label="account of current user"
                                 aria-haspopup="true"
                                 onClick={handleMenu}
-                                color="inherit"
-                                className="focus:outline-none"
+                                className="focus:outline-none text-midBlack"
                             >
                                 <AccountCircle />
                             </IconButton>
@@ -114,8 +117,13 @@ export const Navbar: FC<Props> = () => {
                                     Profile
                                 </MenuItem>
                                 <MenuItem onClick={handleNotes}>
-                                    Subjects
+                                    Your Subjects
                                 </MenuItem>
+                                {admins.includes(user?.email) && (
+                                    <MenuItem onClick={handleAllSubjects}>
+                                        All Subjects
+                                    </MenuItem>
+                                )}
                                 <MenuItem onClick={handleUpload}>
                                     Upload Notes
                                 </MenuItem>

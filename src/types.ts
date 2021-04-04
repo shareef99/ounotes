@@ -17,3 +17,9 @@ export interface userType {
     providerId: string;
     email: string;
 }
+
+export interface AllNotesDetailsType {
+    year: string;
+    sem: string;
+    subjects: string[];
+}
