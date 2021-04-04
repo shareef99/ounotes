@@ -67,8 +67,8 @@ export function AuthProvider({ children }: propType) {
 
     const admins = [
         "nadeemshareef934@gmail.com",
-        "sowmiyamam11@gmail.com",
         "shoaib733021@gmail.com",
+        "noor000two@gmail.com",
     ];
 
     async function signIn(provider: any) {
