@@ -11,7 +11,7 @@ interface Props {}
 export const Navbar: FC<Props> = () => {
     const [isAtTop, setIsAtTop] = useState<any>();
     const history = useHistory();
-    const { currentUser, user, logout, admins } = useAuth();
+    const { currentUser, user, logout } = useAuth();
     const [anchorEl, setAnchorEl] = useState<any>(null);
     const open = Boolean(anchorEl);
 
@@ -119,11 +119,9 @@ export const Navbar: FC<Props> = () => {
                                 <MenuItem onClick={handleNotes}>
                                     Your Subjects
                                 </MenuItem>
-                                {admins.includes(user?.email) && (
-                                    <MenuItem onClick={handleAllSubjects}>
-                                        All Subjects
-                                    </MenuItem>
-                                )}
+                                <MenuItem onClick={handleAllSubjects}>
+                                    All Subjects
+                                </MenuItem>
                                 <MenuItem onClick={handleUpload}>
                                     Upload Notes
                                 </MenuItem>

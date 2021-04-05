@@ -7,11 +7,11 @@ import {
 } from "react-router-dom";
 import Home from "./components/Home";
 import { Login } from "./components/login";
-import { Student as Subjects } from "./components/Subjects";
+import { Subjects } from "./student/Subjects";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Selection from "./pages/Selection";
 import { AuthProvider } from "./contexts/AuthContext";
-import { Notes } from "./components/Notes";
+import { Notes } from "./student/Notes";
 import { Upload } from "./pages/Upload";
 import { About } from "./pages/About";
 import { Request } from "./pages/Request";
