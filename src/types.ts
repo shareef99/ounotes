@@ -1,4 +1,5 @@
 export interface NotesType {
+    docId: string;
     year: string;
     sem: string;
     subject: string;

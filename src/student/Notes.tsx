@@ -1,16 +1,38 @@
 import { FC, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
 import { NotesType } from "../types";
 import { Navbar } from "../components/Navbar";
+import { useForm } from "react-hook-form";
 
 interface Props extends RouteComponentProps<{ subject: string }> {}
+
+interface FormType {
+    editName: string;
+}
 
 export const Notes: FC<Props> = ({ match }) => {
     const subject = match.params.subject;
     const [notes, setNotes] = useState<NotesType[]>();
-    const { user } = useAuth();
+    const { user, admins } = useAuth();
+    const [docId, setDocId] = useState<string>();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<FormType>();
+
+    const onSubmit = (data: FormType) => {
+        const newName = data.editName;
+        db.collection("notes").doc(docId).update({
+            name: newName,
+        });
+        reset();
+        setDocId("");
+    };
 
     useEffect(() => {
         const unsub = db
@@ -20,6 +42,7 @@ export const Notes: FC<Props> = ({ match }) => {
             .onSnapshot((snap) => {
                 setNotes(
                     snap.docs.map((doc) => ({
+                        docId: doc.id,
                         year: doc.data().year,
                         sem: doc.data().sem,
                         subject: doc.data().subject,
@@ -34,6 +57,10 @@ export const Notes: FC<Props> = ({ match }) => {
 
         return () => unsub();
     }, [user, subject]);
+
+    const handleEditName = (docId: string) => {
+        setDocId(docId);
+    };
 
     return (
         <>
@@ -51,6 +78,25 @@ export const Notes: FC<Props> = ({ match }) => {
                                     Sorry we don't have the notes of {subject}{" "}
                                     yet, We will notify you once someone
                                     uploaded the notes
+                                </p>
+                                <p>
+                                    if you have the notes for {subject} you can{" "}
+                                    <Link
+                                        to="/pages/upload"
+                                        className="font-semibold hover:font-normal focus:font-normal
+                                        transition-all duration-300 ease-in"
+                                    >
+                                        upload
+                                    </Link>{" "}
+                                    it or{" "}
+                                    <Link
+                                        to="/pages/request"
+                                        className="font-semibold hover:font-normal focus:font-normal
+                                        transition-all duration-300 ease-in"
+                                    >
+                                        request
+                                    </Link>{" "}
+                                    it
                                 </p>
                             </div>
                         </div>
@@ -78,6 +124,60 @@ export const Notes: FC<Props> = ({ match }) => {
                                     <p>Uploaded At: {note.createdAt}</p>
                                     <p>Uploaded by: {note.createdBy}</p>
                                 </div>
+                                {admins.includes(user?.email) && (
+                                    <div>
+                                        <div>
+                                            {docId !== note.docId && (
+                                                <button
+                                                    onClick={() =>
+                                                        handleEditName(
+                                                            note.docId
+                                                        )
+                                                    }
+                                                >
+                                                    Edit name
+                                                </button>
+                                            )}
+                                            {docId === note.docId && (
+                                                <div>
+                                                    <form
+                                                        action=""
+                                                        className="space-x-2"
+                                                        onSubmit={handleSubmit(
+                                                            onSubmit
+                                                        )}
+                                                    >
+                                                        <label htmlFor="editName">
+                                                            <input
+                                                                {...register(
+                                                                    "editName",
+                                                                    {
+                                                                        required: true,
+                                                                    }
+                                                                )}
+                                                                type="text"
+                                                                id="editName"
+                                                                placeholder="Enter new name"
+                                                                className="focus:outline-none 
+                                                                bg-whiteShade px-2 py-1
+                                                                border-2 "
+                                                            />
+                                                        </label>
+                                                        <input
+                                                            type="submit"
+                                                            className="bg-whiteShade 
+                                                                hover:cursor-pointer"
+                                                        />
+                                                    </form>
+                                                    <span className="text-red-500 ">
+                                                        {errors.editName &&
+                                                            "Empty name cannot be assign"}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

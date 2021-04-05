@@ -100,6 +100,7 @@ module.exports = {
         extend: {
             ringOffsetColor: ["hover", "active"],
             cursor: ["hover", "focus"],
+            fontWeight: ["hover", "focus"],
         },
     },
     plugins: [],
