@@ -17,6 +17,7 @@ import { About } from "./pages/About";
 import { Request } from "./pages/Request";
 import { Profile } from "./pages/Profile";
 import { AllSubjects } from "./student/AllSubjects";
+import { PDFViewer } from "./components/PDFViewer";
 
 interface Props extends RouteChildrenProps {}
 
@@ -27,7 +28,6 @@ const App: FC<Props> = () => {
                 <AuthProvider>
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/pages/about-us" component={About} />
                         <Route path="/login" component={Login} />
                         <Route
                             path="/student/year=:year/sem=:sem"
@@ -35,6 +35,7 @@ const App: FC<Props> = () => {
                             exact
                         />
                         <Route
+                            exact
                             path="/student/year=:year/sem=:sem/subject=:subject"
                             component={Notes}
                         />
@@ -42,6 +43,11 @@ const App: FC<Props> = () => {
                             path="/student/all-subjects"
                             component={AllSubjects}
                         />
+                        <Route
+                            path="/pdf/:docId"
+                            component={PDFViewer}
+                        />
+                        <Route exact path="/pages/about-us" component={About} />
                         <Route path="/pages/profile" component={Profile} />
                         <Route path="/pages/request" component={Request} />
                         <PrivateRoute component={Upload} path="/pages/upload" />

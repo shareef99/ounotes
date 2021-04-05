@@ -145,8 +145,6 @@ export function AuthProvider({ children }: propType) {
     };
 
     const user = userData[0];
-    console.log(userData);
-    console.log(user);
 
     const subjects = AllSemDetailsJSON.find(
         (x) => x.year === user?.year && x.sem === user?.sem

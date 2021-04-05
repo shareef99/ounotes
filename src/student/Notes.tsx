@@ -105,12 +105,12 @@ export const Notes: FC<Props> = ({ match }) => {
                     <div className="colCenter space-y-8 bg-whiteShade my-14">
                         {notes?.map((note) => (
                             <div
-                                key={note.name}
+                                key={note.docId}
                                 className="colCenter border-b-2 px-8 py-4 space-y-4 "
                             >
                                 <div>
-                                    <a
-                                        href={note.url}
+                                    <Link
+                                        to={`/pdf/${note.docId}`}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="colCenter space-y-4"
@@ -118,7 +118,7 @@ export const Notes: FC<Props> = ({ match }) => {
                                         <span className="flex">
                                             {note.name} ➚
                                         </span>
-                                    </a>
+                                    </Link>
                                 </div>
                                 <div className="font-light text-base">
                                     <p>Uploaded At: {note.createdAt}</p>
