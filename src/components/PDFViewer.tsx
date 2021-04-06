@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { db } from "../firebase";
-import { PDFObject } from "react-pdfobject";
+import { Worker } from "@react-pdf-viewer/core";
+import { Viewer } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 interface Props extends RouteComponentProps<{ docId: string }> {}
 
@@ -22,9 +24,19 @@ export const PDFViewer: FC<Props> = ({ match }) => {
 
     return (
         <>
-            <div className="h-screen">
-                <PDFObject url={`${PDFUrl}`} height={"100vh"} />
-            </div>
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                <div
+                    style={{
+                        border: "1px solid rgba(0, 0, 0, 0.3)",
+                        height: "750px",
+                    }}
+                >
+                    <Viewer
+                        fileUrl={`https://cors-anywhere.herokuapp.com/${PDFUrl}`}
+                        withCredentials={false}
+                    />
+                </div>
+            </Worker>
         </>
     );
 };
