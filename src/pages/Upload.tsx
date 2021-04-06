@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import { metaDataType } from "../types";
 
 interface Props {}
 
@@ -80,7 +81,13 @@ export const Upload: FC<Props> = () => {
             return;
         }
 
-        fileRef.put(file!).on(
+        const metaData: metaDataType = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+        };
+
+        fileRef.put(file!, metaData).on(
             "state_changed",
             (snapshot: any) => {
                 setProgress(

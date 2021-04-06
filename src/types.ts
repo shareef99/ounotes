@@ -8,6 +8,7 @@ export interface NotesType {
     email: string;
     url: string;
     name: string;
+    newName: string | undefined;
 }
 
 export interface userType {
@@ -23,4 +24,10 @@ export interface AllNotesDetailsType {
     year: string;
     sem: string;
     subjects: string[];
+}
+
+export interface metaDataType {
+    name: string;
+    size: number;
+    type: string;
 }

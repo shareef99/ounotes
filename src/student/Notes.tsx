@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { RouteComponentProps, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import { NotesType } from "../types";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,10 @@ export const Notes: FC<Props> = ({ match }) => {
     const [notes, setNotes] = useState<NotesType[]>();
     const { user, admins } = useAuth();
     const [docId, setDocId] = useState<string>();
+    const [isDeletePopUpOpen, setIsDeletePopUpOpen] = useState<boolean>(false);
+    const [deleteDocId, setDeleteDocId] = useState<string>();
+    const [deleteNote, setDeleteNote] = useState<NotesType>();
+    const [error, setError] = useState<string>();
 
     const {
         register,
@@ -28,10 +32,49 @@ export const Notes: FC<Props> = ({ match }) => {
     const onSubmit = (data: FormType) => {
         const newName = data.editName;
         db.collection("notes").doc(docId).update({
-            name: newName,
+            newName,
         });
         reset();
         setDocId("");
+    };
+
+    const handleEditName = (docId: string) => {
+        setDocId(docId);
+    };
+
+    const handleDelete = (docId: string) => {
+        setIsDeletePopUpOpen(true);
+        setDeleteDocId(docId);
+        const note = notes?.find((x) => x.docId === docId);
+        setDeleteNote(note);
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeletePopUpOpen(false);
+    };
+
+    const handleConfirmDelete = () => {
+        console.log("Deleting", deleteNote);
+        storage
+            .ref(
+                `${deleteNote?.year} year/${deleteNote?.sem} sem/${deleteNote?.subject}/${deleteNote?.name}`
+            )
+            .delete()
+            .then(() => {
+                db.collection("notes")
+                    .doc(deleteDocId)
+                    .delete()
+                    .then(() => {
+                        setIsDeletePopUpOpen(false);
+                        console.log("Deleted", deleteNote);
+                    })
+                    .catch((err) => {
+                        setError(err);
+                    });
+            })
+            .catch((err) => {
+                setError(err);
+            });
     };
 
     useEffect(() => {
@@ -51,6 +94,7 @@ export const Notes: FC<Props> = ({ match }) => {
                         email: doc.data().email,
                         url: doc.data().url,
                         name: doc.data().name,
+                        newName: doc.data().newName,
                     }))
                 );
             });
@@ -58,14 +102,35 @@ export const Notes: FC<Props> = ({ match }) => {
         return () => unsub();
     }, [user, subject]);
 
-    const handleEditName = (docId: string) => {
-        setDocId(docId);
-    };
-
     return (
         <>
             <section className="bg-whiteShade w-full h-screen">
                 <Navbar />
+                {isDeletePopUpOpen && (
+                    <>
+                        <div
+                            id="delete-popup"
+                            className="w-full h-screen bg-whiteShade colCenter -mt-16 "
+                        >
+                            <div className="flex flex-col px-3 py-5 space-y-8">
+                                <span>
+                                    {deleteNote?.newName
+                                        ? `${deleteNote.newName}`
+                                        : `${deleteNote}`}
+                                </span>
+                                <span>{error && error}</span>
+                                <div className="space-x-4 text-center">
+                                    <button onClick={handleConfirmDelete}>
+                                        Confirm
+                                    </button>
+                                    <button onClick={handleCancelDelete}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
                 {notes?.length === 0 ? (
                     <>
                         <div className="colCenter h-screen -mt-16 space-y-8 bg-whiteShade">
@@ -102,42 +167,62 @@ export const Notes: FC<Props> = ({ match }) => {
                         </div>
                     </>
                 ) : (
-                    <div className="colCenter space-y-8 bg-whiteShade my-14">
-                        {notes?.map((note) => (
-                            <div
-                                key={note.name}
-                                className="colCenter border-b-2 px-8 py-4 space-y-4 "
-                            >
-                                <div>
-                                    <a
-                                        href={note.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="colCenter space-y-4"
-                                    >
-                                        <span className="flex">
-                                            {note.name} ➚
-                                        </span>
-                                    </a>
-                                </div>
-                                <div className="font-light text-base">
-                                    <p>Uploaded At: {note.createdAt}</p>
-                                    <p>Uploaded by: {note.createdBy}</p>
-                                </div>
-                                {admins.includes(user?.email) && (
+                    <div
+                        className={`colCenter space-y-8 bg-whiteShade my-14 ${
+                            isDeletePopUpOpen && "hidden"
+                        }`}
+                    >
+                        {!isDeletePopUpOpen &&
+                            notes?.map((note) => (
+                                <div
+                                    key={note.name}
+                                    className={`colCenter border-b-2 px-8 py-4 space-y-4 `}
+                                >
                                     <div>
+                                        <a
+                                            href={note.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="colCenter space-y-4"
+                                        >
+                                            <span className="flex">
+                                                {note.newName
+                                                    ? `${note.newName}`
+                                                    : `${note.name}`}
+                                                ➚
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div className="font-light text-base">
+                                        <p>Uploaded At: {note.createdAt}</p>
+                                        <p>Uploaded by: {note.createdBy}</p>
+                                    </div>
+                                    {admins.includes(user?.email) && (
                                         <div>
-                                            {docId !== note.docId && (
-                                                <button
-                                                    onClick={() =>
-                                                        handleEditName(
-                                                            note.docId
-                                                        )
-                                                    }
-                                                >
-                                                    Edit name
-                                                </button>
-                                            )}
+                                            <div className="space-x-4">
+                                                {docId !== note.docId && (
+                                                    <>
+                                                        <button
+                                                            onClick={() =>
+                                                                handleEditName(
+                                                                    note.docId
+                                                                )
+                                                            }
+                                                        >
+                                                            Edit name
+                                                        </button>
+                                                        <button
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    note.docId
+                                                                )
+                                                            }
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
                                             {docId === note.docId && (
                                                 <div>
                                                     <form
@@ -176,10 +261,9 @@ export const Notes: FC<Props> = ({ match }) => {
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                                    )}
+                                </div>
+                            ))}
                     </div>
                 )}
             </section>

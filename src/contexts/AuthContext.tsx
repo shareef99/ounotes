@@ -66,9 +66,11 @@ export function AuthProvider({ children }: propType) {
     const history = useHistory();
 
     const admins = [
+        "sowmiyamam11@gmail.com",
         "nadeemshareef934@gmail.com",
         "shoaib733021@gmail.com",
         "noor000two@gmail.com",
+        "nikhathsultan05@gmail.com",
     ];
 
     async function signIn(provider: any) {
