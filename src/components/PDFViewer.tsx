@@ -33,7 +33,6 @@ export const PDFViewer: FC<Props> = ({ match }) => {
                 >
                     <Viewer
                         fileUrl={`https://cors-anywhere.herokuapp.com/${PDFUrl}`}
-                        withCredentials={false}
                     />
                 </div>
             </Worker>
