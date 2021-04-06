@@ -12,7 +12,7 @@
         "@testing-library/user-event": "^12.7.3",
         "emailjs-com": "^2.6.4",
         "firebase": "^8.2.9",
-        "pdfjs-dist": "^2.6.347",
+        "pdfjs-dist": "^2.7.570",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-hook-form": "^7.0.0",
