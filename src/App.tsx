@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import {
     BrowserRouter as Router,
     Switch,
@@ -24,35 +24,44 @@ const App: FC<Props> = () => {
     return (
         <>
             <Router>
-                <AuthProvider>
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/pages/about-us" component={About} />
-                        <Route path="/login" component={Login} />
-                        <Route
-                            path="/student/year=:year/sem=:sem"
-                            component={Subjects}
-                            exact
-                        />
-                        <Route
-                            path="/student/year=:year/sem=:sem/subject=:subject"
-                            component={Notes}
-                        />
-                        <Route
-                            path="/student/all-subjects"
-                            component={AllSubjects}
-                        />
-                        <Route path="/pages/profile" component={Profile} />
-                        <Route path="/pages/request" component={Request} />
-                        <PrivateRoute component={Upload} path="/pages/upload" />
-                        <PrivateRoute
-                            component={Selection}
-                            path="/pages/selection"
-                        />
-                        {/* Place a route at the bottom with path "/" under switch to catch 404 page */}
-                        <Route path="/" render={() => <h1>404</h1>} />
-                    </Switch>
-                </AuthProvider>
+                <Suspense fallback={<div>Loading ...</div>}>
+                    <AuthProvider>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route
+                                exact
+                                path="/pages/about-us"
+                                component={About}
+                            />
+                            <Route path="/login" component={Login} />
+                            <Route
+                                path="/student/year=:year/sem=:sem"
+                                component={Subjects}
+                                exact
+                            />
+                            <Route
+                                path="/student/year=:year/sem=:sem/subject=:subject"
+                                component={Notes}
+                            />
+                            <Route
+                                path="/student/all-subjects"
+                                component={AllSubjects}
+                            />
+                            <Route path="/pages/profile" component={Profile} />
+                            <Route path="/pages/request" component={Request} />
+                            <PrivateRoute
+                                component={Upload}
+                                path="/pages/upload"
+                            />
+                            <PrivateRoute
+                                component={Selection}
+                                path="/pages/selection"
+                            />
+                            {/* Place a route at the bottom with path "/" under switch to catch 404 page */}
+                            <Route path="/" render={() => <h1>404</h1>} />
+                        </Switch>
+                    </AuthProvider>
+                </Suspense>
             </Router>
         </>
     );
