@@ -44,6 +44,7 @@ export const Notes: FC<Props> = ({ match }) => {
 
     const handleDelete = (docId: string) => {
         setIsDeletePopUpOpen(true);
+        setError(undefined);
         setDeleteDocId(docId);
         const note = notes?.find((x) => x.docId === docId);
         setDeleteNote(note);
@@ -73,7 +74,7 @@ export const Notes: FC<Props> = ({ match }) => {
                     });
             })
             .catch((err) => {
-                setError(err);
+                setError(`Fail to delete! ${err.message}`);
             });
     };
 
@@ -116,9 +117,9 @@ export const Notes: FC<Props> = ({ match }) => {
                                 <span>
                                     {deleteNote?.newName
                                         ? `${deleteNote.newName}`
-                                        : `${deleteNote}`}
+                                        : `${deleteNote?.name}`}
                                 </span>
-                                <span>{error && error}</span>
+                                {error && <span>{error}</span>}
                                 <div className="space-x-4 text-center">
                                     <button onClick={handleConfirmDelete}>
                                         Confirm
