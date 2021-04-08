@@ -1,11 +1,45 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { useAuth } from "../contexts/AuthContext";
+import { useForm } from "react-hook-form";
+import { db } from "../firebase";
 
 interface Props {}
 
+interface ProfileFormType {
+    editedName: string;
+}
+
 export const Profile: FC<Props> = () => {
-    const { user } = useAuth();
+    const { user, currentUser } = useAuth();
+    const [isEditingProfile, setIsEditingProfile] = useState<boolean>(false);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<ProfileFormType>();
+
+    const onSubmit = (data: ProfileFormType) => {
+        console.log(data.editedName);
+        db.collection("users")
+            .doc(currentUser?.uid)
+            .update({ displayName: data.editedName })
+            .then(() => {
+                alert("Changes save successfully!");
+            })
+            .catch((err) => {
+                alert(`Failed to change: ${err}`);
+            });
+        reset();
+        setIsEditingProfile(false);
+    };
+
+    const handleEditProfile = () => {
+        setIsEditingProfile(true);
+    };
+
     return (
         <>
             <Navbar />
@@ -20,11 +54,32 @@ export const Profile: FC<Props> = () => {
                     <div className="text-2xl text-center font-semibold">
                         <h2>Profile</h2>
                     </div>
-                    <div className="overflow-ellipsis flex flex-wrap flex-col">
-                        <p className="font-medium">
-                            Name :{" "}
-                            <span className="font-light">{user?.name}</span>
-                        </p>
+                    <div className="overflow-ellipsis flex flex-wrap flex-col space-y-1">
+                        <div className="font-medium">
+                            <span>Name :</span>
+                            {isEditingProfile ? (
+                                <form
+                                    action=""
+                                    onSubmit={handleSubmit(onSubmit)}
+                                >
+                                    <input
+                                        type="text"
+                                        {...register("editedName", {
+                                            required: true,
+                                        })}
+                                        placeholder="New Name"
+                                        className="bg-whiteShade border-2 rounded"
+                                    />
+                                    {errors.editedName && (
+                                        <p className="text-red-400">
+                                            Name is required!
+                                        </p>
+                                    )}
+                                </form>
+                            ) : (
+                                <span className="font-light">{user?.name}</span>
+                            )}
+                        </div>
                         <p className="font-medium">
                             Email :{" "}
                             <span className="font-light">{user?.email}</span>
@@ -37,19 +92,48 @@ export const Profile: FC<Props> = () => {
                         </p>
                         <p className="font-medium">
                             Student of :{" "}
-                            <span className="font-light">
-                                {user?.year.replace(
-                                    user?.year[0],
-                                    user?.year[0].toUpperCase()
-                                )}{" "}
-                                year{" "}
-                                {user?.sem.replace(
-                                    user?.sem[0],
-                                    user?.sem[0].toUpperCase()
-                                )}{" "}
-                                sem
-                            </span>
+                            {isEditingProfile ? (
+                                <></>
+                            ) : (
+                                <span className="font-light">
+                                    {user?.year.replace(
+                                        user?.year[0],
+                                        user?.year[0].toUpperCase()
+                                    )}{" "}
+                                    year{" "}
+                                    {user?.sem.replace(
+                                        user?.sem[0],
+                                        user?.sem[0].toUpperCase()
+                                    )}{" "}
+                                    sem
+                                </span>
+                            )}
                         </p>
+                    </div>
+                    <div className="text-center">
+                        {isEditingProfile ? (
+                            <>
+                                <button
+                                    className="hover:cursor-pointer focus:outline-none border-2 
+                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
+                                hover:bg-midBlack transition duration-300 ease-in w-full"
+                                    onClick={handleSubmit(onSubmit)}
+                                >
+                                    save
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    className="hover:cursor-pointer focus:outline-none border-2 
+                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
+                                hover:bg-midBlack transition duration-300 ease-in w-full"
+                                    onClick={handleEditProfile}
+                                >
+                                    Edit Profile
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
             </section>
