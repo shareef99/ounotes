@@ -1,13 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+interface formData {
+    sem: string;
+    group: string;
+}
 
 export default function Selection(): JSX.Element {
     const history = useHistory();
     const { currentUser, user } = useAuth();
-    const [userYear, setUserYear] = useState<string>();
-    const [userSem, setUserSem] = useState<string>();
+
+    const { register, handleSubmit, watch } = useForm();
+
+    const group = watch("group");
+    const sem = watch("sem");
 
     useEffect(() => {
         if (user?.sem !== undefined && user?.year !== undefined) {
@@ -15,84 +24,65 @@ export default function Selection(): JSX.Element {
         }
     }, [user, history]);
 
-    const handleYear = (e: any) => {
+    const onSubmit = (data: formData, e: any) => {
         e.preventDefault();
-        setUserYear(e.target.value);
-    };
-
-    const handleSem = (e: any) => {
-        e.preventDefault();
-        setUserSem(e.target.value);
-    };
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        if (userYear === undefined && userYear === undefined) {
-            alert("Please Select Year and Sem");
-            history.push("/selection");
+        if (group === "default" || sem === "default") {
+            alert("Make sure to select all the fields");
             return;
         }
-        const userInfo = {
-            year: userYear,
-            sem: userSem,
-        };
         db.collection("users")
             .doc(currentUser.uid)
-            .set(userInfo, { merge: true });
-        history.push(`/student/year=${userYear}/sem=${userSem}`);
+            .set({ group, sem }, { merge: true })
+            .then(() => history.push(`/student/${sem}/${group}`));
     };
 
     return (
         <>
-            <section className="bg-whiteShade w-full h-screen flex flex-col justify-center items-center">
+            <section className="bg-whiteShade w-full h-screen colCenter">
                 <form
                     action=""
-                    onSubmit={handleSubmit}
-                    className="flex flex-col justify-center items-center flex-wrap px-10 py-14 shadow-2xl
-                        rounded-lg space-y-4 border-2 w-8/10 mx-auto xs:w-72"
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="colCenter flex-wrap px-10 py-14 shadow-2xl
+                        rounded-lg space-y-4 border-2 mx-auto w-72"
                 >
-                    <div className="colCenter">
-                        <label htmlFor="year" className="font-medium text-lg">
-                            Select year
-                        </label>
+                    <label htmlFor="group" className="w-full">
                         <select
-                            name="year"
-                            id="year"
+                            id="group"
                             defaultValue="default"
-                            onChange={handleYear}
-                            className="bg-whiteShade border-b-2 mb-4 mt-2 outline-none"
+                            {...register("group", { required: true })}
+                            className="select"
                         >
-                            <option disabled value="default">
-                                Year
+                            <option value="default" disabled>
+                                Group
                             </option>
-                            <option value="first">1st Year</option>
-                            <option value="second">2nd Year</option>
-                            <option value="third">3rd Year</option>
-                            <option value="forth">4th Year</option>
+                            <option value="CSE">CSE</option>
+                            <option value="IT">IT</option>
+                            <option value="ECE">ECE</option>
+                            <option value="ME">ME</option>
+                            <option value="CE">CE</option>
+                            <option value="EEE">EEE</option>
                         </select>
-                    </div>
-                    <div className="colCenter">
-                        <label htmlFor="sem" className="font-medium text-lg">
-                            Select Sem
-                        </label>
+                    </label>
+                    <label htmlFor="sem" className="w-full">
                         <select
-                            name="sem"
                             id="sem"
                             defaultValue="default"
-                            onChange={handleSem}
-                            className="bg-whiteShade border-b-2 mb-4 mt-2 outline-none"
+                            {...register("sem", { required: true })}
+                            className="select"
                         >
-                            <option disabled value="default">
+                            <option value="default" disabled>
                                 Sem
                             </option>
-                            <option value="first">Ist SEM</option>
-                            <option value="second">IInd SEM</option>
+                            <option value="first">Ist</option>
+                            <option value="second">IInd</option>
+                            <option value="third">IIIrd</option>
+                            <option value="forth">IVth</option>
                         </select>
-                    </div>
+                    </label>
                     <button
                         type="submit"
                         className="border-2 rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                            hover:bg-midBlack transition duration-300 ease-in"
+                            hover:bg-midBlack transition duration-300 ease-in w-full"
                     >
                         Submit
                     </button>

@@ -15,7 +15,8 @@ html {
     option {
         @apply bg-whiteShade;
     }
-    select:focus {
+    select:focus,
+    button:focus {
         outline: none;
     }
 }
