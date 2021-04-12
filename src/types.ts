@@ -18,6 +18,7 @@ export interface userType {
     uid: string;
     providerId: string;
     email: string;
+    group: string;
 }
 
 export interface metaDataType {
