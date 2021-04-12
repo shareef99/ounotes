@@ -20,12 +20,6 @@ export interface userType {
     email: string;
 }
 
-export interface AllNotesDetailsType {
-    year: string;
-    sem: string;
-    subjects: string[];
-}
-
 export interface metaDataType {
     name: string;
     size: number;
