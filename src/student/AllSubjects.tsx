@@ -56,7 +56,6 @@ export const AllSubjects: FC<Props> = () => {
                     {details
                         // eslint-disable-next-line
                         .filter((x) => {
-                            // eslint-disable-next-line
                             if (sem === undefined && group === undefined) {
                                 return x;
                             }
@@ -69,11 +68,9 @@ export const AllSubjects: FC<Props> = () => {
                             if (sem === "default") {
                                 return x.group === group;
                             }
-                            // eslint-disable-next-line
                             if (group === "default") {
                                 return x.sem === sem;
                             }
-                            // eslint-disable-next-line
                         })
                         .map((x, index) => (
                             <div
@@ -100,7 +97,7 @@ export const AllSubjects: FC<Props> = () => {
                                             className="list-item list-disc hover:opacity-80"
                                         >
                                             <Link
-                                                to={`/students/${x.sem}/${x.group}/${subject}`}
+                                                to={`/student/${x.sem}/${x.group}/${subject}`}
                                             >
                                                 {subject}
                                             </Link>

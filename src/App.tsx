@@ -35,7 +35,7 @@ const App: FC<Props> = () => {
                             component={Subjects}
                         />
                         <Route
-                            path="/student/year=:year/sem=:sem/subject=:subject"
+                            path="/student/:sem/:group/:subject"
                             component={Notes}
                         />
                         <Route

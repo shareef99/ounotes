@@ -1,11 +1,12 @@
 export interface NotesType {
     docId: string;
-    year: string;
     sem: string;
+    group: string;
     subject: string;
     createdAt: any;
     createdBy: string;
     email: string;
+    type: string;
     url: string;
     name: string;
     newName: string | undefined;

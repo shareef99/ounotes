@@ -86,7 +86,7 @@ export const Request: FC<Props> = () => {
                 <div className="border-2 rounded-lg shadow-2xl px-10 py-8 mx-auto w-72 colCenter space-y-4">
                     <h3 className="font-semibold text-lg">Select Details</h3>
                     <form
-                        className="colCenter flex-wrap w-full space-y-4"
+                        className="colCenter flex-wrap w-full space-y-2"
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <label htmlFor="sem" className="w-full">
@@ -186,7 +186,7 @@ export const Request: FC<Props> = () => {
                                 </p>
                             )}
                         </div>
-                        <label htmlFor="request-notes" className="pt-4">
+                        <label htmlFor="request-notes" className="pt-4 w-full">
                             <span className="uploadPageBtn">Request Note</span>
                             <input
                                 id="request-notes"

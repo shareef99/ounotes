@@ -21,7 +21,7 @@ export default function Home(): JSX.Element {
     };
 
     const handleNotes = () => {
-        history.push(`/student/year=${user.year}/sem=${user.sem}`);
+        history.push(`/student/${user.sem}/${user.group}`);
     };
 
     return (
@@ -65,7 +65,7 @@ export default function Home(): JSX.Element {
                                                     ease-in border-transparent"
                                                 onClick={handleNotes}
                                             >
-                                                Notes
+                                                Subjects
                                             </button>
                                         </>
                                     ) : (
