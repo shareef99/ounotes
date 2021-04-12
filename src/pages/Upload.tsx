@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { storage, timestamp, db } from "../firebase";
-import Notes from "../Notes.json";
+import details from "../details.json";
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
@@ -10,9 +10,10 @@ import { metaDataType } from "../types";
 interface Props {}
 
 interface formData {
-    year: string;
+    group: string;
     sem: string;
     subject: string;
+    type: string;
 }
 
 export const Upload: FC<Props> = () => {
@@ -31,12 +32,14 @@ export const Upload: FC<Props> = () => {
     } = useForm();
 
     const [file, setFile] = useState<File>(); // Default
-    const year: string = watch("year");
+    const group: string = watch("group");
     const sem: string = watch("sem");
+    const type: string = watch("type");
+
+    console.log(group, sem);
 
     const handleFileSelection = (e: any) => {
         const selectedFile = e.target.files[0];
-        console.log(selectedFile);
         setFile(selectedFile);
         setProgress(0);
         setIsUploaded(false);
@@ -57,19 +60,13 @@ export const Upload: FC<Props> = () => {
 
         if (admins.includes(user.email)) {
             fileRef = storage.ref(
-                `${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
+                `${data.sem} sem/${data.group}/${data.subject}/${type}/${file?.name}`
             );
         } else {
             fileRef = storage.ref(
-                `unchecked/${data.year} year/${data.sem} sem/${data.subject}/${file?.name}`
+                `unchecked/${data.sem} sem/${data.group}/${data.subject}/${type}/${file?.name}`
             );
         }
-
-        // Use metaData to specify the details about file and
-        // pass it as a parameter to .put method
-        // const metaData = {
-        // name: file.name,
-        // };
 
         if (data.subject === "default") {
             setError("make sure to select subject!");
@@ -107,19 +104,25 @@ export const Upload: FC<Props> = () => {
                 const createdAt = new Date(
                     timestamp.now().seconds * 1000
                 ).toLocaleDateString();
-                await db.collection("notes").add({
-                    url,
-                    email: user.email,
-                    createdBy: user.name,
-                    createdAt,
-                    year: data.year,
-                    sem: data.sem,
-                    subject: data.subject,
-                    name: file?.name,
-                });
+                await db
+                    .collection("notes")
+                    .doc(data.sem)
+                    .collection(data.group)
+                    .doc(data.subject)
+                    .collection(data.type)
+                    .add({
+                        url,
+                        email: user.email,
+                        createdBy: user.name,
+                        createdAt,
+                        group: data.group,
+                        sem: data.sem,
+                        subject: data.subject,
+                        name: file?.name,
+                        type,
+                    });
                 setIsUploaded(true);
                 setFile(undefined);
-                console.log(file);
                 reset();
                 handleNonAdminUploads();
             }
@@ -147,38 +150,64 @@ export const Upload: FC<Props> = () => {
                         className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <label htmlFor="year" className="w-full">
-                            <select
-                                id="year"
-                                defaultValue="year"
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
-                                {...register("year", { required: true })}
-                            >
-                                <option value="year" disabled>
-                                    Year
-                                </option>
-                                <option value="first">Ist year</option>
-                                <option value="second">IInd year</option>
-                                <option value="third">IIrd year</option>
-                                <option value="forth">IVrd year</option>
-                            </select>
-                        </label>
                         <label htmlFor="sem" className="w-full">
                             <select
                                 id="sem"
-                                defaultValue="sem"
+                                defaultValue="default"
                                 {...register("sem", { required: true })}
                                 className="box-content max-w-full w-full bg-whiteShade focus:outline-none
                                     hover:cursor-pointer"
                             >
-                                <option value="sem" disabled>
+                                <option value="default" disabled>
                                     Sem
                                 </option>
-                                <option value="first">Ist sem</option>
-                                <option value="second">IInd sem</option>
+                                <option value="first">Ist</option>
+                                <option value="second">IInd</option>
+                                <option value="third">IIIrd</option>
+                                <option value="forth">IVth</option>
                             </select>
                         </label>
+                        <label htmlFor="group" className="w-full">
+                            <select
+                                id="group"
+                                defaultValue="default"
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
+                                    hover:cursor-pointer"
+                                {...register("group", { required: true })}
+                            >
+                                <option value="default" disabled>
+                                    Group
+                                </option>
+                                <option value="CSE">CSE</option>
+                                <option value="IT">IT</option>
+                                <option value="ECE">ECE</option>
+                                <option value="ME">ME</option>
+                                <option value="CE">CE</option>
+                                <option value="EEE">EEE</option>
+                            </select>
+                        </label>
+                        <label htmlFor="type" className="w-full">
+                            <select
+                                id="type"
+                                defaultValue="default"
+                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
+                                    hover:cursor-pointer"
+                                {...register("type", { required: true })}
+                            >
+                                <option value="default" disabled>
+                                    type
+                                </option>
+                                <option value="notes">Notes</option>
+                                <option value="important questions">
+                                    Important Questions
+                                </option>
+                                <option value="syllabus">Syllabus</option>
+                                <option value="question paper">
+                                    Question Paper
+                                </option>
+                            </select>
+                        </label>
+
                         <label htmlFor="subjects" className="w-full">
                             <select
                                 id="subjects"
@@ -194,17 +223,20 @@ export const Upload: FC<Props> = () => {
                                 >
                                     Subjects
                                 </option>
-                                {Notes.find(
-                                    (x) => x.year === year && x.sem === sem
-                                )?.subjects.map((subject) => (
-                                    <option
-                                        value={subject}
-                                        key={subject}
-                                        className="w-full max-w-full box-content"
-                                    >
-                                        {subject}
-                                    </option>
-                                ))}
+                                {details
+                                    .find(
+                                        (x) =>
+                                            x.group === group && x.sem === sem
+                                    )
+                                    ?.subjects.map((subject) => (
+                                        <option
+                                            value={subject}
+                                            key={subject}
+                                            className="w-full max-w-full box-content"
+                                        >
+                                            {subject}
+                                        </option>
+                                    ))}
                             </select>
                             {errors.subject && (
                                 <span className="text-red-500">
