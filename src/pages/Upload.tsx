@@ -136,18 +136,10 @@ export const Upload: FC<Props> = () => {
                 id="popup"
                 className="w-full h-screen colCenter bg-whiteShade text-lightBlack -mt-16"
             >
-                <div
-                    className="border-2 rounded-lg shadow-2xl space-y-8 px-10 py-14 mx-auto w-72 flexCenter
-                        flex-col space-y-8"
-                >
-                    <div>
-                        <h3 className="font-semibold text-lg">
-                            Select Details
-                        </h3>
-                    </div>
+                <div className="border-2 rounded-lg shadow-2xl px-10 py-8 mx-auto w-72 colCenter space-y-4">
+                    <h3 className="font-semibold text-lg">Select Details</h3>
                     <form
-                        action=""
-                        className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
+                        className="colCenter flex-wrap w-full space-y-2"
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <label htmlFor="sem" className="w-full">
@@ -155,8 +147,7 @@ export const Upload: FC<Props> = () => {
                                 id="sem"
                                 defaultValue="default"
                                 {...register("sem", { required: true })}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
+                                className="select"
                             >
                                 <option value="default" disabled>
                                     Sem
@@ -171,8 +162,7 @@ export const Upload: FC<Props> = () => {
                             <select
                                 id="group"
                                 defaultValue="default"
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
+                                className="select"
                                 {...register("group", { required: true })}
                             >
                                 <option value="default" disabled>
@@ -190,8 +180,7 @@ export const Upload: FC<Props> = () => {
                             <select
                                 id="type"
                                 defaultValue="default"
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
+                                className="select"
                                 {...register("type", { required: true })}
                             >
                                 <option value="default" disabled>
@@ -207,14 +196,12 @@ export const Upload: FC<Props> = () => {
                                 </option>
                             </select>
                         </label>
-
                         <label htmlFor="subjects" className="w-full">
                             <select
                                 id="subjects"
                                 defaultValue="default"
+                                className="select"
                                 {...register("subject", { required: true })}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
                             >
                                 <option
                                     value="default"
@@ -246,29 +233,29 @@ export const Upload: FC<Props> = () => {
                         </label>
                         <div id="message" className="text-center space-y-2">
                             {progress > 5 && (
-                                <div className="box-content max-w-full w-full ">
+                                <div className="uploadPageMessage ">
                                     uploading: {progress}%
                                 </div>
                             )}
                             {isUploaded && (
-                                <p className="box-content max-w-full w-full text-green-500">
+                                <p className="uploadPageMessage text-green-500">
                                     File uploaded successfully!
                                     <br />
                                     {file?.name}
                                 </p>
                             )}
                             {message && (
-                                <p className="box-content max-w-full w-full text-green-500">
+                                <p className="uploadPageMessage text-green-500">
                                     {message}
                                 </p>
                             )}
                             {error && (
-                                <p className="box-content max-w-full w-full text-red-500">
+                                <p className="uploadPageMessage text-red-500">
                                     {error}
                                 </p>
                             )}
                             {file && (
-                                <p className="box-content max-w-full w-full text-lightBlack">
+                                <p className="uploadPageMessage text-lightBlack">
                                     Selected File: {file.name}
                                 </p>
                             )}
@@ -277,13 +264,7 @@ export const Upload: FC<Props> = () => {
                             htmlFor="upload-file"
                             className="pt-4 w-full flexCenter"
                         >
-                            <span
-                                className="hover:cursor-pointer focus:outline-none border-2 flexCenter
-                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
-                                hover:bg-midBlack transition duration-300 ease-in w-full"
-                            >
-                                Upload file
-                            </span>
+                            <span className="uploadPageBtn">Upload file</span>
                             <input
                                 type="file"
                                 id="upload-file"
@@ -297,9 +278,7 @@ export const Upload: FC<Props> = () => {
                                 type="submit"
                                 id="submit"
                                 name="submit"
-                                className="hover:cursor-pointer focus:outline-none border-2 
-                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
-                                hover:bg-midBlack transition duration-300 ease-in w-full"
+                                className="uploadPageBtn"
                             />
                         </label>
                     </form>

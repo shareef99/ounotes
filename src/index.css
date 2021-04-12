@@ -9,26 +9,38 @@ html {
 @tailwind components;
 @tailwind utilities;
 
-.bgGradient {
-    @apply bg-gradient-to-br from-blue-400 via-lightBlue-400 to-cyan-400;
-}
+@layer components {
+    .select {
+        @apply box-content max-w-full w-full bg-whiteShade focus:outline-none hover:cursor-pointer;
+    }
+    .uploadPageMessage {
+        @apply box-content max-w-full w-full;
+    }
+    .uploadPageBtn {
+        @apply hover:cursor-pointer focus:outline-none border-2 flexCenter border-whiteShade rounded-md;
+        @apply px-3 py-2 bg-lightBlack text-whiteShade hover:bg-midBlack transition duration-300;
+        @apply ease-in w-full;
+    }
+    .bgGradient {
+        @apply bg-gradient-to-br from-blue-400 via-lightBlue-400 to-cyan-400;
+    }
 
-.flexCenter {
-    @apply flex justify-center items-center;
-}
+    .flexCenter {
+        @apply flex justify-center items-center;
+    }
+    .colCenter {
+        @apply flex flex-col justify-center items-center;
+    }
 
-.colCenter {
-    @apply flex flex-col justify-center items-center;
-}
+    .maxWidth90 {
+        @apply max-w-9/10 mx-auto;
+    }
 
-.maxWidth90 {
-    @apply max-w-9/10 mx-auto;
-}
+    .maxWidth10rem {
+        @apply max-w-10 mx-auto;
+    }
 
-.maxWidth10rem {
-    @apply max-w-10 mx-auto;
-}
-
-.maxWidth16rem {
-    @apply max-w-16 mx-auto;
+    .maxWidth16rem {
+        @apply max-w-16 mx-auto;
+    }
 }
