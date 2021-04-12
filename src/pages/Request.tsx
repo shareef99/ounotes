@@ -1,45 +1,41 @@
 import { FC, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import Notes from "../Notes.json";
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import emailjs from "emailjs-com";
 import { Login } from "../components/login";
+import details from "../details.json";
+import { useForm } from "react-hook-form";
 
 interface Props {}
+
+interface formData {
+    group: string;
+    sem: string;
+    subject: string;
+    type: string;
+}
 
 export const Request: FC<Props> = () => {
     const [message, setMessage] = useState<string>("");
     const [error, setError] = useState<string>("");
-    const [year, setYear] = useState<string>();
-    const [sem, setSem] = useState<string>();
-    const [subject, setSubject] = useState<string>();
     const { user } = useAuth();
+    const { register, handleSubmit, reset, watch } = useForm();
 
-    const handleYear = (e: any) => {
+    const group = watch("group");
+    const sem = watch("sem");
+    const type = watch("type");
+    const subject = watch("subject");
+
+    const onSubmit = (data: formData, e: any) => {
         e.preventDefault();
-        setYear(e.target.value);
-    };
-
-    const handleSem = (e: any) => {
-        e.preventDefault();
-        setSem(e.target.value);
-    };
-
-    const handleSubject = (e: any) => {
-        e.preventDefault();
-        setSubject(e.target.value);
-    };
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-
-        var emailParams = {
+        let emailParams = {
             name: user.name,
             email: user.email,
-            year: year,
-            sem: sem,
-            subject: subject,
+            group,
+            sem,
+            type,
+            subject,
         };
 
         if (subject) {
@@ -55,6 +51,7 @@ export const Request: FC<Props> = () => {
                         console.log("SUCCESS!", response.status, response.text);
                         setError("");
                         setMessage("Request sended!");
+                        reset();
                     },
                     (err) => {
                         setError(`FAILED..., ${err}`);
@@ -86,62 +83,72 @@ export const Request: FC<Props> = () => {
                 id="popup"
                 className="w-full h-screen colCenter bg-whiteShade text-lightBlack -mt-16"
             >
-                <div
-                    className="border-2 rounded-lg shadow-2xl space-y-8 px-10 py-14 mx-auto w-72 flexCenter
-                        flex-col space-y-8"
-                >
-                    <div>
-                        <h3 className="font-semibold text-lg">
-                            Select Details
-                        </h3>
-                    </div>
+                <div className="border-2 rounded-lg shadow-2xl px-10 py-8 mx-auto w-72 colCenter space-y-4">
+                    <h3 className="font-semibold text-lg">Select Details</h3>
                     <form
-                        className="flex flex-col flex-wrap justify-center items-center w-full space-y-4"
-                        onSubmit={handleSubmit}
+                        className="colCenter flex-wrap w-full space-y-4"
+                        onSubmit={handleSubmit(onSubmit)}
                     >
-                        <label htmlFor="year" className="w-full">
-                            <select
-                                name="year"
-                                id="year"
-                                defaultValue="year"
-                                onChange={handleYear}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
-                            >
-                                <option value="year" disabled>
-                                    Year
-                                </option>
-                                <option value="first">Ist year</option>
-                                <option value="second">IInd year</option>
-                                <option value="third">IIrd year</option>
-                                <option value="forth">IVrd year</option>
-                            </select>
-                        </label>
                         <label htmlFor="sem" className="w-full">
                             <select
-                                name="sem"
                                 id="sem"
-                                defaultValue="sem"
-                                onChange={handleSem}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
+                                defaultValue="default"
+                                {...register("sem", { required: true })}
+                                className="select"
                             >
-                                <option value="sem" disabled>
+                                <option value="default" disabled>
                                     Sem
                                 </option>
-                                <option value="first">Ist sem</option>
-                                <option value="second">IInd sem</option>
+                                <option value="first">Ist</option>
+                                <option value="second">IInd</option>
+                                <option value="third">IIIrd</option>
+                                <option value="forth">IVth</option>
+                            </select>
+                        </label>
+                        <label htmlFor="group" className="w-full">
+                            <select
+                                id="group"
+                                defaultValue="default"
+                                {...register("group", { required: true })}
+                                className="select"
+                            >
+                                <option value="default" disabled>
+                                    Group
+                                </option>
+                                <option value="CSE">CSE</option>
+                                <option value="IT">IT</option>
+                                <option value="ECE">ECE</option>
+                                <option value="ME">ME</option>
+                                <option value="CE">CE</option>
+                                <option value="EEE">EEE</option>
+                            </select>
+                        </label>
+                        <label htmlFor="type" className="w-full">
+                            <select
+                                id="type"
+                                defaultValue="default"
+                                {...register("type", { required: true })}
+                                className="select"
+                            >
+                                <option value="default" disabled>
+                                    type
+                                </option>
+                                <option value="notes">Notes</option>
+                                <option value="important questions">
+                                    Important Questions
+                                </option>
+                                <option value="syllabus">Syllabus</option>
+                                <option value="question paper">
+                                    Question Paper
+                                </option>
                             </select>
                         </label>
                         <label htmlFor="subjects" className="w-full">
                             <select
-                                name="subjects"
                                 id="subjects"
                                 defaultValue="default"
-                                onChange={handleSubject}
-                                className="box-content max-w-full w-full bg-whiteShade focus:outline-none
-                                    hover:cursor-pointer"
-                                required
+                                className="select"
+                                {...register("subject", { required: true })}
                             >
                                 <option
                                     value="default"
@@ -150,17 +157,20 @@ export const Request: FC<Props> = () => {
                                 >
                                     Subjects
                                 </option>
-                                {Notes.find(
-                                    (x) => x.year === year && x.sem === sem
-                                )?.subjects.map((subject) => (
-                                    <option
-                                        value={subject}
-                                        key={subject}
-                                        className="w-full max-w-full box-content"
-                                    >
-                                        {subject}
-                                    </option>
-                                ))}
+                                {details
+                                    .find(
+                                        (x) =>
+                                            x.group === group && x.sem === sem
+                                    )
+                                    ?.subjects.map((subject) => (
+                                        <option
+                                            value={subject}
+                                            key={subject}
+                                            className="w-full max-w-full box-content"
+                                        >
+                                            {subject}
+                                        </option>
+                                    ))}
                             </select>
                         </label>
                         <div className="text-center">
@@ -176,22 +186,15 @@ export const Request: FC<Props> = () => {
                                 </p>
                             )}
                         </div>
-                        <label htmlFor="upload-file" className="pt-4">
-                            <span
-                                className="hover:cursor-pointer focus:outline-none border-2 
-                                border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade  
-                                hover:bg-midBlack transition duration-300 ease-in"
-                            >
-                                Request Note
-                            </span>
+                        <label htmlFor="request-notes" className="pt-4">
+                            <span className="uploadPageBtn">Request Note</span>
                             <input
+                                id="request-notes"
+                                name="request-notes"
                                 type="submit"
-                                onClick={handleSubmit}
-                                value="send"
-                                id="upload-file"
                                 className="opacity-0 w-0 h-0 absolute"
                             />
-                        </label>{" "}
+                        </label>
                     </form>
                     <div className="relative right-1 flexCenter">
                         ←
