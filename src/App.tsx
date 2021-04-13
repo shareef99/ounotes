@@ -30,12 +30,12 @@ const App: FC<Props> = () => {
                         <Route exact path="/pages/about-us" component={About} />
                         <Route path="/login" component={Login} />
                         <Route
-                            path="/student/year=:year/sem=:sem"
-                            component={Subjects}
                             exact
+                            path="/student/:sem/:group"
+                            component={Subjects}
                         />
                         <Route
-                            path="/student/year=:year/sem=:sem/subject=:subject"
+                            path="/student/:sem/:group/:subject"
                             component={Notes}
                         />
                         <Route

@@ -1,11 +1,12 @@
 export interface NotesType {
     docId: string;
-    year: string;
     sem: string;
+    group: string;
     subject: string;
     createdAt: any;
     createdBy: string;
     email: string;
+    type: string;
     url: string;
     name: string;
     newName: string | undefined;
@@ -18,12 +19,7 @@ export interface userType {
     uid: string;
     providerId: string;
     email: string;
-}
-
-export interface AllNotesDetailsType {
-    year: string;
-    sem: string;
-    subjects: string[];
+    group: string;
 }
 
 export interface metaDataType {

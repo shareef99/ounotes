@@ -9,7 +9,6 @@ import { auth, db } from "../firebase";
 import firebase from "firebase";
 import { useHistory } from "react-router-dom";
 import { userType } from "../types";
-import AllSemDetailsJSON from "../Notes.json";
 
 export type authProviderType = {
     user: userType;
@@ -18,7 +17,6 @@ export type authProviderType = {
     signInWithFacebook: () => void;
     signInWithGithub: () => void;
     logout: () => void;
-    subjects: string[] | undefined;
     loginError: string | void;
     admins: string[];
 };
@@ -38,13 +36,13 @@ const authContextDefaultValues: authProviderType = {
         uid: "",
         providerId: "",
         email: "",
+        group: "",
     },
     currentUser: null,
     signInWithGoogle: () => {},
     signInWithFacebook: () => {},
     signInWithGithub: () => {},
     logout: () => {},
-    subjects: [],
     loginError: "",
     admins: [],
 };
@@ -136,7 +134,7 @@ export function AuthProvider({ children }: propType) {
                 setUserData(
                     querySnapShot.docs.map((doc) => ({
                         name: doc.data().displayName,
-                        year: doc.data().year,
+                        group: doc.data().group,
                         sem: doc.data().sem,
                         uid: doc.data().uid,
                         providerId: doc.data().providerId,
@@ -149,10 +147,6 @@ export function AuthProvider({ children }: propType) {
     const user = userData[0];
     console.log(userData);
     console.log(user);
-
-    const subjects = AllSemDetailsJSON.find(
-        (x) => x.year === user?.year && x.sem === user?.sem
-    )?.subjects;
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -176,7 +170,6 @@ export function AuthProvider({ children }: propType) {
         signInWithFacebook,
         signInWithGithub,
         logout: signOut,
-        subjects,
         loginError: loginError,
         admins,
     };

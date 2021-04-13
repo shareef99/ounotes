@@ -6,7 +6,12 @@ import { NotesType } from "../types";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
 
-interface Props extends RouteComponentProps<{ subject: string }> {}
+interface Props
+    extends RouteComponentProps<{
+        sem: string;
+        group: string;
+        subject: string;
+    }> {}
 
 interface FormType {
     editName: string;
@@ -14,12 +19,23 @@ interface FormType {
 
 export const Notes: FC<Props> = ({ match }) => {
     const subject = match.params.subject;
-    const [notes, setNotes] = useState<NotesType[]>();
+    const sem = match.params.sem;
+    const group = match.params.group;
+
+    const [notes, setNotes] = useState<Array<NotesType>>([]);
+    const [importantQuestions, setImportantQuestions] = useState<
+        Array<NotesType>
+    >([]);
+    const [syllabus, setSyllabus] = useState<Array<NotesType>>([]);
+    const [questionPapers, setQuestionPapers] = useState<Array<NotesType>>([]);
     const { user, admins } = useAuth();
-    const [docId, setDocId] = useState<string>();
+
+    const [editingNote, setEditingNote] = useState<NotesType>();
+
     const [isDeletePopUpOpen, setIsDeletePopUpOpen] = useState<boolean>(false);
-    const [deleteDocId, setDeleteDocId] = useState<string>();
+    // const [deleteDocId, setDeleteDocId] = useState<string>();
     const [deleteNote, setDeleteNote] = useState<NotesType>();
+
     const [error, setError] = useState<string>();
 
     const {
@@ -29,24 +45,30 @@ export const Notes: FC<Props> = ({ match }) => {
         reset,
     } = useForm<FormType>();
 
+    // Editing Note name form
     const onSubmit = (data: FormType) => {
         const newName = data.editName;
-        db.collection("notes").doc(docId).update({
-            newName,
-        });
+        db.collection("notes")
+            .doc(sem)
+            .collection(group)
+            .doc(subject)
+            .collection(editingNote?.type!)
+            .doc(editingNote?.docId)
+            .update({
+                newName,
+            });
         reset();
-        setDocId("");
+        setEditingNote(undefined);
     };
 
-    const handleEditName = (docId: string) => {
-        setDocId(docId);
+    const handleEditName = (note: NotesType) => {
+        setEditingNote(note);
     };
 
     const handleDelete = (docId: string) => {
         setIsDeletePopUpOpen(true);
         setError(undefined);
-        setDeleteDocId(docId);
-        const note = notes?.find((x) => x.docId === docId);
+        const note = allNotes?.find((x) => x.docId === docId);
         setDeleteNote(note);
     };
 
@@ -58,12 +80,16 @@ export const Notes: FC<Props> = ({ match }) => {
         console.log("Deleting", deleteNote);
         storage
             .ref(
-                `${deleteNote?.year} year/${deleteNote?.sem} sem/${deleteNote?.subject}/${deleteNote?.name}`
+                `${deleteNote?.sem} sem/${deleteNote?.group}/${deleteNote?.subject}/${deleteNote?.type}/${deleteNote?.name}`
             )
             .delete()
             .then(() => {
                 db.collection("notes")
-                    .doc(deleteDocId)
+                    .doc(sem)
+                    .collection(group)
+                    .doc(subject)
+                    .collection(deleteNote?.type!)
+                    .doc(deleteNote?.docId)
                     .delete()
                     .then(() => {
                         setIsDeletePopUpOpen(false);
@@ -79,29 +105,50 @@ export const Notes: FC<Props> = ({ match }) => {
     };
 
     useEffect(() => {
-        const unsub = db
-            .collection("notes")
-            .where("subject", "==", subject)
-            .orderBy("name", "asc")
-            .onSnapshot((snap) => {
-                setNotes(
-                    snap.docs.map((doc) => ({
-                        docId: doc.id,
-                        year: doc.data().year,
-                        sem: doc.data().sem,
-                        subject: doc.data().subject,
-                        createdAt: doc.data().createdAt,
-                        createdBy: doc.data().createdBy,
-                        email: doc.data().email,
-                        url: doc.data().url,
-                        name: doc.data().name,
-                        newName: doc.data().newName,
-                    }))
-                );
-            });
+        const getDetails = (
+            type: string,
+            setFunc: React.Dispatch<React.SetStateAction<Array<NotesType>>>
+        ) => {
+            db.collection("notes")
+                .doc(sem)
+                .collection(group)
+                .doc(subject)
+                .collection(type)
+                .onSnapshot((snap) => {
+                    setFunc(
+                        snap.docs.map((doc) => ({
+                            docId: doc.id,
+                            createdAt: doc.data().createdAt,
+                            createdBy: doc.data().createdBy,
+                            email: doc.data().email,
+                            group: doc.data().group,
+                            newName: doc.data().newName,
+                            name: doc.data().name,
+                            sem: doc.data().sem,
+                            subject: doc.data().subject,
+                            type: doc.data().type,
+                            url: doc.data().url,
+                        }))
+                    );
+                });
+        };
 
-        return () => unsub();
-    }, [user, subject]);
+        getDetails("notes", setNotes);
+        getDetails("important questions", setImportantQuestions);
+        getDetails("syllabus", setSyllabus);
+        getDetails("question paper", setQuestionPapers);
+    }, [sem, group, subject]);
+    const allNotes = [
+        ...notes,
+        ...importantQuestions,
+        ...syllabus,
+        ...questionPapers,
+    ];
+    console.log(notes);
+    console.log(importantQuestions);
+    console.log(syllabus);
+    console.log(questionPapers);
+    console.log(allNotes);
 
     return (
         <>
@@ -132,7 +179,7 @@ export const Notes: FC<Props> = ({ match }) => {
                         </div>
                     </>
                 )}
-                {notes?.length === 0 ? (
+                {allNotes?.length === 0 ? (
                     <>
                         <div className="colCenter h-screen -mt-16 space-y-8 bg-whiteShade">
                             <div
@@ -174,10 +221,10 @@ export const Notes: FC<Props> = ({ match }) => {
                         }`}
                     >
                         {!isDeletePopUpOpen &&
-                            notes?.map((note) => (
+                            allNotes?.map((note) => (
                                 <div
-                                    key={note.name}
-                                    className={`colCenter border-b-2 px-8 py-4 space-y-4 `}
+                                    key={note.docId}
+                                    className="colCenter border-b-2 px-8 py-4 space-y-4"
                                 >
                                     <div>
                                         <a
@@ -197,16 +244,24 @@ export const Notes: FC<Props> = ({ match }) => {
                                     <div className="font-light text-base">
                                         <p>Uploaded At: {note.createdAt}</p>
                                         <p>Uploaded by: {note.createdBy}</p>
+                                        <p>
+                                            Type: {"   "}
+                                            {note.type.replace(
+                                                note.type[0],
+                                                note.type[0].toUpperCase()
+                                            )}
+                                        </p>
                                     </div>
                                     {admins.includes(user?.email) && (
                                         <div>
                                             <div className="space-x-4">
-                                                {docId !== note.docId && (
+                                                {editingNote?.docId !==
+                                                    note.docId && (
                                                     <>
                                                         <button
                                                             onClick={() =>
                                                                 handleEditName(
-                                                                    note.docId
+                                                                    note
                                                                 )
                                                             }
                                                         >
@@ -224,7 +279,8 @@ export const Notes: FC<Props> = ({ match }) => {
                                                     </>
                                                 )}
                                             </div>
-                                            {docId === note.docId && (
+                                            {editingNote?.docId ===
+                                                note.docId && (
                                                 <div>
                                                     <form
                                                         action=""

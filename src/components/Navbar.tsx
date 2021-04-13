@@ -37,8 +37,8 @@ export const Navbar: FC<Props> = () => {
         setAnchorEl(null);
     };
 
-    const handleNotes = () => {
-        history.push(`/student/year=${user.year}/sem=${user.sem}`);
+    const handleYourSubjects = () => {
+        history.push(`/student/${user.sem}/${user.group}`);
     };
 
     const handleUpload = () => {
@@ -82,7 +82,7 @@ export const Navbar: FC<Props> = () => {
                 <div>
                     <p
                         onClick={handleHome}
-                        className="hover:cursor-pointer font-medium text-midBlack"
+                        className="hover:cursor-pointer font-medium text-midBlack text-xl"
                     >
                         Your Notes
                     </p>
@@ -116,7 +116,7 @@ export const Navbar: FC<Props> = () => {
                                 <MenuItem onClick={handleProfile}>
                                     Profile
                                 </MenuItem>
-                                <MenuItem onClick={handleNotes}>
+                                <MenuItem onClick={handleYourSubjects}>
                                     Your Subjects
                                 </MenuItem>
                                 <MenuItem onClick={handleAllSubjects}>

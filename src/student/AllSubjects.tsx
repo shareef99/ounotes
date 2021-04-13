@@ -1,69 +1,114 @@
 import { FC } from "react";
 import { Footer } from "../components/Footer";
 import { Navbar } from "../components/Navbar";
-import AllNotesDetailsJSON from "../Notes.json";
-import { AllNotesDetailsType } from "../types";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import details from "../details.json";
 
 interface Props {}
 
-export const AllSubjects: FC<Props> = () => {
-    let sem: string;
+interface selectSubjectFormType {
+    group: string;
+    sem: string;
+}
 
-    const renderSubjects = (
-        sem: string,
-        x: AllNotesDetailsType,
-        index: number
-    ) => {
-        return (
-            <div className="my-14" key={index}>
-                <h1 className="my-5 font-semibold text-xl ">{sem}</h1>
-                <div className="flex flex-col self-start items-start space-y-2 ml-4 md:ml-10">
-                    {x.subjects.map((subject: string, index) => {
-                        return (
-                            <button key={index} className="w-full text-left">
-                                <Link
-                                    to={`/student/year=${x.year}/sem=${x.sem}/subject=${subject}`}
-                                >
-                                    {subject}
-                                </Link>
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    };
+export const AllSubjects: FC<Props> = () => {
+    const { register, watch } = useForm<selectSubjectFormType>();
+    const group = watch("group");
+    const sem = watch("sem");
+
     return (
-        <>
-            <section
-                id="All-Subjects"
-                className="bg-whiteShade text-lightBlack"
-            >
-                <Navbar />
-                <section>
-                    <div className="max-w-9/10 my-14 mx-auto sm:max-w-8/10 lg:max-w-6/10">
-                        {AllNotesDetailsJSON.map((x, index) => {
-                            if (x.year === "first" && x.sem === "first") {
-                                sem = "Ist sem";
-                                return renderSubjects(sem, x, index);
+        <section className="bg-whiteShade text-lightBlack">
+            <Navbar />
+            <form action="" className="mt-14 space-x-4 text-center">
+                <span className="font-medium text-lg">filter by</span>
+                <label htmlFor="group">
+                    <select
+                        id="group"
+                        defaultValue="default"
+                        {...register("group", { required: true })}
+                    >
+                        <option value="default">Group</option>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="ME">ME</option>
+                        <option value="CE">CE</option>
+                        <option value="EEE">EEE</option>
+                    </select>
+                </label>
+                <label htmlFor="sem">
+                    <select
+                        id="sem"
+                        defaultValue="default"
+                        {...register("sem", { required: true })}
+                    >
+                        <option value="default">Sem</option>
+                        <option value="first">Ist</option>
+                        <option value="second">IInd</option>
+                        <option value="third">IIIrd</option>
+                        <option value="forth">IVth</option>
+                    </select>
+                </label>
+            </form>
+            <section className="container flex flex-col items-baseline md:items-center">
+                <div>
+                    {details
+                        // eslint-disable-next-line
+                        .filter((x) => {
+                            if (sem === undefined && group === undefined) {
+                                return x;
                             }
-                            if (x.year === "first" && x.sem === "second") {
-                                sem = "IInd sem";
-                                return renderSubjects(sem, x, index);
+                            if (sem === "default" && group === "default") {
+                                return x;
                             }
-                            if (x.year === "second" && x.sem === "first") {
-                                sem = "IIIrd sem";
-                                return renderSubjects(sem, x, index);
-                            } else {
-                                sem = "IVnd sem";
-                                return renderSubjects(sem, x, index);
+                            if (sem !== "default" && group !== "default") {
+                                return x.group === group && x.sem === sem;
                             }
-                        })}
-                    </div>
-                </section>
-                <Footer />
+                            if (sem === "default") {
+                                return x.group === group;
+                            }
+                            if (group === "default") {
+                                return x.sem === sem;
+                            }
+                        })
+                        .map((x, index) => (
+                            <div
+                                key={index}
+                                className="colCenter items-start my-10"
+                            >
+                                <h2 className="text-xl ">
+                                    {x.group}{" "}
+                                    {x.sem === "first"
+                                        ? "Ist"
+                                        : x.sem === "second"
+                                        ? "IInd"
+                                        : x.sem === "third"
+                                        ? "IIIrd"
+                                        : x.sem === "forth"
+                                        ? "IVth"
+                                        : ""}
+                                    sem
+                                </h2>
+                                <ul className="ml-8 mt-4 space-y-2">
+                                    {x.subjects.map((subject, index) => (
+                                        <li
+                                            key={index}
+                                            className="list-item list-disc hover:opacity-80"
+                                        >
+                                            <Link
+                                                to={`/student/${x.sem}/${x.group}/${subject}`}
+                                            >
+                                                {subject}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                </div>
             </section>
-        </>
+            <Footer />
+        </section>
     );
 };
