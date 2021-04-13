@@ -96,11 +96,11 @@ export const Profile: FC<Props> = () => {
                                 <></>
                             ) : (
                                 <span className="font-light">
-                                    {user?.year.replace(
-                                        user?.year[0],
-                                        user?.year[0].toUpperCase()
+                                    {user?.group.replace(
+                                        user?.group[0],
+                                        user?.group[0].toUpperCase()
                                     )}{" "}
-                                    year{" "}
+                                    group{" "}
                                     {user?.sem.replace(
                                         user?.sem[0],
                                         user?.sem[0].toUpperCase()
