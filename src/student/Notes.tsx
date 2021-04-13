@@ -68,7 +68,7 @@ export const Notes: FC<Props> = ({ match }) => {
     const handleDelete = (docId: string) => {
         setIsDeletePopUpOpen(true);
         setError(undefined);
-        const note = notes?.find((x) => x.docId === docId);
+        const note = allNotes?.find((x) => x.docId === docId);
         setDeleteNote(note);
     };
 
