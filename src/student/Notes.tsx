@@ -22,11 +22,12 @@ export const Notes: FC<Props> = ({ match }) => {
     const sem = match.params.sem;
     const group = match.params.group;
 
-    const [notes, setNotes] = useState<NotesType[]>();
-    const [importantQuestions, setImportantQuestions] = useState<NotesType[]>();
-    const [syllabus, setSyllabus] = useState<NotesType[]>();
-    const [questionPapers, setQuestionPapers] = useState<NotesType[]>();
-
+    const [notes, setNotes] = useState<Array<NotesType>>([]);
+    const [importantQuestions, setImportantQuestions] = useState<
+        Array<NotesType>
+    >([]);
+    const [syllabus, setSyllabus] = useState<Array<NotesType>>([]);
+    const [questionPapers, setQuestionPapers] = useState<Array<NotesType>>([]);
     const { user, admins } = useAuth();
 
     const [editingNote, setEditingNote] = useState<NotesType>();
@@ -106,9 +107,7 @@ export const Notes: FC<Props> = ({ match }) => {
     useEffect(() => {
         const getDetails = (
             type: string,
-            setFunc: React.Dispatch<
-                React.SetStateAction<NotesType[] | undefined>
-            >
+            setFunc: React.Dispatch<React.SetStateAction<Array<NotesType>>>
         ) => {
             db.collection("notes")
                 .doc(sem)
@@ -139,10 +138,17 @@ export const Notes: FC<Props> = ({ match }) => {
         getDetails("syllabus", setSyllabus);
         getDetails("question paper", setQuestionPapers);
     }, [sem, group, subject]);
+    const allNotes = [
+        ...notes,
+        ...importantQuestions,
+        ...syllabus,
+        ...questionPapers,
+    ];
     console.log(notes);
     console.log(importantQuestions);
     console.log(syllabus);
     console.log(questionPapers);
+    console.log(allNotes);
 
     return (
         <>
@@ -173,7 +179,7 @@ export const Notes: FC<Props> = ({ match }) => {
                         </div>
                     </>
                 )}
-                {notes?.length === 0 ? (
+                {allNotes?.length === 0 ? (
                     <>
                         <div className="colCenter h-screen -mt-16 space-y-8 bg-whiteShade">
                             <div
@@ -215,10 +221,10 @@ export const Notes: FC<Props> = ({ match }) => {
                         }`}
                     >
                         {!isDeletePopUpOpen &&
-                            notes?.map((note) => (
+                            allNotes?.map((note) => (
                                 <div
-                                    key={note.name}
-                                    className={`colCenter border-b-2 px-8 py-4 space-y-4 `}
+                                    key={note.docId}
+                                    className="colCenter border-b-2 px-8 py-4 space-y-4"
                                 >
                                     <div>
                                         <a
@@ -238,6 +244,13 @@ export const Notes: FC<Props> = ({ match }) => {
                                     <div className="font-light text-base">
                                         <p>Uploaded At: {note.createdAt}</p>
                                         <p>Uploaded by: {note.createdBy}</p>
+                                        <p>
+                                            Type: {"   "}
+                                            {note.type.replace(
+                                                note.type[0],
+                                                note.type[0].toUpperCase()
+                                            )}
+                                        </p>
                                     </div>
                                     {admins.includes(user?.email) && (
                                         <div>

@@ -19,7 +19,7 @@ export default function Selection(): JSX.Element {
     const sem = watch("sem");
 
     useEffect(() => {
-        if (user?.sem !== undefined && user?.year !== undefined) {
+        if (user?.sem !== undefined && user?.group !== undefined) {
             history.push("/");
         }
     }, [user, history]);
