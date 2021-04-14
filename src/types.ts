@@ -21,9 +21,3 @@ export interface userType {
     email: string;
     group: string;
 }
-
-export interface metaDataType {
-    name: string;
-    size: number;
-    type: string;
-}

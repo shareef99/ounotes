@@ -114,6 +114,7 @@ export const Notes: FC<Props> = ({ match }) => {
                 .collection(group)
                 .doc(subject)
                 .collection(type)
+                .orderBy("name", "asc")
                 .onSnapshot((snap) => {
                     setFunc(
                         snap.docs.map((doc) => ({
