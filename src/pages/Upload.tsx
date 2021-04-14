@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
-import { metaDataType } from "../types";
 
 interface Props {}
 
@@ -17,7 +16,6 @@ interface formData {
 }
 
 export const Upload: FC<Props> = () => {
-    const [progress, setProgress] = useState<number>(0);
     const [error, setError] = useState<string>();
     const [message, setMessage] = useState<string>();
     const [isUploaded, setIsUploaded] = useState<boolean>(false);
@@ -31,17 +29,20 @@ export const Upload: FC<Props> = () => {
         watch,
     } = useForm();
 
-    const [file, setFile] = useState<File>(); // Default
+    const [files, setFiles] = useState<Array<File>>([]); // Default
+    const [uploadedFiles, setUploadedFiles] = useState<Array<File>>([]);
+
     const group: string = watch("group");
     const sem: string = watch("sem");
     const type: string = watch("type");
-
-    console.log(group, sem);
+    const subject: string = watch("subject");
 
     const handleFileSelection = (e: any) => {
-        const selectedFile = e.target.files[0];
-        setFile(selectedFile);
-        setProgress(0);
+        for (let i = 0; i < e.target.files.length; i++) {
+            const newFile = e.target.files[i];
+            setFiles((prevState) => [...prevState, newFile]);
+        }
+        setError(undefined);
         setIsUploaded(false);
     };
 
@@ -52,81 +53,85 @@ export const Upload: FC<Props> = () => {
     };
 
     const onSubmit = (data: formData) => {
-        setError("");
-        setProgress(0);
+        setError(undefined);
         setIsUploaded(false);
 
-        let fileRef: any;
-
-        if (admins.includes(user.email)) {
-            fileRef = storage.ref(
-                `${data.sem} sem/${data.group}/${data.subject}/${type}/${file?.name}`
-            );
-        } else {
-            fileRef = storage.ref(
-                `unchecked/${data.sem} sem/${data.group}/${data.subject}/${type}/${file?.name}`
-            );
-        }
-
-        if (data.subject === "default") {
+        if (subject === "default" || subject === undefined) {
             setError("make sure to select subject!");
             return;
         }
 
-        if (!file) {
-            setError("Try selecting file again");
+        if (type === "default" || type === undefined) {
+            setError("Select type of the file!");
             return;
         }
 
-        const metaData: metaDataType = {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-        };
+        if (files.length === 0) {
+            setError("Try selecting file(s).");
+            return;
+        }
 
-        fileRef.put(file!, metaData).on(
-            "state_changed",
-            (snapshot: any) => {
-                setProgress(
-                    Math.floor(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    )
+        const promises: any = [];
+        files.forEach((file, index) => {
+            let fileRef: any;
+
+            if (admins.includes(user.email)) {
+                fileRef = storage.ref(
+                    `${data.sem} sem/${data.group}/${data.subject}/${type}/${file?.name}`
                 );
-            },
-            (err: any) => {
-                setError(
-                    `Error while uploading! make sure your file size is less than 100mb,
-                     Try again in a while`
+            } else {
+                fileRef = storage.ref(
+                    `unchecked/${data.sem} sem/${data.group}/${data.subject}/${type}/${file?.name}`
                 );
-            },
-            async () => {
-                const url = await fileRef.getDownloadURL();
-                const createdAt = new Date(
-                    timestamp.now().seconds * 1000
-                ).toLocaleDateString();
-                await db
-                    .collection("notes")
-                    .doc(data.sem)
-                    .collection(data.group)
-                    .doc(data.subject)
-                    .collection(data.type)
-                    .add({
-                        url,
-                        email: user.email,
-                        createdBy: user.name,
-                        createdAt,
-                        group: data.group,
-                        sem: data.sem,
-                        subject: data.subject,
-                        name: file?.name,
-                        type,
-                    });
-                setIsUploaded(true);
-                setFile(undefined);
-                reset();
-                handleNonAdminUploads();
             }
-        );
+
+            const uploadTask = fileRef.put(file);
+            promises.push(uploadTask);
+            uploadTask.on(
+                "state_changed",
+                (snapshot: any) => {
+                    setMessage(`Uploading file(s)...`);
+                },
+                (err: any) => {
+                    setError(`Error while uploading! Try again in a while`);
+                },
+                async () => {
+                    const url = await fileRef.getDownloadURL();
+                    const createdAt = new Date(
+                        timestamp.now().seconds * 1000
+                    ).toLocaleDateString();
+                    await db
+                        .collection("notes")
+                        .doc(data.sem)
+                        .collection(data.group)
+                        .doc(data.subject)
+                        .collection(data.type)
+                        .add({
+                            url,
+                            email: user.email,
+                            createdBy: user.name,
+                            createdAt,
+                            group,
+                            sem,
+                            subject,
+                            name: file?.name,
+                            type,
+                        });
+                }
+            );
+            Promise.all(promises)
+                .then(() => {
+                    setUploadedFiles(files);
+                    setFiles([]);
+                    handleNonAdminUploads();
+                    setIsUploaded(true);
+                    reset();
+                    setMessage(undefined);
+                })
+                .catch((err) => {
+                    setError(err.message);
+                });
+        });
     };
 
     return (
@@ -232,17 +237,17 @@ export const Upload: FC<Props> = () => {
                             )}
                         </label>
                         <div id="message" className="text-center space-y-2">
-                            {progress > 5 && (
-                                <div className="uploadPageMessage ">
-                                    uploading: {progress}%
+                            {isUploaded && uploadedFiles && (
+                                <div className="uploadPageMessage text-green-500 space-y-2">
+                                    Files uploaded successfully! <br />
+                                    {uploadedFiles.map((file, index) => (
+                                        <>
+                                            <p>
+                                                {index + 1}. {file.name}
+                                            </p>
+                                        </>
+                                    ))}
                                 </div>
-                            )}
-                            {isUploaded && (
-                                <p className="uploadPageMessage text-green-500">
-                                    File uploaded successfully!
-                                    <br />
-                                    {file?.name}
-                                </p>
                             )}
                             {message && (
                                 <p className="uploadPageMessage text-green-500">
@@ -254,23 +259,30 @@ export const Upload: FC<Props> = () => {
                                     {error}
                                 </p>
                             )}
-                            {file && (
-                                <p className="uploadPageMessage text-lightBlack">
-                                    Selected File: {file.name}
-                                </p>
+                            {files.length > 0 && (
+                                <div className="uploadPageMessage text-lightBlack space-y-2">
+                                    Selected File(s): <br />
+                                    {files.map((file, index) => (
+                                        <>
+                                            <p>
+                                                {index + 1}. {file.name}
+                                            </p>
+                                        </>
+                                    ))}
+                                </div>
                             )}
                         </div>
                         <label
-                            htmlFor="upload-file"
+                            htmlFor="upload-files"
                             className="pt-4 w-full flexCenter"
                         >
                             <span className="uploadPageBtn">Upload file</span>
                             <input
                                 type="file"
-                                id="upload-file"
+                                id="upload-files"
                                 className="opacity-0 w-0 h-0 absolute"
                                 onChange={handleFileSelection}
-                                multiple={false}
+                                multiple={true}
                             />
                         </label>
                         <label htmlFor="submit" className="w-full flexCenter">
