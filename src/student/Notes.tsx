@@ -33,7 +33,6 @@ export const Notes: FC<Props> = ({ match }) => {
     const [editingNote, setEditingNote] = useState<NotesType>();
 
     const [isDeletePopUpOpen, setIsDeletePopUpOpen] = useState<boolean>(false);
-    // const [deleteDocId, setDeleteDocId] = useState<string>();
     const [deleteNote, setDeleteNote] = useState<NotesType>();
 
     const [error, setError] = useState<string>();
@@ -222,67 +221,70 @@ export const Notes: FC<Props> = ({ match }) => {
                         }`}
                     >
                         {!isDeletePopUpOpen &&
-                            allNotes?.map((note) => (
-                                <div
-                                    key={note.docId}
-                                    className="colCenter border-b-2 px-8 py-4 space-y-4"
-                                >
-                                    <div>
-                                        <a
-                                            href={note.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="colCenter space-y-4"
-                                        >
-                                            <span className="flex">
-                                                {note.newName
-                                                    ? `${note.newName}`
-                                                    : `${note.name}`}
-                                                ➚
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div className="font-light text-base">
-                                        <p>Uploaded At: {note.createdAt}</p>
-                                        <p>Uploaded by: {note.createdBy}</p>
-                                        <p>
-                                            Type: {"   "}
-                                            {note.type.replace(
-                                                note.type[0],
-                                                note.type[0].toUpperCase()
-                                            )}
-                                        </p>
-                                    </div>
-                                    {admins.includes(user?.email) && (
+                            allNotes
+                                ?.sort((a, b) =>
+                                    a.newName! < b.newName! ? -1 : 1
+                                )
+                                .map((note) => (
+                                    <div
+                                        key={note.docId}
+                                        className="colCenter border-b-2 px-8 py-4 space-y-4"
+                                    >
                                         <div>
-                                            <div className="space-x-4">
-                                                {editingNote?.docId !==
-                                                    note.docId && (
-                                                    <>
-                                                        <button
-                                                            onClick={() =>
-                                                                handleEditName(
-                                                                    note
-                                                                )
-                                                            }
-                                                        >
-                                                            Edit name
-                                                        </button>
-                                                        <button
-                                                            onClick={() =>
-                                                                handleDelete(
-                                                                    note.docId
-                                                                )
-                                                            }
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </>
+                                            <a
+                                                href={note.url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="colCenter space-y-4"
+                                            >
+                                                <span className="flex">
+                                                    {note.newName
+                                                        ? `${note.newName}`
+                                                        : `${note.name}`}
+                                                    ➚
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div className="font-light text-base">
+                                            <p>Uploaded At: {note.createdAt}</p>
+                                            <p>Uploaded by: {note.createdBy}</p>
+                                            <p>
+                                                Type: {"   "}
+                                                {note.type.replace(
+                                                    note.type[0],
+                                                    note.type[0].toUpperCase()
                                                 )}
-                                            </div>
-                                            {editingNote?.docId ===
-                                                note.docId && (
-                                                <div>
+                                            </p>
+                                        </div>
+                                        {admins.includes(user?.email) && (
+                                            <div>
+                                                <div className="space-x-4">
+                                                    {editingNote?.docId !==
+                                                        note.docId && (
+                                                        <>
+                                                            <button
+                                                                onClick={() =>
+                                                                    handleEditName(
+                                                                        note
+                                                                    )
+                                                                }
+                                                            >
+                                                                Edit name
+                                                            </button>
+                                                            <button
+                                                                onClick={() =>
+                                                                    handleDelete(
+                                                                        note.docId
+                                                                    )
+                                                                }
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                                {editingNote?.docId ===
+                                                    note.docId && (
                                                     <form
                                                         action=""
                                                         className="space-x-2"
@@ -311,17 +313,16 @@ export const Notes: FC<Props> = ({ match }) => {
                                                             className="bg-whiteShade 
                                                                 hover:cursor-pointer"
                                                         />
+                                                        <span className="text-red-500 ">
+                                                            {errors.editName &&
+                                                                "Empty name cannot be assign"}
+                                                        </span>
                                                     </form>
-                                                    <span className="text-red-500 ">
-                                                        {errors.editName &&
-                                                            "Empty name cannot be assign"}
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
                     </div>
                 )}
             </section>
