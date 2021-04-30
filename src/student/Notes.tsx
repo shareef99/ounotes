@@ -151,181 +151,166 @@ export const Notes: FC<Props> = ({ match }) => {
     console.log(allNotes);
 
     return (
-        <>
-            <section className="bg-whiteShade w-full h-screen">
-                <Navbar />
-                {isDeletePopUpOpen && (
-                    <>
-                        <div
-                            id="delete-popup"
-                            className="w-full h-screen bg-whiteShade colCenter -mt-16 "
-                        >
-                            <div className="flex flex-col px-3 py-5 space-y-8">
-                                <span>
-                                    {deleteNote?.newName
-                                        ? `${deleteNote.newName}`
-                                        : `${deleteNote?.name}`}
-                                </span>
-                                {error && <span>{error}</span>}
-                                <div className="space-x-4 text-center">
-                                    <button onClick={handleConfirmDelete}>
-                                        Confirm
-                                    </button>
-                                    <button onClick={handleCancelDelete}>
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
+        <section className="bg-whiteShade w-full h-screen">
+            <Navbar />
+            {isDeletePopUpOpen && (
+                <div
+                    id="delete-popup"
+                    className="w-full h-screen bg-whiteShade colCenter -mt-16 "
+                >
+                    <div className="flex flex-col px-3 py-5 space-y-8">
+                        <span>
+                            {deleteNote?.newName
+                                ? `${deleteNote.newName}`
+                                : `${deleteNote?.name}`}
+                        </span>
+                        {error && <span>{error}</span>}
+                        <div className="space-x-4 text-center">
+                            <button onClick={handleConfirmDelete}>
+                                Confirm
+                            </button>
+                            <button onClick={handleCancelDelete}>Cancel</button>
                         </div>
-                    </>
-                )}
-                {allNotes?.length === 0 ? (
-                    <>
-                        <div className="colCenter h-screen -mt-16 space-y-8 bg-whiteShade">
-                            <div
-                                key="No notes"
-                                className="colCenter border-b-2 px-8 py-4 space-y-4 max-w-9/10 mx-auto
-                                    sm:max-w-8/10 md:max-w-6/10"
-                            >
-                                <p>
-                                    Sorry we don't have the notes of {subject}{" "}
-                                    yet, We will notify you once someone
-                                    uploaded the notes
-                                </p>
-                                <p>
-                                    if you have the notes for {subject} you can{" "}
-                                    <Link
-                                        to="/pages/upload"
-                                        className="font-semibold hover:font-normal focus:font-normal
-                                        transition-all duration-300 ease-in"
-                                    >
-                                        upload
-                                    </Link>{" "}
-                                    it or{" "}
-                                    <Link
-                                        to="/pages/request"
-                                        className="font-semibold hover:font-normal focus:font-normal
-                                        transition-all duration-300 ease-in"
-                                    >
-                                        request
-                                    </Link>{" "}
-                                    it
-                                </p>
-                            </div>
-                        </div>
-                    </>
-                ) : (
+                    </div>
+                </div>
+            )}
+            {allNotes?.length === 0 ? (
+                <div className="colCenter h-screen -mt-16 space-y-8 bg-whiteShade">
                     <div
-                        className={`colCenter space-y-8 bg-whiteShade my-14 ${
-                            isDeletePopUpOpen && "hidden"
-                        }`}
+                        key="No notes"
+                        className="colCenter border-b-2 px-8 py-4 space-y-4 max-w-9/10 mx-auto
+                                    sm:max-w-8/10 md:max-w-6/10"
                     >
-                        {!isDeletePopUpOpen &&
-                            allNotes
-                                ?.sort((a, b) =>
-                                    a.newName! < b.newName! ? -1 : 1
-                                )
-                                .map((note) => (
-                                    <div
-                                        key={note.docId}
-                                        className="colCenter border-b-2 px-8 py-4 space-y-4"
+                        <p>
+                            Sorry we don't have the notes of {subject} yet, We
+                            will notify you once someone uploaded the notes
+                        </p>
+                        <p>
+                            if you have the notes for {subject} you can{" "}
+                            <Link
+                                to="/pages/upload"
+                                className="font-semibold hover:font-normal focus:font-normal
+                                        transition-all duration-300 ease-in"
+                            >
+                                upload
+                            </Link>{" "}
+                            it or{" "}
+                            <Link
+                                to="/pages/request"
+                                className="font-semibold hover:font-normal focus:font-normal
+                                        transition-all duration-300 ease-in"
+                            >
+                                request
+                            </Link>{" "}
+                            it
+                        </p>
+                    </div>
+                </div>
+            ) : (
+                <div
+                    className={`colCenter space-y-8 bg-whiteShade my-14 ${
+                        isDeletePopUpOpen && "hidden"
+                    }`}
+                >
+                    {!isDeletePopUpOpen &&
+                        allNotes
+                            ?.sort((a, b) => (a.newName! < b.newName! ? -1 : 1))
+                            .map((note) => (
+                                <div
+                                    key={note.docId}
+                                    className="colCenter border-b-2 px-8 py-4 space-y-4"
+                                >
+                                    <a
+                                        href={note.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="colCenter font-medium"
                                     >
+                                        <span className="flex">
+                                            {note.newName
+                                                ? `${note.newName}`
+                                                : `${note.name}`}
+                                            ➚
+                                        </span>
+                                    </a>
+                                    <div className="font-light text-base">
+                                        <p>Uploaded At: {note.createdAt}</p>
+                                        <p>Uploaded by: {note.createdBy}</p>
+                                        <p>
+                                            Type: {"   "}
+                                            {note.type.replace(
+                                                note.type[0],
+                                                note.type[0].toUpperCase()
+                                            )}
+                                        </p>
+                                    </div>
+                                    {admins.includes(user?.email) && (
                                         <div>
-                                            <a
-                                                href={note.url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="colCenter space-y-4"
-                                            >
-                                                <span className="flex">
-                                                    {note.newName
-                                                        ? `${note.newName}`
-                                                        : `${note.name}`}
-                                                    ➚
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div className="font-light text-base">
-                                            <p>Uploaded At: {note.createdAt}</p>
-                                            <p>Uploaded by: {note.createdBy}</p>
-                                            <p>
-                                                Type: {"   "}
-                                                {note.type.replace(
-                                                    note.type[0],
-                                                    note.type[0].toUpperCase()
-                                                )}
-                                            </p>
-                                        </div>
-                                        {admins.includes(user?.email) && (
-                                            <div>
-                                                <div className="space-x-4">
-                                                    {editingNote?.docId !==
-                                                        note.docId && (
-                                                        <>
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleEditName(
-                                                                        note
-                                                                    )
-                                                                }
-                                                            >
-                                                                Edit name
-                                                            </button>
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleDelete(
-                                                                        note.docId
-                                                                    )
-                                                                }
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div>
-                                                {editingNote?.docId ===
+                                            <div className="space-x-4">
+                                                {editingNote?.docId !==
                                                     note.docId && (
-                                                    <form
-                                                        action=""
-                                                        className="space-x-2"
-                                                        onSubmit={handleSubmit(
-                                                            onSubmit
-                                                        )}
-                                                    >
-                                                        <label htmlFor="editName">
-                                                            <input
-                                                                {...register(
-                                                                    "editName",
-                                                                    {
-                                                                        required: true,
-                                                                    }
-                                                                )}
-                                                                type="text"
-                                                                id="editName"
-                                                                placeholder="Enter new name"
-                                                                className="focus:outline-none 
-                                                                bg-whiteShade px-2 py-1
-                                                                border-2 "
-                                                            />
-                                                        </label>
-                                                        <input
-                                                            type="submit"
-                                                            className="bg-whiteShade 
-                                                                hover:cursor-pointer"
-                                                        />
-                                                        <span className="text-red-500 ">
-                                                            {errors.editName &&
-                                                                "Empty name cannot be assign"}
-                                                        </span>
-                                                    </form>
+                                                    <>
+                                                        <button
+                                                            onClick={() =>
+                                                                handleEditName(
+                                                                    note
+                                                                )
+                                                            }
+                                                        >
+                                                            Edit name
+                                                        </button>
+                                                        <button
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    note.docId
+                                                                )
+                                                            }
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </>
                                                 )}
                                             </div>
-                                        )}
-                                    </div>
-                                ))}
-                    </div>
-                )}
-            </section>
-        </>
+                                            {editingNote?.docId ===
+                                                note.docId && (
+                                                <form
+                                                    action=""
+                                                    className="space-x-2"
+                                                    onSubmit={handleSubmit(
+                                                        onSubmit
+                                                    )}
+                                                >
+                                                    <label htmlFor="editName">
+                                                        <input
+                                                            {...register(
+                                                                "editName",
+                                                                {
+                                                                    required: true,
+                                                                }
+                                                            )}
+                                                            type="text"
+                                                            id="editName"
+                                                            placeholder="Enter new name"
+                                                            className="focus:outline-none bg-whiteShade px-2
+                                                                py-1 border-2"
+                                                        />
+                                                    </label>
+                                                    <input
+                                                        type="submit"
+                                                        className="bg-whiteShade hover:cursor-pointer"
+                                                    />
+                                                    <span className="text-red-500">
+                                                        {errors.editName &&
+                                                            "Empty name cannot be assign"}
+                                                    </span>
+                                                </form>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                </div>
+            )}
+        </section>
     );
 };
