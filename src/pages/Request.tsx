@@ -3,9 +3,8 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext";
 import { Navbar } from "../components/Navbar";
-import details from "../details.json";
-import { Link } from "react-router-dom";
-import { sendEmail } from "../helpers/Request";
+import { getSubjects, sendEmail } from "../helpers";
+import BackToHome from "../components/BackToHome";
 
 interface Props {}
 
@@ -77,9 +76,6 @@ export const Request: FC<Props> = () => {
                                 setSubmitting,
                             }: FormikHelpers<FormType>
                         ) => {
-                            console.log("====================================");
-                            console.log(data);
-                            console.log("====================================");
                             const { sem, group, type, subject } = data;
                             const emailParams = {
                                 name: user.name,
@@ -146,13 +142,8 @@ export const Request: FC<Props> = () => {
                                     <option className="box-content max-w-full w-full">
                                         Subjects
                                     </option>
-                                    {details
-                                        .find(
-                                            (x) =>
-                                                x.group === values.group &&
-                                                x.sem === values.sem
-                                        )
-                                        ?.subjects.map((subject) => (
+                                    {getSubjects(values.group, values.sem)?.map(
+                                        (subject) => (
                                             <option
                                                 value={subject}
                                                 key={subject}
@@ -160,7 +151,8 @@ export const Request: FC<Props> = () => {
                                             >
                                                 {subject}
                                             </option>
-                                        ))}
+                                        )
+                                    )}
                                 </Field>
                                 <div className="text-center">
                                     {message && (
@@ -208,15 +200,7 @@ export const Request: FC<Props> = () => {
                             </Form>
                         )}
                     </Formik>
-                    <div className="relative right-1 flexCenter">
-                        ←
-                        <button
-                            className="underline hover:no-underline focus:no-underline ml-2
-                                    transition-all duration-300 ease-in"
-                        >
-                            <Link to="/">Back to home</Link>
-                        </button>
-                    </div>
+                    <BackToHome />
                 </div>
             </section>
         </>

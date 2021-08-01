@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
+import BackToHome from "../components/BackToHome";
 import { Navbar } from "../components/Navbar";
-import details from "../details.json";
+import { getSubjects } from "../helpers";
 
 interface Props extends RouteComponentProps<{ sem: string; group: string }> {}
 // in RouteComponentProps we are passing an object {year : string}
@@ -10,8 +11,7 @@ interface Props extends RouteComponentProps<{ sem: string; group: string }> {}
 export const Subjects: FC<Props> = ({ match }) => {
     const group = match.params.group;
     const sem = match.params.sem;
-    const subjects = details.find((x) => x.sem === sem && x.group === group)
-        ?.subjects;
+    const subjects = getSubjects(group, sem);
 
     return (
         <>
@@ -34,15 +34,7 @@ export const Subjects: FC<Props> = ({ match }) => {
                                 </Link>
                             </div>
                         ))}
-                        <div className="pt-2 flexCenter">
-                            ←
-                            <button
-                                className="underline hover:no-underline focus:no-underline ml-2
-                                    transition-all duration-300 ease-in"
-                            >
-                                <Link to="/">Back to home</Link>
-                            </button>
-                        </div>
+                        <BackToHome />
                     </div>
                 </section>
             </section>

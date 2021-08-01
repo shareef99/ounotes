@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import BackToHome from "../components/BackToHome";
 
 interface Props {}
 
@@ -294,15 +295,7 @@ export const Upload: FC<Props> = () => {
                             />
                         </label>
                     </form>
-                    <div className="relative right-1 flexCenter">
-                        ←
-                        <button
-                            className="underline hover:no-underline focus:no-underline ml-2 ease-in
-                                transition-all duration-300"
-                        >
-                            <Link to="/">Back to home</Link>
-                        </button>
-                    </div>
+                    <BackToHome />
                 </div>
             </section>
         </>

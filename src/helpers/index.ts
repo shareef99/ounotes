@@ -1,4 +1,5 @@
 import emailjs from "emailjs-com";
+import details from "../details.json";
 
 export function sendEmail(emailParams: {
     name: string;
@@ -24,4 +25,11 @@ export function sendEmail(emailParams: {
                 return `FAILED...", ${err}`;
             }
         );
+}
+
+export function getSubjects(
+    group: string,
+    sem: string
+): Array<string> | undefined {
+    return details.find((x) => x.group === group && x.sem === sem)?.subjects;
 }
