@@ -146,8 +146,6 @@ export function AuthProvider({ children }: propType) {
     };
 
     const user = userData[0];
-    console.log(userData);
-    console.log(user);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
