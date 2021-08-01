@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { useAuth } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,6 @@ export const Profile: FC<Props> = () => {
     } = useForm<ProfileFormType>();
 
     const onSubmit = (data: ProfileFormType) => {
-        console.log(data.editedName);
         db.collection("users")
             .doc(currentUser?.uid)
             .update({ displayName: data.editedName })
@@ -58,16 +57,13 @@ export const Profile: FC<Props> = () => {
                         <div className="font-medium">
                             <span>Name :</span>
                             {isEditingProfile ? (
-                                <form
-                                    action=""
-                                    onSubmit={handleSubmit(onSubmit)}
-                                >
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     <input
                                         type="text"
                                         {...register("editedName", {
                                             required: true,
                                         })}
-                                        placeholder="New Name"
+                                        value={user?.name}
                                         className="bg-whiteShade border-2 rounded"
                                     />
                                     {errors.editedName && (
@@ -80,59 +76,57 @@ export const Profile: FC<Props> = () => {
                                 <span className="font-light">{user?.name}</span>
                             )}
                         </div>
-                        <p className="font-medium">
-                            Email :{" "}
-                            <span className="font-light">{user?.email}</span>
-                        </p>
-                        <p className="font-medium">
-                            Sign in :{" "}
-                            <span className="font-light">
-                                {user?.providerId}
-                            </span>
-                        </p>
-                        <p className="font-medium">
-                            Student of :{" "}
-                            {isEditingProfile ? (
-                                <></>
-                            ) : (
-                                <span className="font-light">
-                                    {user?.group.replace(
-                                        user?.group[0],
-                                        user?.group[0].toUpperCase()
-                                    )}{" "}
-                                    group{" "}
-                                    {user?.sem.replace(
-                                        user?.sem[0],
-                                        user?.sem[0].toUpperCase()
-                                    )}{" "}
-                                    sem
-                                </span>
-                            )}
-                        </p>
+                        {!isEditingProfile && (
+                            <Fragment>
+                                <p className="font-medium">
+                                    Email :{" "}
+                                    <span className="font-light">
+                                        {user?.email}
+                                    </span>
+                                </p>
+                                <p className="font-medium">
+                                    Sign in :{" "}
+                                    <span className="font-light">
+                                        {user?.providerId}
+                                    </span>
+                                </p>
+                                <p className="font-medium">
+                                    Student of :{" "}
+                                    <span className="font-light">
+                                        {user?.group.replace(
+                                            user?.group[0],
+                                            user?.group[0].toUpperCase()
+                                        )}{" "}
+                                        group{" "}
+                                        {user?.sem.replace(
+                                            user?.sem[0],
+                                            user?.sem[0].toUpperCase()
+                                        )}{" "}
+                                        sem
+                                    </span>
+                                </p>
+                            </Fragment>
+                        )}
                     </div>
                     <div className="text-center">
                         {isEditingProfile ? (
-                            <>
-                                <button
-                                    className="hover:cursor-pointer focus:outline-none border-2 
+                            <button
+                                className="hover:cursor-pointer focus:outline-none border-2 
                                 border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
                                 hover:bg-midBlack transition duration-300 ease-in w-full"
-                                    onClick={handleSubmit(onSubmit)}
-                                >
-                                    save
-                                </button>
-                            </>
+                                onClick={handleSubmit(onSubmit)}
+                            >
+                                save
+                            </button>
                         ) : (
-                            <>
-                                <button
-                                    className="hover:cursor-pointer focus:outline-none border-2 
+                            <button
+                                className="hover:cursor-pointer focus:outline-none border-2 
                                 border-whiteShade rounded-md px-3 py-2 bg-lightBlack text-whiteShade
                                 hover:bg-midBlack transition duration-300 ease-in w-full"
-                                    onClick={handleEditProfile}
-                                >
-                                    Edit Profile
-                                </button>
-                            </>
+                                onClick={handleEditProfile}
+                            >
+                                Edit Profile
+                            </button>
                         )}
                     </div>
                 </div>
