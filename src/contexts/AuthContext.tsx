@@ -69,7 +69,7 @@ export function AuthProvider({ children }: propType) {
         "shoaib733021@gmail.com",
         "noor000two@gmail.com",
         "nikhathsultan05@gmail.com",
-        "daniamirza678@gmail.com"
+        "daniamirza678@gmail.com",
     ];
 
     async function signIn(provider: any) {
@@ -93,7 +93,16 @@ export function AuthProvider({ children }: propType) {
                     .set(userInfo, { merge: true });
                 setCurrentUser(userInfo);
 
-                history.push("/pages/selection");
+                db.collection("users")
+                    .doc(user?.uid)
+                    .get()
+                    .then((data) => {
+                        const isSem = Boolean(data.data()?.sem);
+                        if (isSem) {
+                            return history.push("/");
+                        }
+                        return history.push("/pages/selection");
+                    });
             })
             .catch((err) => {
                 if (
