@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Navbar } from "../components/Navbar";
 import { getSubjects, sendEmail } from "../helpers";
 import BackToHome from "../components/BackToHome";
+import { Login } from "../components/login";
 
 interface Props {}
 
@@ -44,18 +45,18 @@ export const Request: FC<Props> = () => {
     const [message, setMessage] = useState<string>("");
     const { user } = useAuth();
 
-    // if (!user) {
-    //     return (
-    //         <>
-    //             <Navbar />
-    //             <section className="w-full h-screen colCenter bg-whiteShade text-lightBlack -mt-16">
-    //                 <div>
-    //                     <Login requestNotes={true} />
-    //                 </div>
-    //             </section>
-    //         </>
-    //     );
-    // }
+    if (!user) {
+        return (
+            <>
+                <Navbar />
+                <section className="w-full h-screen colCenter bg-whiteShade text-lightBlack -mt-16">
+                    <div>
+                        <Login requestNotes={true} />
+                    </div>
+                </section>
+            </>
+        );
+    }
 
     return (
         <>

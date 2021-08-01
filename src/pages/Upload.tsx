@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { storage, timestamp, db } from "../firebase";
 import details from "../details.json";
-import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";

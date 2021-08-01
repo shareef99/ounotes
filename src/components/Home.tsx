@@ -1,205 +1,157 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Navbar } from "../components/Navbar";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import weDo from "../images/whatWeDo.png";
 import howWeDo from "../images/how.png";
 import youDo from "../images/youCanDo.png";
 import Styles from "../styles/utilities.module.css";
 import { Footer } from "./Footer";
-// import styles from "../styles/utilities.module.css";
 
 export default function Home(): JSX.Element {
-    const { user, currentUser } = useAuth();
-    const history = useHistory();
-
-    const handleLogin = () => {
-        history.push("/login");
-    };
-
-    const handleAbout = () => {
-        history.push("/pages/about-us");
-    };
-
-    const handleNotes = () => {
-        history.push(`/student/${user.sem}/${user.group}`);
-    };
+    const { currentUser } = useAuth();
 
     return (
-        <>
-            <section className="bg-whiteShade">
-                <Navbar />
-                <section className="bg-whiteShade text-lightBlack">
-                    <div>
-                        <div
-                            id="hereSection"
-                            className={`h-screen -mt-16 flex justify-around items-center flex-col 
+        <section className="bg-whiteShade">
+            <Navbar />
+            <section className="bg-whiteShade text-lightBlack">
+                <div>
+                    <div
+                        id="hereSection"
+                        className={`h-screen -mt-16 flex justify-around items-center flex-col 
                             md:flex-row-reverse text-midBlack w-full md:w-9/10 mx-auto bg-bottom-4
                             xs:bg-bottom bg-contain bg-clip-padding bg-no-repeat ${Styles.bgImg}`}
-                        >
+                    >
+                        <div className="space-y-8 flex flex-col items-center h-screen relative">
                             <div
-                                className="space-y-8 flex flex-col items-center
-                                    h-screen relative"
+                                className="absolute top-1/4 xs:top-3/10 sm:top-4/10 w-max z-10 
+                                    opacity-100 bg-opacity-50 bg-whiteShade px-4"
                             >
-                                <div
-                                    className="absolute top-1/4 xs:top-3/10 sm:top-4/10 w-max z-10 opacity-100 
-                                        bg-opacity-50 bg-whiteShade px-4"
-                                >
-                                    <h1
-                                        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
-                                            font-bold"
-                                    >
-                                        Your needs in one place.
-                                    </h1>
-                                </div>
-                                <div
-                                    className="space-x-4 flex justify-center sm:justify-start absolute 
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+                                    Your needs in one place.
+                                </h1>
+                            </div>
+                            <div
+                                className="space-x-4 flex justify-center sm:justify-start absolute 
                                         bottom-56"
-                                >
-                                    {currentUser ? (
-                                        <>
-                                            {" "}
-                                            <button
-                                                className="border-2 rounded-md px-3 py-2 bg-lightBlack 
-                                                    self-center hover:bg-midBlack md:self-start text-lg 
-                                                    text-whiteShade font-semibold transition duration-500 
-                                                    ease-in border-transparent"
-                                                onClick={handleNotes}
-                                            >
-                                                Subjects
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button
-                                                className="border-2 rounded-md px-3 py-2 bg-lightBlack 
-                                                    text-whiteShade hover:bg-midBlack self-center 
-                                                    md:self-start text-lg w-max font-semibold transition 
-                                                    duration-500 ease-in border-transparent"
-                                                onClick={handleLogin}
-                                            >
-                                                Sign in
-                                            </button>
-                                        </>
-                                    )}
+                            >
+                                {currentUser ? (
                                     <button
-                                        className="border-2 rounded-md px-3 py-2 self-center leading-7 
-                                            hover:bg-midBlack hover:text-whiteShade font-semibold
-                                            transition duration-500 ease-in w-max"
-                                        onClick={handleAbout}
+                                        className="border-2 rounded-md px-3 py-2 bg-lightBlack 
+                                            self-center hover:bg-midBlack md:self-start text-lg 
+                                            text-whiteShade font-semibold transition duration-500 
+                                            ease-in border-transparent"
                                     >
-                                        About US
+                                        <Link to="/student/all-subjects">
+                                            Subjects
+                                        </Link>
                                     </button>
-                                </div>
+                                ) : (
+                                    <button
+                                        className="border-2 rounded-md px-3 py-2 bg-lightBlack 
+                                            text-whiteShade hover:bg-midBlack self-center 
+                                            md:self-start text-lg w-max font-semibold transition 
+                                            duration-500 ease-in border-transparent"
+                                    >
+                                        <Link to="/login">Sign in</Link>
+                                    </button>
+                                )}
+                                <button
+                                    className="border-2 rounded-md px-3 py-2 self-center leading-7 
+                                        hover:bg-midBlack hover:text-whiteShade font-semibold
+                                        transition duration-500 ease-in w-max"
+                                >
+                                    <Link to="/pages/about-us"></Link>
+                                    About US
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div className="py-14 w-full">
-                        <h2
-                            className="text-center font-semibold text-2xl sm:text-3xl md:text-4xl 
+                </div>
+                <div className="py-14 w-full">
+                    <h2
+                        className="text-center font-semibold text-2xl sm:text-3xl md:text-4xl 
                                 tracking-wider my-14 text-midBlack"
-                        >
-                            HOW IT WORK
-                        </h2>
-                        <div
-                            className="flex justify-around items-baseline flex-wrap max-w-full mx-auto 
+                    >
+                        HOW IT WORK
+                    </h2>
+                    <div
+                        className="flex justify-around items-baseline flex-wrap max-w-full mx-auto 
                                 space-y-12 sm:space-y-8"
+                    >
+                        <div
+                            className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs 
+                                sm:m-8 space-y-8"
                         >
-                            <div
-                                className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
-                                    space-y-8"
-                            >
-                                <div className="self-center">
-                                    <img
-                                        src={weDo}
-                                        alt="How we do icon"
-                                        title="Icon made by ultimatearm from flaticon"
-                                    />
-                                </div>
-                                <div className="space-y-4">
-                                    <h3 className="text-center font-normal text-xl">
-                                        What we do?
-                                    </h3>
-                                    <p className="font-light text-base">
-                                        we provide the notes, syllabus, previous
-                                        year question papers, Important
-                                        questions for the students of Bachelor
-                                        of Engineering(BE).
-                                    </p>
-                                </div>
+                            <div className="self-center">
+                                <img
+                                    src={weDo}
+                                    alt="How we do icon"
+                                    title="Icon made by ultimatearm from flaticon"
+                                />
                             </div>
-                            <div
-                                className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
-                                    space-y-8"
-                            >
-                                <div className="self-center">
-                                    <img
-                                        src={howWeDo}
-                                        alt="How we do icon"
-                                        title="Icon made by Flat Icon from flatIcon"
-                                    />
-                                </div>
-                                <div className="space-y-4">
-                                    <h3 className="text-center font-normal text-xl">
-                                        How we do?
-                                    </h3>
-                                    <p className="font-light text-base">
-                                        We are students, we collect our
-                                        resources from our fellow students and
-                                        some great teachers help us with
-                                        resources and we put all of them under
-                                        one root for better accessibility.
-                                    </p>
-                                </div>
+                            <div className="space-y-4">
+                                <h3 className="text-center font-normal text-xl">
+                                    What we do?
+                                </h3>
+                                <p className="font-light text-base">
+                                    we provide the notes, syllabus, previous
+                                    year question papers, Important questions
+                                    for the students of Bachelor of
+                                    Engineering(BE).
+                                </p>
                             </div>
-                            <div
-                                className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs sm:m-8
-                                    space-y-8"
-                            >
-                                <div className="self-center">
-                                    <img
-                                        src={youDo}
-                                        alt="What you can do icon"
-                                        title="Icon made by freepik from flatIcon"
-                                    />
-                                </div>
-                                <div className="space-y-4">
-                                    <h3 className="text-center font-normal text-xl">
-                                        What you can do?
-                                    </h3>
-                                    <p className="font-light text-base">
-                                        You can help us by providing the
-                                        resources you have and if you find any
-                                        notes are missing or miss leading you
-                                        can report us. After all, "Sharing is
-                                        caring"
-                                    </p>
-                                </div>
+                        </div>
+                        <div
+                            className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs 
+                                sm:m-8 space-y-8"
+                        >
+                            <div className="self-center">
+                                <img
+                                    src={howWeDo}
+                                    alt="How we do icon"
+                                    title="Icon made by Flat Icon from flatIcon"
+                                />
+                            </div>
+                            <div className="space-y-4">
+                                <h3 className="text-center font-normal text-xl">
+                                    How we do?
+                                </h3>
+                                <p className="font-light text-base">
+                                    We are students, we collect our resources
+                                    from our fellow students and some great
+                                    teachers help us with resources and we put
+                                    all of them under one root for better
+                                    accessibility.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            className="flex flex-col mx-auto max-w-7/10 xs:max-w-6/10 sm:max-w-xs 
+                                sm:m-8 space-y-8"
+                        >
+                            <div className="self-center">
+                                <img
+                                    src={youDo}
+                                    alt="What you can do icon"
+                                    title="Icon made by freepik from flatIcon"
+                                />
+                            </div>
+                            <div className="space-y-4">
+                                <h3 className="text-center font-normal text-xl">
+                                    What you can do?
+                                </h3>
+                                <p className="font-light text-base">
+                                    You can help us by providing the resources
+                                    you have and if you find any notes are
+                                    missing or miss leading you can report us.
+                                    After all, "Sharing is caring"
+                                </p>
                             </div>
                         </div>
                     </div>
-                </section>
-                <Footer />
+                </div>
             </section>
-        </>
+            <Footer />
+        </section>
     );
 }
-
-/* <div className="mt-14">
-    <div className="relative overflow-hidden h-14 bg-transparent z-10 -mb-14">
-        <div className="absolute top-0 left-0 w-full">
-            <div className={styles.waveReversed}></div>
-        </div>
-    </div>
-    <div
-        id="middle-section"
-        className="w-full h-96 flexCenter
-                            bg-gradient-to-br from-lightBlue-400 via-lightBlue-500 to-blue-500"
-    >
-        Total Notes uploaded
-    </div>
-    <div className="relative overflow-hidden h-14 bg-transparent z-10 -mt-12">
-        <div className="absolute top-0 left-0 w-full">
-            <div className={styles.wave}></div>
-        </div>
-    </div>
-</div>; */

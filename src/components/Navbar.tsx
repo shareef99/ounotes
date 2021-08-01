@@ -11,7 +11,7 @@ interface Props {}
 export const Navbar: FC<Props> = () => {
     const [isAtTop, setIsAtTop] = useState<any>();
     const history = useHistory();
-    const { currentUser, user, logout } = useAuth();
+    const { currentUser, logout } = useAuth();
     const [anchorEl, setAnchorEl] = useState<any>(null);
     const open = Boolean(anchorEl);
 
@@ -37,10 +37,6 @@ export const Navbar: FC<Props> = () => {
         setAnchorEl(null);
     };
 
-    const handleYourSubjects = () => {
-        history.push(`/student/${user.sem}/${user.group}`);
-    };
-
     const handleUpload = () => {
         history.push("/pages/upload");
     };
@@ -57,7 +53,7 @@ export const Navbar: FC<Props> = () => {
         history.push("/");
     };
 
-    const handleAllSubjects = () => {
+    const handleSubjects = () => {
         history.push("/student/all-subjects");
     };
 
@@ -69,82 +65,64 @@ export const Navbar: FC<Props> = () => {
     }, []);
 
     return (
-        <>
-            <nav
-                id="Navbar"
-                className={`flex max-w-full w-full justify-between px-10% sm:px-10% h-16 items-center 
-                    bg-transparent transition duration-500 ease-in sticky top-0  border-opacity-0 ${
-                        isAtTop &&
-                        `transition duration-500 ease-in bg-blue-500 text-whiteShade z-20
+        <nav
+            id="Navbar"
+            className={`flex max-w-full w-full justify-between px-10% sm:px-10% h-16 items-center 
+                bg-transparent transition duration-500 ease-in sticky top-0  border-opacity-0 
+                ${
+                    isAtTop &&
+                    `transition duration-500 ease-in bg-blue-500 text-whiteShade z-20
                       border-b-2 shadow-xl `
-                    }`}
-            >
+                }`}
+        >
+            <div>
+                <p
+                    onClick={handleHome}
+                    className="hover:cursor-pointer font-medium text-midBlack text-xl"
+                >
+                    Your Notes
+                </p>
+            </div>
+            {currentUser ? (
                 <div>
-                    <p
-                        onClick={handleHome}
-                        className="hover:cursor-pointer font-medium text-midBlack text-xl"
+                    <IconButton
+                        aria-label="account of current user"
+                        aria-haspopup="true"
+                        onClick={handleMenu}
+                        className="focus:outline-none text-midBlack"
                     >
-                        Your Notes
-                    </p>
+                        <AccountCircle />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                        <MenuItem onClick={handleSubjects}>Subjects</MenuItem>
+                        <MenuItem onClick={handleUpload}>Upload Notes</MenuItem>
+                        <MenuItem onClick={handleRequest}>
+                            Request Notes
+                        </MenuItem>
+                        <MenuItem onClick={handleAbout}>About us</MenuItem>
+                        <MenuItem onClick={logout}>Sign out</MenuItem>
+                    </Menu>
                 </div>
-                {currentUser ? (
-                    <>
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                className="focus:outline-none text-midBlack"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "center",
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleProfile}>
-                                    Profile
-                                </MenuItem>
-                                <MenuItem onClick={handleYourSubjects}>
-                                    Your Subjects
-                                </MenuItem>
-                                <MenuItem onClick={handleAllSubjects}>
-                                    All Subjects
-                                </MenuItem>
-                                <MenuItem onClick={handleUpload}>
-                                    Upload Notes
-                                </MenuItem>
-                                <MenuItem onClick={handleRequest}>
-                                    Request Notes
-                                </MenuItem>
-                                <MenuItem onClick={handleAbout}>
-                                    About us
-                                </MenuItem>
-                                <MenuItem onClick={logout}>Sign out</MenuItem>
-                            </Menu>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div>
-                            <button>
-                                <Link to="/login">Sign in</Link>
-                            </button>
-                        </div>
-                    </>
-                )}
-            </nav>
-        </>
+            ) : (
+                <button>
+                    <Link to="/login">Sign in</Link>
+                </button>
+            )}
+        </nav>
     );
 };
