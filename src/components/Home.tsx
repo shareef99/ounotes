@@ -60,8 +60,7 @@ export default function Home(): JSX.Element {
                                         hover:bg-midBlack hover:text-whiteShade font-semibold
                                         transition duration-500 ease-in w-max"
                                 >
-                                    <Link to="/pages/about-us"></Link>
-                                    About US
+                                    <Link to="/pages/about-us">About US</Link>
                                 </button>
                             </div>
                         </div>

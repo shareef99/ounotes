@@ -131,7 +131,7 @@ export const About: FC<Props> = () => {
                         </h2>
                     </div>
 
-                    <div className="flex justify-around flex-wrap max-w-8/10 mx-auto">
+                    <div className="flex justify-around flex-wrap max-w-9/10 mx-auto my-4">
                         <div className="p-8 space-y-8">
                             <div className="maxWidth10rem">
                                 <img
@@ -199,7 +199,9 @@ export const About: FC<Props> = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                <div className="pt-8">
+                    <Footer />
+                </div>
             </section>
         </section>
     );
