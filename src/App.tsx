@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Home from "./components/Home";
 import { Login } from "./components/login";
-import { Subjects } from "./student/Subjects";
 import { PrivateRoute } from "./components/PrivateRoute";
 import Selection from "./pages/Selection";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -29,11 +28,7 @@ const App: FC<Props> = () => {
                         <Route exact path="/" component={Home} />
                         <Route exact path="/pages/about-us" component={About} />
                         <Route path="/login" component={Login} />
-                        <Route
-                            exact
-                            path="/student/:sem/:group"
-                            component={Subjects}
-                        />
+
                         <Route
                             path="/student/:sem/:group/:subject"
                             component={Notes}

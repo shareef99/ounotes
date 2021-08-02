@@ -72,7 +72,7 @@ export const AllSubjects: FC<Props> = () => {
                         }
                     })
                     .map((x, index) => (
-                        <div key={index} className="colCenter my-6">
+                        <div key={index} className="colCenter my-6 space-y-4">
                             <h2 className="text-xl  ">
                                 {x.group}{" "}
                                 {x.sem === "first"
