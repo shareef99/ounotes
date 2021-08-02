@@ -27,7 +27,7 @@ export default function Home(): JSX.Element {
                                     opacity-100 bg-opacity-50 bg-whiteShade px-4"
                             >
                                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-                                    Your needs in one place.
+                                    All "Your OU Notes" in one place.
                                 </h1>
                             </div>
                             <div

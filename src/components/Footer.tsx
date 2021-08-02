@@ -5,14 +5,14 @@ interface Props {}
 
 export const Footer: FC<Props> = () => {
     return (
-        <section id="footer" className="bg-lightBlack text-whiteShade mt-14">
+        <section className="bg-lightBlack text-whiteShade mt-14">
             <div
-                className="w-9/10 mx-auto rounded-2xl relative bottom-16 
-                    bg-midBlack text-whiteShade flexCenter"
+                className="w-9/10 mx-auto rounded-2xl relative bottom-16 bg-midBlack 
+                    text-whiteShade flexCenter"
             >
                 <ul
-                    className="flex flex-wrap flex-col sm:flex-row justify-around items-start 
-                        py-14 sm:space-x-8 space-y-8 sm:space-y-0 "
+                    className="flex flex-wrap flex-col sm:flex-row justify-around items-start py-14 
+                        sm:space-x-8 space-y-8 sm:space-y-0 "
                 >
                     <li className="underline hover:no-underline">
                         <Link to="/">Home</Link>

@@ -51,64 +51,61 @@ export const AllSubjects: FC<Props> = () => {
                     </select>
                 </label>
             </form>
-            <section className="container flex flex-col items-baseline md:items-center">
-                <div>
-                    {details
-                        // eslint-disable-next-line
-                        .filter((x) => {
-                            if (sem === undefined && group === undefined) {
-                                return x;
-                            }
-                            if (sem === "default" && group === "default") {
-                                return x;
-                            }
-                            if (sem !== "default" && group !== "default") {
-                                return x.group === group && x.sem === sem;
-                            }
-                            if (sem === "default") {
-                                return x.group === group;
-                            }
-                            if (group === "default") {
-                                return x.sem === sem;
-                            }
-                        })
-                        .map((x, index) => (
-                            <div
-                                key={index}
-                                className="colCenter items-start my-10"
-                            >
-                                <h2 className="text-xl ">
-                                    {x.group}{" "}
-                                    {x.sem === "first"
-                                        ? "Ist"
-                                        : x.sem === "second"
-                                        ? "IInd"
-                                        : x.sem === "third"
-                                        ? "IIIrd"
-                                        : x.sem === "forth"
-                                        ? "IVth"
-                                        : ""}
-                                    sem
-                                </h2>
-                                <ul className="ml-8 mt-4 space-y-2">
-                                    {x.subjects.map((subject, index) => (
-                                        <li
-                                            key={index}
-                                            className="list-item list-disc hover:opacity-80"
+            <section className="container flex flex-col ">
+                {details
+                    // eslint-disable-next-line
+                    .filter((x) => {
+                        if (sem === undefined && group === undefined) {
+                            return x;
+                        }
+                        if (sem === "default" && group === "default") {
+                            return x;
+                        }
+                        if (sem !== "default" && group !== "default") {
+                            return x.group === group && x.sem === sem;
+                        }
+                        if (sem === "default") {
+                            return x.group === group;
+                        }
+                        if (group === "default") {
+                            return x.sem === sem;
+                        }
+                    })
+                    .map((x, index) => (
+                        <div key={index} className="colCenter my-6">
+                            <h2 className="text-xl  ">
+                                {x.group}{" "}
+                                {x.sem === "first"
+                                    ? "Ist"
+                                    : x.sem === "second"
+                                    ? "IInd"
+                                    : x.sem === "third"
+                                    ? "IIIrd"
+                                    : x.sem === "forth"
+                                    ? "IVth"
+                                    : ""}{" "}
+                                sem
+                            </h2>
+                            <ul className="space-y-2">
+                                {x.subjects.map((subject, index) => (
+                                    <li
+                                        key={index}
+                                        className="hover:opacity-80"
+                                    >
+                                        <Link
+                                            to={`/student/${x.sem}/${x.group}/${subject}`}
                                         >
-                                            <Link
-                                                to={`/student/${x.sem}/${x.group}/${subject}`}
-                                            >
-                                                {subject}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                </div>
+                                            {subject}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
             </section>
-            <Footer />
+            <div className="pt-10">
+                <Footer />
+            </div>
         </section>
     );
 };
