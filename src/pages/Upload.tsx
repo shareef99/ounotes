@@ -73,7 +73,7 @@ export const Upload: FC<Props> = () => {
 
         const promises: any = [];
         files.forEach((file, index) => {
-            let fileRef: any;
+            let fileRef: firebase.default.storage.Reference;
 
             if (admins.includes(user.email)) {
                 fileRef = storage.ref(
