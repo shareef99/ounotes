@@ -1,19 +1,30 @@
-import { useAuth } from "../contexts/AuthContext";
-import { Navbar } from "../components/Navbar";
-import { Link } from "react-router-dom";
-import weDo from "../images/whatWeDo.png";
-import howWeDo from "../images/how.png";
-import youDo from "../images/youCanDo.png";
-import Styles from "../styles/utilities.module.css";
-import { Footer } from "./Footer";
+// import { useAuth } from "../contexts/AuthContext";
+// import { Navbar } from "../components/Navbar";
+// import { Link } from "react-router-dom";
+// import weDo from "../images/whatWeDo.png";
+// import howWeDo from "../images/how.png";
+// import youDo from "../images/youCanDo.png";
+// import Styles from "../styles/utilities.module.css";
+// import { Footer } from "./Footer";
 
 export default function Home(): JSX.Element {
-    const { currentUser } = useAuth();
+    // const { currentUser } = useAuth();
 
     return (
-        <section className="bg-whiteShade">
-            <Navbar />
-            <section className="bg-whiteShade text-lightBlack">
+        <section className="bg-whiteShade h-screen colCenter">
+            <h1>
+                This website move to{" "}
+                <a
+                    href="http://yourounotes.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-extrabold text-lg hover:opacity-80"
+                >
+                    Yourounotes
+                </a>
+            </h1>
+            {/* <Navbar /> */}
+            {/* <section className="bg-whiteShade text-lightBlack">
                 <div>
                     <div
                         id="hereSection"
@@ -150,7 +161,8 @@ export default function Home(): JSX.Element {
                     </div>
                 </div>
             </section>
-            <Footer />
+            */}
+            {/* <Footer /> */}
         </section>
     );
 }
