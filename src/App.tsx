@@ -45,7 +45,24 @@ const App: FC<Props> = () => {
                             path="/pages/selection"
                         />
                         {/* Place a route at the bottom with path "/" under switch to catch 404 page */}
-                        <Route path="/" render={() => <h1>404</h1>} />
+                        <Route
+                            path="/"
+                            render={() => (
+                                <section className="bg-whiteShade h-screen colCenter">
+                                    <h1>
+                                        This website move to{" "}
+                                        <a
+                                            href="http://yourounotes.vercel.app"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="font-extrabold text-lg hover:opacity-80"
+                                        >
+                                            Yourounotes
+                                        </a>
+                                    </h1>
+                                </section>
+                            )}
+                        />
                     </Switch>
                 </AuthProvider>
             </Router>
